@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(hoa-binaural VERSION 0.1.0)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+include(CTest)
+enable_testing()
+include(CPack)
+
+include_directories(/Users/takashiminagawa/vcpkg/installed/x64-osx/include)
+include_directories(/usr/local/include/)
+
+add_executable(hoa-binaural src/main.cpp)
+find_package(ZLIB)
+target_link_libraries(hoa-binaural ZLIB::ZLIB)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libmysofa.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libsofa.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libcurl.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libhdf5.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libhdf5_hl.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libnetcdf.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libnetcdf_c++4.a)
+target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libz.a)
+target_link_libraries(hoa-binaural /usr/local/lib/libcnpy.a)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
