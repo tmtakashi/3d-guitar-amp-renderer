@@ -3,8 +3,6 @@
 #include <Eigen/Dense>
 #include "SOFA.h"
 
-using namespace Eigen;
-
 class SofaReader
 {
 private:
@@ -17,8 +15,19 @@ private:
     // number of data samples
     unsigned int N;
 
-    // HRIR L (first), R(second) pair
-    std::pair<MatrixXd, MatrixXd> hrirs;
+    // HRIR L, R pair
+    Eigen::MatrixXd hrirL;
+    Eigen::MatrixXd hrirR;
+
+    void extractSampleRate();
+    void extractHRIRPair();
+
+    static std::size_t array3DIndex(const unsigned long i,
+                                    const unsigned long j,
+                                    const unsigned long k,
+                                    const unsigned long dim1,
+                                    const unsigned long dim2,
+                                    const unsigned long dim3) noexcept;
 
 public:
     explicit SofaReader(std::string_view path);
