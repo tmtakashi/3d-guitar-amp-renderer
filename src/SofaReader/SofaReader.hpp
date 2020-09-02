@@ -21,6 +21,6 @@ private:
     std::pair<MatrixXd, MatrixXd> hrirs;
 
 public:
-    explicit SofaReader(std::string path);
+    explicit SofaReader(std::string_view path);
     ~SofaReader();
 };

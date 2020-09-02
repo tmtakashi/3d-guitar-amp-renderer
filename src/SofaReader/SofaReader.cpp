@@ -1,7 +1,7 @@
 #include "SofaReader.hpp"
 #include <vector>
 
-SofaReader::SofaReader(std::string path) : sofaFile(path)
+SofaReader::SofaReader(std::string_view path) : sofaFile(path)
 {
     assert(sofaFile.IsValid());
 
@@ -17,6 +17,7 @@ SofaReader::SofaReader(std::string path) : sofaFile(path)
 
     // extract HRIR
     std::vector<double> tmp;
+    sofaFile.GetDataIR(tmp);
 }
 
 SofaReader::~SofaReader()
