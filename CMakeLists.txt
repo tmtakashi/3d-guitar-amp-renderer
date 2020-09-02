@@ -8,21 +8,17 @@ include(CTest)
 enable_testing()
 include(CPack)
 
-include_directories(/Users/takashiminagawa/vcpkg/installed/x64-osx/include)
-include_directories(/usr/local/include/)
+add_subdirectory(src/SofaReader)
 
 add_executable(hoa-binaural src/main.cpp)
-find_package(ZLIB)
-target_link_libraries(hoa-binaural ZLIB::ZLIB)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libmysofa.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libsofa.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libcurl.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libhdf5.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libhdf5_hl.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libnetcdf.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libnetcdf_c++4.a)
-target_link_libraries(hoa-binaural /Users/takashiminagawa/vcpkg/installed/x64-osx/lib/libz.a)
-target_link_libraries(hoa-binaural /usr/local/lib/libcnpy.a)
+target_link_libraries(hoa-binaural PUBLIC SofaReader)
+target_include_directories(hoa-binaural PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/SofaReader
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/include/libsofa/src
+)
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
