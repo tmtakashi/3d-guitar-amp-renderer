@@ -1,0 +1,879 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		2917F11C39914B0DB39E98E3 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = BB11B73E9D424DCDADADB9E9 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				6E5F144005C94BBCB3175195 /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+		50C8C0A0282F46C18F96217E /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D69A086B117A477F8174F004 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				5876B99F75A949A0A3AF0F49 /* CMake Rules */,
+			);
+			dependencies = (
+				3B9026A4030442F5938F2D30 /* PBXTargetDependency */,
+				8A1BBEC269A448CC8D4FF4BD /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		9F2FD3AACE414424897D27BB /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B636A10534F149B5BE2690F3 /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				2A8B474DCB9E4AF59A55FD67 /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				6F0AA00C07A34AF2B7977825 /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0057A97DB16F42D883E4455D /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.mm */ = {isa = PBXBuildFile; fileRef = C2CB7F202FB3414089201686 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.mm */; };
+		1D054D641540447989E099DC /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */ = {isa = PBXBuildFile; fileRef = 4BF7ADB65C0B4338AECA2808 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */; };
+		359EF9EBE2DD4239ACF46B59 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */ = {isa = PBXBuildFile; fileRef = 311351481BCB46F8BAF82B64 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */; };
+		477A64B78B474C44A448D913 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/Main.cpp */ = {isa = PBXBuildFile; fileRef = 9F60F915A8D34AED97B07266 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/Main.cpp */; };
+		491B9B825FD04AFD9E387465 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.h */ = {isa = PBXBuildFile; fileRef = B2674C0A38A9437CA03A34C0 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.h */; };
+		5642D888EF9B400E8E5837B5 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.h */ = {isa = PBXBuildFile; fileRef = D5DA9D4F87D4475FAA26997C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.h */; };
+		57FF7528AEAC45F48544BF38 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.h */ = {isa = PBXBuildFile; fileRef = E838288562C848E5B6D55C47 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.h */; };
+		6BF1507096F34ADE8B555610 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.mm */ = {isa = PBXBuildFile; fileRef = 61A5ECC722044952A2A3A45A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.mm */; };
+		7F11EF9142C14D1B8B48D83B /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.h */ = {isa = PBXBuildFile; fileRef = C68AECEC648B484F80D1BC72 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.h */; };
+		976D3DEA4D254F239D4199EE /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.h */ = {isa = PBXBuildFile; fileRef = 56C197FA8907414CA30E9C0D /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.h */; };
+		BE19D6E5D4034E4696A83C63 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.mm */ = {isa = PBXBuildFile; fileRef = 1E28A762191141F8B0362C2C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.mm */; };
+		E918B6541EE747D188A3C437 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 28EB64C47C0C4FDB8DE60BA9 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/CMakeLists.txt */; };
+		EEF7EAC91AC640289E0ACE71 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXBuildFile; fileRef = 6A453318E84B418EAC6686EE /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.mm */; };
+		FAA26E8C796D4BF6B531C85A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.h */ = {isa = PBXBuildFile; fileRef = 7E6EF86BD48D40FFA1BD9C43 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		3430EC08F1E845D4A3396687 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		711BE3290D4C47B1AEFCEA52 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		94C1E79B72F24FDCB9488412 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		DE350EEAEB894C50A198AEF3 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		1DD1F935E35848C8A98917D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471374C9F80643DEAF9E871D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2917F11C39914B0DB39E98E3;
+			remoteInfo = ZERO_CHECK;
+		};
+		3569026594BF4CEEA8F06975 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471374C9F80643DEAF9E871D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2917F11C39914B0DB39E98E3;
+			remoteInfo = ZERO_CHECK;
+		};
+		9F76F8BC60B5480193189996 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471374C9F80643DEAF9E871D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 50C8C0A0282F46C18F96217E;
+			remoteInfo = ALL_BUILD;
+		};
+		F48194A460B94E05807040CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 471374C9F80643DEAF9E871D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DEA05F6844D46908F89DC69;
+			remoteInfo = juceaide;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1E28A762191141F8B0362C2C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_data_structures.mm; path = modules/juce_data_structures/juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
+		28EB64C47C0C4FDB8DE60BA9 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = extras/Build/juceaide/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		311351481BCB46F8BAF82B64 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_gui_basics.mm; path = modules/juce_gui_basics/juce_gui_basics.mm; sourceTree = SOURCE_ROOT; };
+		4BF7ADB65C0B4338AECA2808 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = juce_build_tools.cpp; path = extras/Build/juce_build_tools/juce_build_tools.cpp; sourceTree = SOURCE_ROOT; };
+		56C197FA8907414CA30E9C0D /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_data_structures.h; path = modules/juce_data_structures/juce_data_structures.h; sourceTree = SOURCE_ROOT; };
+		61A5ECC722044952A2A3A45A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_graphics.mm; path = modules/juce_graphics/juce_graphics.mm; sourceTree = SOURCE_ROOT; };
+		6A453318E84B418EAC6686EE /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_core.mm; path = modules/juce_core/juce_core.mm; sourceTree = SOURCE_ROOT; };
+		7E6EF86BD48D40FFA1BD9C43 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_build_tools.h; path = extras/Build/juce_build_tools/juce_build_tools.h; sourceTree = SOURCE_ROOT; };
+		9F60F915A8D34AED97B07266 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/Main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Main.cpp; path = extras/Build/juceaide/Main.cpp; sourceTree = SOURCE_ROOT; };
+		B2674C0A38A9437CA03A34C0 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_core.h; path = modules/juce_core/juce_core.h; sourceTree = SOURCE_ROOT; };
+		B7E062B4AB3B40EDBEBDEF9B /* juceaide */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = juceaide; sourceTree = BUILT_PRODUCTS_DIR; };
+		C2CB7F202FB3414089201686 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.mm */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = juce_events.mm; path = modules/juce_events/juce_events.mm; sourceTree = SOURCE_ROOT; };
+		C68AECEC648B484F80D1BC72 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_gui_basics.h; path = modules/juce_gui_basics/juce_gui_basics.h; sourceTree = SOURCE_ROOT; };
+		D47844C1CD514C5BAAFAEF9A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		D5DA9D4F87D4475FAA26997C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_events.h; path = modules/juce_events/juce_events.h; sourceTree = SOURCE_ROOT; };
+		E838288562C848E5B6D55C47 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = juce_graphics.h; path = modules/juce_graphics/juce_graphics.h; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		090A9817524E4030A98EEF02 /* juce_data_structures */ = {
+			isa = PBXGroup;
+			children = (
+				56C197FA8907414CA30E9C0D /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.h */,
+				1E28A762191141F8B0362C2C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.mm */,
+			);
+			name = juce_data_structures;
+			sourceTree = "<group>";
+		};
+		19E29FFDA6D6456FB6A56402 = {
+			isa = PBXGroup;
+			children = (
+				7208C547A42140DE9E83ED3A /* ALL_BUILD */,
+				6EBA0D7E39D1411FAC116FCC /* juceaide */,
+				2F69451E6F8743919B6A3E44 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1E1791158EF74D5783BC07C9 /* juce_graphics */ = {
+			isa = PBXGroup;
+			children = (
+				E838288562C848E5B6D55C47 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.h */,
+				61A5ECC722044952A2A3A45A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.mm */,
+			);
+			name = juce_graphics;
+			sourceTree = "<group>";
+		};
+		2F69451E6F8743919B6A3E44 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B7E062B4AB3B40EDBEBDEF9B /* juceaide */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		33C670998F384BC29B67F304 /* juce_gui_basics */ = {
+			isa = PBXGroup;
+			children = (
+				C68AECEC648B484F80D1BC72 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.h */,
+				311351481BCB46F8BAF82B64 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */,
+			);
+			name = juce_gui_basics;
+			sourceTree = "<group>";
+		};
+		352DB8EAAC7A48F9BE4267C3 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				7E6EF86BD48D40FFA1BD9C43 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		5B1AF2B907194E579BAE4179 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		6EBA0D7E39D1411FAC116FCC /* juceaide */ = {
+			isa = PBXGroup;
+			children = (
+				9DC96F6BBA5B4DEF8C1EB864 /* Source Files */,
+				352DB8EAAC7A48F9BE4267C3 /* Header Files */,
+				F4F1CE451CAD48A785DAD832 /* Modules */,
+				28EB64C47C0C4FDB8DE60BA9 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/CMakeLists.txt */,
+			);
+			name = juceaide;
+			sourceTree = "<group>";
+		};
+		7208C547A42140DE9E83ED3A /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				5B1AF2B907194E579BAE4179 /* CMake Rules */,
+				D47844C1CD514C5BAAFAEF9A /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		9DC96F6BBA5B4DEF8C1EB864 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				4BF7ADB65C0B4338AECA2808 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */,
+				9F60F915A8D34AED97B07266 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/Main.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		AE53A18AE229401CB91E00BC /* juce_events */ = {
+			isa = PBXGroup;
+			children = (
+				D5DA9D4F87D4475FAA26997C /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.h */,
+				C2CB7F202FB3414089201686 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.mm */,
+			);
+			name = juce_events;
+			sourceTree = "<group>";
+		};
+		D26F6D32B5754709955F865D /* juce_core */ = {
+			isa = PBXGroup;
+			children = (
+				B2674C0A38A9437CA03A34C0 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.h */,
+				6A453318E84B418EAC6686EE /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.mm */,
+			);
+			name = juce_core;
+			sourceTree = "<group>";
+		};
+		F4F1CE451CAD48A785DAD832 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				33C670998F384BC29B67F304 /* juce_gui_basics */,
+				1E1791158EF74D5783BC07C9 /* juce_graphics */,
+				AE53A18AE229401CB91E00BC /* juce_events */,
+				D26F6D32B5754709955F865D /* juce_core */,
+				090A9817524E4030A98EEF02 /* juce_data_structures */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DEA05F6844D46908F89DC69 /* juceaide */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B81660DC37B43FC87B5459F /* Build configuration list for PBXNativeTarget "juceaide" */;
+			buildPhases = (
+				61EFC02EBEA34250803673C1 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				36FED8BA97D241EBA7FC4A71 /* PBXTargetDependency */,
+			);
+			name = juceaide;
+			productName = juceaide;
+			productReference = B7E062B4AB3B40EDBEBDEF9B /* juceaide */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		471374C9F80643DEAF9E871D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1160;
+			};
+			buildConfigurationList = DDFBD288924C46C7ACEB17D7 /* Build configuration list for PBXProject "JUCE" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				711BE3290D4C47B1AEFCEA52 /* Debug */,
+				DE350EEAEB894C50A198AEF3 /* Release */,
+				94C1E79B72F24FDCB9488412 /* MinSizeRel */,
+				3430EC08F1E845D4A3396687 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 19E29FFDA6D6456FB6A56402;
+			projectDirPath = "/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE";
+			projectRoot = "";
+			targets = (
+				50C8C0A0282F46C18F96217E /* ALL_BUILD */,
+				2917F11C39914B0DB39E98E3 /* ZERO_CHECK */,
+				9F2FD3AACE414424897D27BB /* install */,
+				8DEA05F6844D46908F89DC69 /* juceaide */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2A8B474DCB9E4AF59A55FD67 /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools -f /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/CMakeScripts/install_postBuildPhase.make$CONFIGURATION OBJDIR=$(basename \"$OBJECT_FILE_DIR_normal\") all";
+			showEnvVarsInLog = 0;
+		};
+		5876B99F75A949A0A3AF0F49 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools -f /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION OBJDIR=$(basename \"$OBJECT_FILE_DIR_normal\") all";
+			showEnvVarsInLog = 0;
+		};
+		6E5F144005C94BBCB3175195 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools -f /Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION OBJDIR=$(basename \"$OBJECT_FILE_DIR_normal\") all";
+			showEnvVarsInLog = 0;
+		};
+		84CAAAE6FF3945108613C65E = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		DB9383B56CE54F2BBD3B6327 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		E47A645D5EEC4877A1DED4D9 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		61EFC02EBEA34250803673C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D054D641540447989E099DC /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juce_build_tools/juce_build_tools.cpp */,
+				477A64B78B474C44A448D913 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build/juceaide/Main.cpp */,
+				EEF7EAC91AC640289E0ACE71 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_core/juce_core.mm */,
+				BE19D6E5D4034E4696A83C63 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_data_structures/juce_data_structures.mm */,
+				0057A97DB16F42D883E4455D /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_events/juce_events.mm */,
+				6BF1507096F34ADE8B555610 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_graphics/juce_graphics.mm */,
+				359EF9EBE2DD4239ACF46B59 /* /Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules/juce_gui_basics/juce_gui_basics.mm */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		36FED8BA97D241EBA7FC4A71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2917F11C39914B0DB39E98E3 /* ZERO_CHECK */;
+			targetProxy = 3569026594BF4CEEA8F06975 /* PBXContainerItemProxy */;
+		};
+		3B9026A4030442F5938F2D30 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2917F11C39914B0DB39E98E3 /* ZERO_CHECK */;
+			targetProxy = 1DD1F935E35848C8A98917D5 /* PBXContainerItemProxy */;
+		};
+		6F0AA00C07A34AF2B7977825 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 50C8C0A0282F46C18F96217E /* ALL_BUILD */;
+			targetProxy = 9F76F8BC60B5480193189996 /* PBXContainerItemProxy */;
+		};
+		8A1BBEC269A448CC8D4FF4BD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DEA05F6844D46908F89DC69 /* juceaide */;
+			targetProxy = F48194A460B94E05807040CF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		030E727EB7C3476EABBA1020 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/MinSizeRel";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_DISABLE_JUCE_VERSION_PRINTING=1'","'JUCE_USE_CURL=0'","'JUCE_MODULE_AVAILABLE_juce_build_tools=1'","'JUCE_MODULE_AVAILABLE_juce_gui_basics=1'","'JUCE_MODULE_AVAILABLE_juce_graphics=1'","'JUCE_MODULE_AVAILABLE_juce_events=1'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_data_structures=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/JuceLibraryCode","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules");
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=c++11'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names       -framework Carbon  -framework QuartzCore    -framework Cocoa -framework IOKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = juceaide;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		14B318EB0FC24EB3A8B8FE1B /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		269B857586F44DE48F801A0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Release";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_DISABLE_JUCE_VERSION_PRINTING=1'","'JUCE_USE_CURL=0'","'JUCE_MODULE_AVAILABLE_juce_build_tools=1'","'JUCE_MODULE_AVAILABLE_juce_gui_basics=1'","'JUCE_MODULE_AVAILABLE_juce_graphics=1'","'JUCE_MODULE_AVAILABLE_juce_events=1'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_data_structures=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/JuceLibraryCode","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules");
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "    -flto -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=c++11'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names       -framework Carbon  -framework QuartzCore    -framework Cocoa -framework IOKit -flto";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = juceaide;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		297EC4D1F6584318A8B4B946 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/Debug";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_DISABLE_JUCE_VERSION_PRINTING=1'","'JUCE_USE_CURL=0'","'JUCE_MODULE_AVAILABLE_juce_build_tools=1'","'JUCE_MODULE_AVAILABLE_juce_gui_basics=1'","'JUCE_MODULE_AVAILABLE_juce_graphics=1'","'JUCE_MODULE_AVAILABLE_juce_events=1'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'DEBUG=1'","'_DEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_data_structures=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/JuceLibraryCode","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules");
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "       -Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=c++11'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names       -framework Carbon  -framework QuartzCore    -framework Cocoa -framework IOKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = juceaide;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		4B70D4B9153D42C2B4B524C1 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/build";
+			};
+			name = RelWithDebInfo;
+		};
+		4DF5257F2D64412ABDA693C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		52255A5B100F492EB9CE6DF8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		525FEA70C06B437997FC7729 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		566310B9B3694A658DEE3B01 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		605181A727E34A75A1D20B9B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		7FC03F4B5162485480DD1FB7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		808CF39622BD495F83572136 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		84125E89FBDD4B98964A55CB /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/build";
+			};
+			name = MinSizeRel;
+		};
+		8A300A2B6A6E4C16B12F21E2 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		9D647006BF9A42B9B4B55C0C /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		B5EC5DBE4F7A4B6E91A492C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/build";
+			};
+			name = Debug;
+		};
+		C216C1DF8F5740FD80B70D1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Debug;
+		};
+		F0E17E473C484F54AE02A0CD /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/RelWithDebInfo";
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'","'JUCE_STANDALONE_APPLICATION=1'","'JUCE_DISABLE_JUCE_VERSION_PRINTING=1'","'JUCE_USE_CURL=0'","'JUCE_MODULE_AVAILABLE_juce_build_tools=1'","'JUCE_MODULE_AVAILABLE_juce_gui_basics=1'","'JUCE_MODULE_AVAILABLE_juce_graphics=1'","'JUCE_MODULE_AVAILABLE_juce_events=1'","'JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED=1'","'NDEBUG=1'","'_NDEBUG=1'","'JUCE_MODULE_AVAILABLE_juce_core=1'","'JUCE_MODULE_AVAILABLE_juce_data_structures=1'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = ("/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide/juceaide_artefacts/JuceLibraryCode","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/extras/Build","/Users/kazumawatanabe/3d-guitar-amp-renderer/JUCE/modules");
+				INSTALL_PATH = "";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CPLUSPLUSFLAGS = "-Wall -Wshadow-all -Wshorten-64-to-32 -Wstrict-aliasing -Wuninitialized -Wunused-parameter -Wconversion -Wsign-compare -Wint-conversion -Wconditional-uninitialized -Woverloaded-virtual -Wreorder -Wconstant-conversion -Wsign-conversion -Wunused-private-field -Wbool-conversion -Wextra-semi -Wunreachable-code -Wzero-as-null-pointer-constant -Wcast-align -Winconsistent-missing-destructor-override -Wshift-sign-overflow -Wnullable-to-nonnull-conversion -Wno-missing-field-initializers -Wno-ignored-qualifiers -Wswitch-enum -Wpedantic '-std=c++11'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names       -framework Carbon  -framework QuartzCore    -framework Cocoa -framework IOKit";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = juceaide;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/extras/Build/juceaide";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		F5CB2DC8A6B54042B0B8F590 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools";
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("$(inherited)");
+			};
+			name = Release;
+		};
+		FB23AA4BBDFD4F70BE9FA6C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk;
+				SYMROOT = "/Users/kazumawatanabe/3d-guitar-amp-renderer/xcode_build/JUCE/tools/build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8B81660DC37B43FC87B5459F /* Build configuration list for PBXNativeTarget "juceaide" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				297EC4D1F6584318A8B4B946 /* Debug */,
+				269B857586F44DE48F801A0D /* Release */,
+				030E727EB7C3476EABBA1020 /* MinSizeRel */,
+				F0E17E473C484F54AE02A0CD /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B636A10534F149B5BE2690F3 /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				605181A727E34A75A1D20B9B /* Debug */,
+				F5CB2DC8A6B54042B0B8F590 /* Release */,
+				9D647006BF9A42B9B4B55C0C /* MinSizeRel */,
+				566310B9B3694A658DEE3B01 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BB11B73E9D424DCDADADB9E9 /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				52255A5B100F492EB9CE6DF8 /* Debug */,
+				7FC03F4B5162485480DD1FB7 /* Release */,
+				808CF39622BD495F83572136 /* MinSizeRel */,
+				525FEA70C06B437997FC7729 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D69A086B117A477F8174F004 /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C216C1DF8F5740FD80B70D1A /* Debug */,
+				4DF5257F2D64412ABDA693C1 /* Release */,
+				14B318EB0FC24EB3A8B8FE1B /* MinSizeRel */,
+				8A300A2B6A6E4C16B12F21E2 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DDFBD288924C46C7ACEB17D7 /* Build configuration list for PBXProject "JUCE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5EC5DBE4F7A4B6E91A492C6 /* Debug */,
+				FB23AA4BBDFD4F70BE9FA6C5 /* Release */,
+				84125E89FBDD4B98964A55CB /* MinSizeRel */,
+				4B70D4B9153D42C2B4B524C1 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 471374C9F80643DEAF9E871D /* Project object */;
+}
