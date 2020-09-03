@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "(lldb) Launch",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "/Applications/REAPER64.app/Contents/MacOS/REAPER",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "/Applications/REAPER64.app/Contents/MacOS",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "lldb"
+    }
+  ]
+}
