@@ -1,6 +1,6 @@
-#include "SofaReader.hpp"
+#include "HRIRSofaReader.hpp"
 
 int main()
 {
-    SofaReader sfReader("data/HRIR_L2702.sofa");
+    HRIRSofaReader sfReader("data/HRIR_L2702.sofa");
 }
