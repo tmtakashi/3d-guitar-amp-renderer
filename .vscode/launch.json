@@ -11,7 +11,8 @@
       "cwd": "/Applications/REAPER64.app/Contents/MacOS",
       "environment": [],
       "externalConsole": true,
-      "MIMode": "lldb"
+      "MIMode": "lldb",
+      "preLaunchTask": "Build VST3 (debug)"
     }
   ]
 }

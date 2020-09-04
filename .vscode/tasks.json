@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Build VST3 (debug)",
+      "command": "cmake",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      },
+      "args": [
+        "--build",
+        "./build",
+        "--config",
+        "Debug",
+        "--target",
+        "AudioPluginExample_VST3",
+        "--",
+        "-j",
+        "10"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
