@@ -5,25 +5,14 @@
 #define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
 
 HRIRSofaReader::HRIRSofaReader(std::string_view path)
-    : SofaReader(path), hrirFile(std::string(path))
+    : SofaReader<sofa::SimpleFreeFieldHRIR>(path), hrirFile(std::string(path))
 {
     assert(hrirFile.IsValid());
-    assert(sofaFile.IsValid());
-    extractSampleRate();
     extractHRIRPair();
-    extractPositionGrid();
 }
 
 HRIRSofaReader::~HRIRSofaReader()
 {
-}
-
-void HRIRSofaReader::extractSampleRate()
-{
-    double sr;
-    const bool isSampleRateValid = hrirFile.GetSamplingRate(sr);
-    assert(isSampleRateValid);
-    setSampleRate(sr);
 }
 
 void HRIRSofaReader::extractHRIRPair()
