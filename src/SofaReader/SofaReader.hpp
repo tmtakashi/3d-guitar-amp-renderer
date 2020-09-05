@@ -34,6 +34,8 @@ public:
     void setR(unsigned int r);
     void setN(unsigned int n);
 
+    Eigen::MatrixXd getPositionGrid();
+
     static std::size_t array3DIndex(const unsigned long i,
                                     const unsigned long j,
                                     const unsigned long k,

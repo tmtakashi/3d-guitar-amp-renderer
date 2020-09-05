@@ -20,4 +20,7 @@ private:
 public:
     explicit HRIRSofaReader(std::string_view path);
     ~HRIRSofaReader();
+
+    Eigen::MatrixXd getHRIRL();
+    Eigen::MatrixXd getHRIRR();
 };

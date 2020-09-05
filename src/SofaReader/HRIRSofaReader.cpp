@@ -96,3 +96,13 @@ void HRIRSofaReader::extractPositionGrid()
     // convert degree to radian
     degToRadMat(positionGrid);
 }
+
+Eigen::MatrixXd HRIRSofaReader::getHRIRL()
+{
+    return hrirL;
+}
+
+Eigen::MatrixXd HRIRSofaReader::getHRIRR()
+{
+    return hrirR;
+}

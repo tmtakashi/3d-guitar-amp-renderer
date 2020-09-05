@@ -13,6 +13,11 @@ SofaReader::~SofaReader()
 {
 }
 
+Eigen::MatrixXd SofaReader::getPositionGrid()
+{
+    return positionGrid;
+}
+
 void SofaReader::degToRadMat(Eigen::MatrixXd &degSphCoords) noexcept
 {
     for (std::size_t i = 0; i != degSphCoords.rows(); ++i)
