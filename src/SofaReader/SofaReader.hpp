@@ -3,6 +3,7 @@
 #include <Eigen/Dense>
 #include "SOFA.h"
 
+template <typename T>
 class SofaReader
 {
 private:
@@ -14,11 +15,12 @@ private:
     // number of data samples
     unsigned int N;
 
-    virtual void extractSampleRate() = 0;
+    void extractSampleRate();
     virtual void extractPositionGrid() = 0;
 
 protected:
     sofa::File sofaFile;
+    T irFile;
     Eigen::MatrixXd positionGrid;
 
 public:

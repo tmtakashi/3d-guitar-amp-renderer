@@ -4,21 +4,32 @@
 #define _USE_MATH_DEFINES
 #define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
 
-SofaReader::SofaReader(std::string_view path)
+template <typename T>
+SofaReader<T>::SofaReader(std::string_view path)
     : sofaFile(std::string(path))
 {
+    assert(sofaFile.IsValid());
+    extractSampleRate();
+    extractPositionGrid();
 }
 
-SofaReader::~SofaReader()
+template <typename T>
+void SofaReader<T>::extractSampleRate()
 {
+    double sr;
+    const bool isSampleRateValid = hrirFile.GetSamplingRate(sr);
+    assert(isSampleRateValid);
+    setSampleRate(sr);
 }
 
-Eigen::MatrixXd SofaReader::getPositionGrid()
+template <typename T>
+Eigen::MatrixXd SofaReader<T>::getPositionGrid()
 {
     return positionGrid;
 }
 
-void SofaReader::degToRadMat(Eigen::MatrixXd &degSphCoords) noexcept
+template <typename T>
+void SofaReader<T>::degToRadMat(Eigen::MatrixXd &degSphCoords) noexcept
 {
     for (std::size_t i = 0; i != degSphCoords.rows(); ++i)
     {
@@ -27,60 +38,70 @@ void SofaReader::degToRadMat(Eigen::MatrixXd &degSphCoords) noexcept
     }
 }
 
-double SofaReader::getSampleRate() const
+template <typename T>
+double SofaReader<T>::getSampleRate() const
 {
     return sampleRate;
 }
 
-void SofaReader::setSampleRate(double sr)
+template <typename T>
+void SofaReader<T>::setSampleRate(double sr)
 {
     sampleRate = sr;
 }
 
-unsigned int SofaReader::getM() const
+template <typename T>
+unsigned int SofaReader<T>::getM() const
 {
     return M;
 }
 
-unsigned int SofaReader::getR() const
+template <typename T>
+unsigned int SofaReader<T>::getR() const
 {
     return R;
 }
 
-unsigned int SofaReader::getN() const
+template <typename T>
+unsigned int SofaReader<T>::getN() const
 {
     return N;
 }
 
-void SofaReader::setM(unsigned int m)
+template <typename T>
+void SofaReader<T>::setM(unsigned int m)
 {
     M = m;
 }
 
-void SofaReader::setR(unsigned int r)
+template <typename T>
+void SofaReader<T>::setR(unsigned int r)
 {
     R = r;
 }
 
-void SofaReader::setN(unsigned int n)
+template <typename T>
+void SofaReader<T>::setN(unsigned int n)
 {
     N = n;
 }
 
-std::size_t SofaReader::array3DIndex(const unsigned long i,
-                                     const unsigned long j,
-                                     const unsigned long k,
-                                     const unsigned long dim1,
-                                     const unsigned long dim2,
-                                     const unsigned long dim3) noexcept
+template <typename T>
+std::size_t SofaReader<T>::array3DIndex(const unsigned long i,
+                                        const unsigned long j,
+                                        const unsigned long k,
+                                        const unsigned long dim1,
+                                        const unsigned long dim2,
+                                        const unsigned long dim3) noexcept
 {
     return dim2 * dim3 * i + dim3 * j + k;
 }
 
-std::size_t SofaReader::array2DIndex(const unsigned long i,
-                                     const unsigned long j,
-                                     const unsigned long dim1,
-                                     const unsigned long dim2) noexcept
+template <typename T>
+std::size_t SofaReader<T>::array2DIndex(const unsigned long i,
+                                        const unsigned long j,
+                                        const unsigned long dim1,
+                                        const unsigned long dim2) noexcept
 {
     return dim2 * i + j;
 }
