@@ -47,29 +47,9 @@ protected:
         return positionGrid;
     }
 
-    double getSampleRate() const
-    {
-        return sampleRate;
-    }
-
     void setSampleRate(double sr)
     {
         sampleRate = sr;
-    }
-
-    unsigned int getM() const
-    {
-        return M;
-    }
-
-    unsigned int getR() const
-    {
-        return R;
-    }
-
-    unsigned int getN() const
-    {
-        return N;
     }
 
     void setM(unsigned int m)
@@ -85,6 +65,27 @@ protected:
     void setN(unsigned int n)
     {
         N = n;
+    }
+
+public:
+    double getSampleRate() const
+    {
+        return sampleRate;
+    }
+
+    unsigned int getM() const
+    {
+        return M;
+    }
+
+    unsigned int getR() const
+    {
+        return R;
+    }
+
+    unsigned int getN() const
+    {
+        return N;
     }
 
     static std::size_t array3DIndex(const unsigned long i,
