@@ -6,13 +6,11 @@
 class HRIRSofaReader : public SofaReader<sofa::SimpleFreeFieldHRIR>
 {
 private:
-    sofa::SimpleFreeFieldHRIR hrirFile;
-
     // HRIR L, R pair
     Eigen::MatrixXd hrirL;
     Eigen::MatrixXd hrirR;
 
-    void extractHRIRPair();
+    void extractIRs() override;
     void extractPositionGrid() override;
 
 public:
