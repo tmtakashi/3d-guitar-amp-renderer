@@ -5,18 +5,8 @@
 #define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
 
 SofaReader::SofaReader(std::string_view path)
-<<<<<<< HEAD
     : sofaFile(std::string(path))
 {
-=======
-    : hrirFile(std::string(path)), sofaFile(std::string(path))
-{
-    assert(hrirFile.IsValid());
-    assert(sofaFile.IsValid());
-    extractSampleRate();
-    extractHRIRPair();
-    extractHRIRGrid();
->>>>>>> b1ad290a79be503ee88720b18435f8b913ea0bde
 }
 
 SofaReader::~SofaReader()
