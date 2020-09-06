@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug with REAPER",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "/Applications/REAPER64.app/Contents/MacOS/REAPER",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "/Applications/REAPER64.app/Contents/MacOS",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "lldb",
+      "preLaunchTask": "Build VST3 (debug)"
+    }
+  ]
+}
