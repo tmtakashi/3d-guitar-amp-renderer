@@ -39,3 +39,9 @@ TEST_F(DRIRSofaReaderTest, HasCorrectDRIRMatrixSize)
     EXPECT_EQ(drirs.rows(), 80);
     EXPECT_EQ(drirs.cols(), 100'000);
 }
+
+TEST_F(DRIRSofaReaderTest, HasCorrectGridMatrixSize)
+{
+    EXPECT_EQ(reader->getPositionGrid().rows(), 80);
+    EXPECT_EQ(reader->getPositionGrid().cols(), 3);
+}
