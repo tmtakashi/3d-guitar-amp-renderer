@@ -17,9 +17,7 @@ HRIRSofaReader::~HRIRSofaReader()
 
 void HRIRSofaReader::extractIRs()
 {
-    setM(static_cast<unsigned int>(irFile.GetNumMeasurements()));
-    setR(static_cast<unsigned int>(irFile.GetNumReceivers()));
-    setN(static_cast<unsigned int>(irFile.GetNumDataSamples()));
+    extractDimentions();
     // check if the is for human ears
     assert(getR() == 2);
 

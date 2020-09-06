@@ -42,6 +42,13 @@ protected:
         setSampleRate(sr);
     }
 
+    void extractDimentions()
+    {
+        setM(static_cast<unsigned int>(irFile.GetNumMeasurements()));
+        setR(static_cast<unsigned int>(irFile.GetNumReceivers()));
+        setN(static_cast<unsigned int>(irFile.GetNumDataSamples()));
+    }
+
     Eigen::MatrixXd getPositionGrid()
     {
         return positionGrid;

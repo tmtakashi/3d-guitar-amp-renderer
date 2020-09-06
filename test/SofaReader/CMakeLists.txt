@@ -1,0 +1,3 @@
+add_subdirectory(SofaReader)
+add_subdirectory(HRIRSofaReader)
+add_subdirectory(DRIRSofaReader)

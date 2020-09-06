@@ -35,7 +35,6 @@ http://www.sofaconventions.org
 
 */
 
-
 /************************************************************************************/
 /*!
  *   @file       SOFAFile.cpp
@@ -67,7 +66,7 @@ using namespace sofa;
 /************************************************************************************/
 File::File(const std::string &path,
            const netCDF::NcFile::FileMode &mode)
-: sofa::NetCDFFile( path, mode )
+    : sofa::NetCDFFile(path, mode)
 {
 }
 
@@ -83,17 +82,7 @@ File::File(const std::string &path,
 /************************************************************************************/
 bool File::IsValid() const
 {
-    return ( sofa::NetCDFFile::IsValid() == true
-            && hasSOFARequiredAttributes() == true
-            && hasSOFAConvention() == true 
-            && SOFADimensionsAreValid() == true 
-            && checkListenerVariables() == true
-            && checkSourceVariables() == true
-            && checkReceiverVariables() == true
-            && checkEmitterVariables() == true
-            && checkDimensions() == true
-            && checkDataVariable() == true 
-            );
+    return (sofa::NetCDFFile::IsValid() == true && hasSOFARequiredAttributes() == true && hasSOFAConvention() == true && SOFADimensionsAreValid() == true && checkListenerVariables() == true && checkSourceVariables() == true && checkReceiverVariables() == true && checkEmitterVariables() == true && checkDimensions() == true && checkDataVariable() == true);
 }
 
 /************************************************************************************/
@@ -105,28 +94,28 @@ bool File::IsValid() const
  *
  */
 /************************************************************************************/
-void File::PrintSOFAGlobalAttributes(std::ostream & output, const bool withPadding) const
+void File::PrintSOFAGlobalAttributes(std::ostream &output, const bool withPadding) const
 {
     sofa::Attributes attributes;
-    GetGlobalAttributes( attributes );
-    
-    attributes.Print( output, withPadding );
+    GetGlobalAttributes(attributes);
+
+    attributes.Print(output, withPadding);
 }
 
-void File::PrintSOFADimensions(std::ostream & output, const bool withPadding) const
+void File::PrintSOFADimensions(std::ostream &output, const bool withPadding) const
 {
-    
-    const std::string numMeasurements   = sofa::String::Int2String( (int) GetNumMeasurements() );
-    const std::string numReceivers      = sofa::String::Int2String( (int) GetNumReceivers() );
-    const std::string numEmitters       = sofa::String::Int2String( (int) GetNumEmitters() );
-    const std::string numDataSamples    = sofa::String::Int2String( (int) GetNumDataSamples() );
-    
-    if( withPadding == true )
-    {        
-        output << sofa::String::PadWith( "Number of measurements (M)" ) << " = " << numMeasurements << std::endl;
-        output << sofa::String::PadWith( "Number of receivers (R)" ) << " = " << numReceivers << std::endl;
-        output << sofa::String::PadWith( "Number of emitters (E)" ) << " = " << numEmitters << std::endl;
-        output << sofa::String::PadWith( "Number of data samples (N)" ) << " = " << numDataSamples << std::endl;
+
+    const std::string numMeasurements = sofa::String::Int2String((int)GetNumMeasurements());
+    const std::string numReceivers = sofa::String::Int2String((int)GetNumReceivers());
+    const std::string numEmitters = sofa::String::Int2String((int)GetNumEmitters());
+    const std::string numDataSamples = sofa::String::Int2String((int)GetNumDataSamples());
+
+    if (withPadding == true)
+    {
+        output << sofa::String::PadWith("Number of measurements (M)") << " = " << numMeasurements << std::endl;
+        output << sofa::String::PadWith("Number of receivers (R)") << " = " << numReceivers << std::endl;
+        output << sofa::String::PadWith("Number of emitters (E)") << " = " << numEmitters << std::endl;
+        output << sofa::String::PadWith("Number of data samples (N)") << " = " << numDataSamples << std::endl;
     }
     else
     {
@@ -135,8 +124,6 @@ void File::PrintSOFADimensions(std::ostream & output, const bool withPadding) co
         output << "Number of emitters (E) = " << numEmitters << std::endl;
         output << "Number of data samples (N) = " << numDataSamples << std::endl;
     }
-    
-
 }
 
 /************************************************************************************/
@@ -148,20 +135,15 @@ void File::PrintSOFADimensions(std::ostream & output, const bool withPadding) co
 /************************************************************************************/
 bool File::hasSOFARequiredDimensions() const
 {
-    const bool valid = ( HasDimension("I") == true 
-                        && HasDimension("M") == true  
-                        && HasDimension("R") == true  
-                        && HasDimension("E") == true  
-                        && HasDimension("N") == true 
-                        && HasDimension("C") == true  );
-    
-    if( valid == true )
+    const bool valid = (HasDimension("I") == true && HasDimension("M") == true && HasDimension("R") == true && HasDimension("E") == true && HasDimension("N") == true && HasDimension("C") == true);
+
+    if (valid == true)
     {
         return true;
     }
     else
     {
-        SOFA_THROW( "missing SOFA dimension(s)" );
+        SOFA_THROW("missing SOFA dimension(s)");
         return false;
     }
 }
@@ -174,23 +156,23 @@ bool File::hasSOFARequiredDimensions() const
  */
 /************************************************************************************/
 bool File::SOFADimensionsAreValid() const
-{    
-    const long M = GetDimension( "M" );
-    const long N = GetDimension( "N" );
-    const long R = GetDimension( "R" );
-    const long E = GetDimension( "E" );
-    const long I = GetDimension( "I" );
-    const long C = GetDimension( "C" );
-    
-    const bool valid = ( I == 1L && C == 3 && M >= 1L && R >= 1L && E >= 1L && N >= 1L );
-    
-    if( valid == true )
+{
+    const long M = GetDimension("M");
+    const long N = GetDimension("N");
+    const long R = GetDimension("R");
+    const long E = GetDimension("E");
+    const long I = GetDimension("I");
+    const long C = GetDimension("C");
+
+    const bool valid = (I == 1L && C == 3 && M >= 1L && R >= 1L && E >= 1L && N >= 1L);
+
+    if (valid == true)
     {
         return true;
     }
     else
     {
-        SOFA_THROW( "invalid SOFA dimension(s)" );
+        SOFA_THROW("invalid SOFA dimension(s)");
         return false;
     }
 }
@@ -204,7 +186,7 @@ bool File::SOFADimensionsAreValid() const
 /************************************************************************************/
 long File::GetNumMeasurements() const
 {
-    return GetDimension( "M" );
+    return GetDimension("M");
 }
 
 /************************************************************************************/
@@ -216,7 +198,7 @@ long File::GetNumMeasurements() const
 /************************************************************************************/
 long File::GetNumReceivers() const
 {
-    return GetDimension( "R" );
+    return GetDimension("R");
 }
 
 /************************************************************************************/
@@ -228,9 +210,8 @@ long File::GetNumReceivers() const
 /************************************************************************************/
 long File::GetNumEmitters() const
 {
-    return GetDimension( "E" );
+    return GetDimension("E");
 }
-
 
 /************************************************************************************/
 /*!
@@ -241,9 +222,8 @@ long File::GetNumEmitters() const
 /************************************************************************************/
 long File::GetNumDataSamples() const
 {
-    return GetDimension( "N" );    
+    return GetDimension("N");
 }
-
 
 /************************************************************************************/
 /*!
@@ -254,9 +234,9 @@ long File::GetNumDataSamples() const
 /************************************************************************************/
 bool File::HasAttribute(const sofa::Attributes::Type &type_) const
 {
-    const std::string attributeName = sofa::Attributes::GetName( type_ );
-    
-    return NetCDFFile::HasAttribute( attributeName );
+    const std::string attributeName = sofa::Attributes::GetName(type_);
+
+    return NetCDFFile::HasAttribute(attributeName);
 }
 
 /************************************************************************************/
@@ -268,24 +248,24 @@ bool File::HasAttribute(const sofa::Attributes::Type &type_) const
 /************************************************************************************/
 bool File::hasSOFARequiredAttributes() const
 {
-    for( unsigned int i = 0; i < sofa::Attributes::kNumAttributes; i++ )
+    for (unsigned int i = 0; i < sofa::Attributes::kNumAttributes; i++)
     {
-        const sofa::Attributes::Type type_ = static_cast< const sofa::Attributes::Type >( i );
-        const bool required   = sofa::Attributes::IsRequired( type_ );
-        
-        if( required == true )
-        {        
-            const bool hasIt = HasAttribute( type_ );
-            
-            if( hasIt == false )
+        const sofa::Attributes::Type type_ = static_cast<const sofa::Attributes::Type>(i);
+        const bool required = sofa::Attributes::IsRequired(type_);
+
+        if (required == true)
+        {
+            const bool hasIt = HasAttribute(type_);
+
+            if (hasIt == false)
             {
-                const std::string err = "Missing SOFA attribute : " + sofa::Attributes::GetName( type_ );
-                SOFA_THROW( err );
+                const std::string err = "Missing SOFA attribute : " + sofa::Attributes::GetName(type_);
+                SOFA_THROW(err);
                 return false;
             }
         }
     }
-    
+
     return true;
 }
 
@@ -299,19 +279,19 @@ bool File::hasSOFARequiredAttributes() const
 void File::GetGlobalAttributes(sofa::Attributes &attributes) const
 {
     attributes.ResetToDefault();
-    
-    for( unsigned int i = 0; i < sofa::Attributes::kNumAttributes; i++ )
+
+    for (unsigned int i = 0; i < sofa::Attributes::kNumAttributes; i++)
     {
-        const sofa::Attributes::Type type_ = static_cast< const sofa::Attributes::Type >( i );
-        
-        const bool hasIt = HasAttribute( type_ );
-        
-        if( hasIt == true )
+        const sofa::Attributes::Type type_ = static_cast<const sofa::Attributes::Type>(i);
+
+        const bool hasIt = HasAttribute(type_);
+
+        if (hasIt == true)
         {
-            const std::string name  = sofa::Attributes::GetName( type_ );
-            const std::string value = GetAttributeValueAsString( name );
-            
-            attributes.Set( type_, value );
+            const std::string name = sofa::Attributes::GetName(type_);
+            const std::string value = GetAttributeValueAsString(name);
+
+            attributes.Set(type_, value);
         }
     }
 }
@@ -325,15 +305,15 @@ void File::GetGlobalAttributes(sofa::Attributes &attributes) const
 /************************************************************************************/
 bool File::hasSOFAConvention() const
 {
-    const std::string value = GetAttributeValueAsString( "Conventions" );
-    
-    if( value == "SOFA" )
+    const std::string value = GetAttributeValueAsString("Conventions");
+
+    if (value == "SOFA")
     {
         return true;
     }
     else
     {
-        SOFA_THROW( "invalid SOFA Conventions" );
+        SOFA_THROW("invalid SOFA Conventions");
         return false;
     }
 }
@@ -348,7 +328,7 @@ bool File::hasSOFAConvention() const
 /************************************************************************************/
 std::string File::GetSOFAConventions() const
 {
-    return GetAttributeValueAsString( "SOFAConventions" );
+    return GetAttributeValueAsString("SOFAConventions");
 }
 
 /************************************************************************************/
@@ -370,73 +350,69 @@ std::string File::GetSOFAConventions() const
 /************************************************************************************/
 bool File::checkListenerVariables() const
 {
-    const long I = GetDimension( "I" );    
-    if( I != 1 )
+    const long I = GetDimension("I");
+    if (I != 1)
     {
-        SOFA_THROW( "invalid SOFA dimension : I" );
+        SOFA_THROW("invalid SOFA dimension : I");
         return false;
     }
-        
-    const long C = GetDimension( "C" );    
-    if( C != 3 )
+
+    const long C = GetDimension("C");
+    if (C != 3)
     {
-        SOFA_THROW( "invalid SOFA dimension : C" );
+        SOFA_THROW("invalid SOFA dimension : C");
         return false;
     }
-    
-    const long M = GetNumMeasurements();    
-    if( M <= 0 )
+
+    const long M = GetNumMeasurements();
+    if (M <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : M" );
+        SOFA_THROW("invalid SOFA dimension : M");
         return false;
     }
-    
-    const netCDF::NcVar varListenerPosition        = NetCDFFile::getVariable( "ListenerPosition" );
-    const netCDF::NcVar varListenerUp              = NetCDFFile::getVariable( "ListenerUp" );
-    const netCDF::NcVar varListenerView            = NetCDFFile::getVariable( "ListenerView" );
-    
-    const sofa::Listener listener( varListenerPosition, varListenerUp, varListenerView );
-    
-    if( listener.IsValid() == false )        
+
+    const netCDF::NcVar varListenerPosition = NetCDFFile::getVariable("ListenerPosition");
+    const netCDF::NcVar varListenerUp = NetCDFFile::getVariable("ListenerUp");
+    const netCDF::NcVar varListenerView = NetCDFFile::getVariable("ListenerView");
+
+    const sofa::Listener listener(varListenerPosition, varListenerUp, varListenerView);
+
+    if (listener.IsValid() == false)
     {
-        SOFA_THROW( "invalid 'Listener' variables" );
+        SOFA_THROW("invalid 'Listener' variables");
         return false;
     }
-    
-    if( listener.ListenerPositionHasDimensions(  I,  C ) == false
-     && listener.ListenerPositionHasDimensions(  M,  C ) == false )
+
+    if (listener.ListenerPositionHasDimensions(I, C) == false && listener.ListenerPositionHasDimensions(M, C) == false)
     {
-        SOFA_THROW( "invalid 'ListenerPosition' dimensions" );
+        SOFA_THROW("invalid 'ListenerPosition' dimensions");
         return false;
     }
-    
-    if( listener.HasListenerUp() == true )
+
+    if (listener.HasListenerUp() == true)
     {
         /// ListenerUp is not required in the Specifications
         /// but if it is present, is should be [ I C ] or [ M C ]
-        
-        if( listener.ListenerUpHasDimensions(  I,  C ) == false
-         && listener.ListenerUpHasDimensions(  M,  C ) == false )
+
+        if (listener.ListenerUpHasDimensions(I, C) == false && listener.ListenerUpHasDimensions(M, C) == false)
         {
-            SOFA_THROW( "invalid 'ListenerUp' dimensions" );
+            SOFA_THROW("invalid 'ListenerUp' dimensions");
             return false;
         }
     }
-    
-    if( listener.HasListenerView() == true )
+
+    if (listener.HasListenerView() == true)
     {
         /// ListenerView is not required in the Specifications
         /// but if it is present, is should be [ I C ] or [ M C ]
-        
-        if( listener.ListenerViewHasDimensions(  I,  C ) == false
-         && listener.ListenerViewHasDimensions(  M,  C ) == false )
+
+        if (listener.ListenerViewHasDimensions(I, C) == false && listener.ListenerViewHasDimensions(M, C) == false)
         {
-            SOFA_THROW( "invalid 'ListenerView' dimensions" );
+            SOFA_THROW("invalid 'ListenerView' dimensions");
             return false;
         }
     }
-    
-    
+
     /// everything is OK !
     return true;
 }
@@ -460,77 +436,72 @@ bool File::checkListenerVariables() const
 /************************************************************************************/
 bool File::checkSourceVariables() const
 {
-    const long I = GetDimension( "I" );    
-    if( I != 1 )
-    {    
-        SOFA_THROW( "invalid SOFA dimension : I" );
-        return false;
-    }
-    
-    const long C = GetDimension( "C" );    
-    if( C != 3 )
+    const long I = GetDimension("I");
+    if (I != 1)
     {
-        SOFA_THROW( "invalid SOFA dimension : C" );
+        SOFA_THROW("invalid SOFA dimension : I");
         return false;
     }
-    
-    const long M = GetNumMeasurements();    
-    if( M <= 0 )
+
+    const long C = GetDimension("C");
+    if (C != 3)
     {
-        SOFA_THROW( "invalid SOFA dimension : M" );
+        SOFA_THROW("invalid SOFA dimension : C");
         return false;
     }
-    
-    const netCDF::NcVar varSourcePosition        = NetCDFFile::getVariable( "SourcePosition" );
-    const netCDF::NcVar varSourceUp              = NetCDFFile::getVariable( "SourceUp" );
-    const netCDF::NcVar varSourceView            = NetCDFFile::getVariable( "SourceView" );
-    
-    const sofa::Source source( varSourcePosition, varSourceUp, varSourceView );
-    
-    if( source.IsValid() == false )
+
+    const long M = GetNumMeasurements();
+    if (M <= 0)
     {
-        SOFA_THROW( "invalid 'Source' variables" );
+        SOFA_THROW("invalid SOFA dimension : M");
         return false;
     }
-    
-    if( source.SourcePositionHasDimensions(  I,  C ) == false
-       && source.SourcePositionHasDimensions(  M,  C ) == false )
+
+    const netCDF::NcVar varSourcePosition = NetCDFFile::getVariable("SourcePosition");
+    const netCDF::NcVar varSourceUp = NetCDFFile::getVariable("SourceUp");
+    const netCDF::NcVar varSourceView = NetCDFFile::getVariable("SourceView");
+
+    const sofa::Source source(varSourcePosition, varSourceUp, varSourceView);
+
+    if (source.IsValid() == false)
     {
-        SOFA_THROW( "invalid 'SourcePosition' dimensions" );
+        SOFA_THROW("invalid 'Source' variables");
         return false;
     }
-    
-    if( source.HasSourceUp() == true )
+
+    if (source.SourcePositionHasDimensions(I, C) == false && source.SourcePositionHasDimensions(M, C) == false)
+    {
+        SOFA_THROW("invalid 'SourcePosition' dimensions");
+        return false;
+    }
+
+    if (source.HasSourceUp() == true)
     {
         /// SourceUp is not required in the Specifications
         /// but if it is present, is should be [ I C ] or [ M C ]
-        
-        if( source.SourceUpHasDimensions(  I,  C ) == false
-           && source.SourceUpHasDimensions(  M,  C ) == false )
+
+        if (source.SourceUpHasDimensions(I, C) == false && source.SourceUpHasDimensions(M, C) == false)
         {
-            SOFA_THROW( "invalid 'SourceUp' dimensions" );
+            SOFA_THROW("invalid 'SourceUp' dimensions");
             return false;
         }
     }
-    
-    if( source.HasSourceView() == true )
+
+    if (source.HasSourceView() == true)
     {
         /// SourceView is not required in the Specifications
         /// but if it is present, is should be [ I C ] or [ M C ]
-        
-        if( source.SourceViewHasDimensions(  I,  C ) == false
-           && source.SourceViewHasDimensions(  M,  C ) == false )
+
+        if (source.SourceViewHasDimensions(I, C) == false && source.SourceViewHasDimensions(M, C) == false)
         {
-            SOFA_THROW( "invalid 'SourceView' dimensions" );
+            SOFA_THROW("invalid 'SourceView' dimensions");
             return false;
         }
     }
-    
-            
+
     /// everything is OK !
     return true;
 }
-
 
 /************************************************************************************/
 /*!
@@ -551,79 +522,76 @@ bool File::checkSourceVariables() const
 /************************************************************************************/
 bool File::checkReceiverVariables() const
 {
-    const long I = GetDimension( "I" );    
-    if( I != 1 )
+    const long I = GetDimension("I");
+    if (I != 1)
     {
-        SOFA_THROW( "invalid SOFA dimension : I" );
+        SOFA_THROW("invalid SOFA dimension : I");
         return false;
     }
-    
-    const long C = GetDimension( "C" );    
-    if( C != 3 )
+
+    const long C = GetDimension("C");
+    if (C != 3)
     {
-        SOFA_THROW( "invalid SOFA dimension : C" );
+        SOFA_THROW("invalid SOFA dimension : C");
         return false;
     }
-    
-    const long M = GetNumMeasurements();    
-    if( M <= 0 )
+
+    const long M = GetNumMeasurements();
+    if (M <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : M" );
+        SOFA_THROW("invalid SOFA dimension : M");
         return false;
     }
-    
-    const long R = GetNumReceivers();    
-    if( R <= 0 )
+
+    const long R = GetNumReceivers();
+    if (R <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : R" );
-        return false;
-    }    
-    
-    const netCDF::NcVar varReceiverPosition        = NetCDFFile::getVariable( "ReceiverPosition" );
-    const netCDF::NcVar varReceiverUp              = NetCDFFile::getVariable( "ReceiverUp" );
-    const netCDF::NcVar varReceiverView            = NetCDFFile::getVariable( "ReceiverView" );
-    
-    const sofa::Receiver receiver( varReceiverPosition, varReceiverUp, varReceiverView );
-    
-    if( receiver.IsValid() == false )        
-    {
-        SOFA_THROW( "invalid 'Receiver' variables" );
+        SOFA_THROW("invalid SOFA dimension : R");
         return false;
     }
-    
-    if( receiver.ReceiverPositionHasDimensions(  R,  C,  I ) == false
-     && receiver.ReceiverPositionHasDimensions(  R,  C,  M ) == false )
+
+    const netCDF::NcVar varReceiverPosition = NetCDFFile::getVariable("ReceiverPosition");
+    const netCDF::NcVar varReceiverUp = NetCDFFile::getVariable("ReceiverUp");
+    const netCDF::NcVar varReceiverView = NetCDFFile::getVariable("ReceiverView");
+
+    const sofa::Receiver receiver(varReceiverPosition, varReceiverUp, varReceiverView);
+
+    if (receiver.IsValid() == false)
     {
-        SOFA_THROW( "invalid 'ReceiverPosition' dimensions" );
+        SOFA_THROW("invalid 'Receiver' variables");
         return false;
     }
-    
-    if( receiver.HasReceiverUpVariable() == true )
+
+    if (receiver.ReceiverPositionHasDimensions(R, C, I) == false && receiver.ReceiverPositionHasDimensions(R, C, M) == false)
+    {
+        SOFA_THROW("invalid 'ReceiverPosition' dimensions");
+        return false;
+    }
+
+    if (receiver.HasReceiverUpVariable() == true)
     {
         /// ReceiverUp is not required in the Specifications
         /// but if it is present, is should be [ R C I ] or [ R C M ]
-        
-        if( receiver.ReceiverUpHasDimensions(  R,  C,  I ) == false
-           && receiver.ReceiverUpHasDimensions(  R,  C,  M ) == false )
+
+        if (receiver.ReceiverUpHasDimensions(R, C, I) == false && receiver.ReceiverUpHasDimensions(R, C, M) == false)
         {
-            SOFA_THROW( "invalid 'ReceiverUp' dimensions" );
+            SOFA_THROW("invalid 'ReceiverUp' dimensions");
             return false;
         }
     }
-    
-    if( receiver.HasReceiverViewVariable() == true )
+
+    if (receiver.HasReceiverViewVariable() == true)
     {
         /// ReceiverUp is not required in the Specifications
         /// but if it is present, is should be [ R C I ] or [ R C M ]
-        
-        if( receiver.ReceiverViewHasDimensions(  R,  C,  I ) == false
-           && receiver.ReceiverViewHasDimensions(  R,  C,  M ) == false )
+
+        if (receiver.ReceiverViewHasDimensions(R, C, I) == false && receiver.ReceiverViewHasDimensions(R, C, M) == false)
         {
-            SOFA_THROW( "invalid 'ReceiverView' dimensions" );
+            SOFA_THROW("invalid 'ReceiverView' dimensions");
             return false;
         }
     }
-    
+
     /// everything is OK !
     return true;
 }
@@ -649,113 +617,110 @@ bool File::checkReceiverVariables() const
 /************************************************************************************/
 bool File::checkEmitterVariables() const
 {
-    const long I = GetDimension( "I" );    
-    if( I != 1 )
+    const long I = GetDimension("I");
+    if (I != 1)
     {
-        SOFA_THROW( "invalid SOFA dimension : I" );
+        SOFA_THROW("invalid SOFA dimension : I");
         return false;
     }
-    
-    const long C = GetDimension( "C" );    
-    if( C != 3 )
+
+    const long C = GetDimension("C");
+    if (C != 3)
     {
-        SOFA_THROW( "invalid SOFA dimension : C" );
+        SOFA_THROW("invalid SOFA dimension : C");
         return false;
     }
-    
-    const long M = GetNumMeasurements();    
-    if( M <= 0 )
+
+    const long M = GetNumMeasurements();
+    if (M <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : M" );
+        SOFA_THROW("invalid SOFA dimension : M");
         return false;
     }
-    
-    const long E = GetNumEmitters();    
-    if( E <= 0 )
+
+    const long E = GetNumEmitters();
+    if (E <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : E" );
-        return false;
-    }    
-    
-    const netCDF::NcVar varEmitterPosition        = NetCDFFile::getVariable( "EmitterPosition" );
-    const netCDF::NcVar varEmitterUp              = NetCDFFile::getVariable( "EmitterUp" );
-    const netCDF::NcVar varEmitterView            = NetCDFFile::getVariable( "EmitterView" );
-    
-    const sofa::Emitter emitter( varEmitterPosition, varEmitterUp, varEmitterView );
-    
-    if( emitter.IsValid() == false )
-    {
-        SOFA_THROW( "invalid 'Emitter' variables" );
+        SOFA_THROW("invalid SOFA dimension : E");
         return false;
     }
-    
-    if( emitter.EmitterPositionHasDimensions(  E,  C,  I ) == false
-       && emitter.EmitterPositionHasDimensions(  E,  C,  M ) == false )
+
+    const netCDF::NcVar varEmitterPosition = NetCDFFile::getVariable("EmitterPosition");
+    const netCDF::NcVar varEmitterUp = NetCDFFile::getVariable("EmitterUp");
+    const netCDF::NcVar varEmitterView = NetCDFFile::getVariable("EmitterView");
+
+    const sofa::Emitter emitter(varEmitterPosition, varEmitterUp, varEmitterView);
+
+    if (emitter.IsValid() == false)
     {
-        SOFA_THROW( "invalid 'EmitterPosition' dimensions" );
+        SOFA_THROW("invalid 'Emitter' variables");
         return false;
     }
-    
-    if( emitter.HasEmitterUpVariable() == true )
+
+    if (emitter.EmitterPositionHasDimensions(E, C, I) == false && emitter.EmitterPositionHasDimensions(E, C, M) == false)
+    {
+        SOFA_THROW("invalid 'EmitterPosition' dimensions");
+        return false;
+    }
+
+    if (emitter.HasEmitterUpVariable() == true)
     {
         /// EmitterUp is not required in the Specifications
         /// but if it is present, is should be [ E C I ] or [ E C M ]
-        
-        if( emitter.EmitterUpHasDimensions(  E,  C,  I ) == false
-           && emitter.EmitterUpHasDimensions(  E,  C,  M ) == false )
+
+        if (emitter.EmitterUpHasDimensions(E, C, I) == false && emitter.EmitterUpHasDimensions(E, C, M) == false)
         {
-            SOFA_THROW( "invalid 'EmitterUp' dimensions" );
+            SOFA_THROW("invalid 'EmitterUp' dimensions");
             return false;
         }
     }
-    
-    if( emitter.HasEmitterViewVariable() == true )
+
+    if (emitter.HasEmitterViewVariable() == true)
     {
         /// EmitterUp is not required in the Specifications
         /// but if it is present, is should be [ E C I ] or [ E C M ]
-        
-        if( emitter.EmitterViewHasDimensions(  E,  C,  I ) == false
-           && emitter.EmitterViewHasDimensions(  E,  C,  M ) == false )
+
+        if (emitter.EmitterViewHasDimensions(E, C, I) == false && emitter.EmitterViewHasDimensions(E, C, M) == false)
         {
-            SOFA_THROW( "invalid 'EmitterView' dimensions" );
+            SOFA_THROW("invalid 'EmitterView' dimensions");
             return false;
         }
     }
-    
+
     /// everything is OK !
     return true;
 }
 
 bool File::checkDimensions() const
 {
-    const long I = GetDimension( "I" );
-    if( I != 1 )
+    const long I = GetDimension("I");
+    if (I != 1)
     {
-        SOFA_THROW( "invalid SOFA dimension : I" );
+        SOFA_THROW("invalid SOFA dimension : I");
         return false;
     }
-    
+
     const long M = GetNumMeasurements();
-    if( M <= 0 )
+    if (M <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : M" );
+        SOFA_THROW("invalid SOFA dimension : M");
         return false;
     }
-    
+
     const long R = GetNumReceivers();
-    if( R <= 0 )
+    if (R <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : R" );
+        SOFA_THROW("invalid SOFA dimension : R");
         return false;
     }
-    
+
     const long N = GetNumDataSamples();
-    if( N <= 0 )
+    if (N <= 0)
     {
-        SOFA_THROW( "invalid SOFA dimension : N" );
+        SOFA_THROW("invalid SOFA dimension : N");
         return false;
     }
-    
+
     return true;
 }
 
@@ -776,51 +741,51 @@ bool File::checkDimensions() const
 /************************************************************************************/
 bool File::checkDataVariable() const
 {
-    if( IsFIRDataType() == true )
+    if (IsFIRDataType() == true)
     {
         return checkFirDataType();
     }
-    else if( IsTFDataType() == true )
+    else if (IsTFDataType() == true)
     {
         return checkTFDataType();
     }
-    else if( IsSOSDataType() == true )
+    else if (IsSOSDataType() == true)
     {
         return checkSOSDataType();
     }
-    else if( IsFIREDataType() == true )
+    else if (IsFIREDataType() == true)
     {
         return checkFireDataType();
     }
     else
     {
-        SOFA_THROW( "invalid 'DataType'" );
+        SOFA_THROW("invalid 'DataType'");
         return false;
     }
 }
 
 bool File::IsFIRDataType() const
 {
-    const std::string value = GetAttributeValueAsString( "DataType" );
-    return ( value == "FIR" );
+    const std::string value = GetAttributeValueAsString("DataType");
+    return (value == "FIR");
 }
 
 bool File::IsFIREDataType() const
 {
-    const std::string value = GetAttributeValueAsString( "DataType" );
-    return ( value == "FIRE" );
+    const std::string value = GetAttributeValueAsString("DataType");
+    return (value == "FIRE");
 }
 
 bool File::IsTFDataType() const
 {
-    const std::string value = GetAttributeValueAsString( "DataType" );
-    return ( value == "TF" );
+    const std::string value = GetAttributeValueAsString("DataType");
+    return (value == "TF");
 }
 
 bool File::IsSOSDataType() const
 {
-    const std::string value = GetAttributeValueAsString( "DataType" );
-    return ( value == "SOS" );
+    const std::string value = GetAttributeValueAsString("DataType");
+    return (value == "SOS");
 }
 
 /************************************************************************************/
@@ -836,100 +801,97 @@ bool File::checkTFDataType() const
     const long M = GetNumMeasurements();
     const long R = GetNumReceivers();
     const long N = GetNumDataSamples();
-    
+
     /// NB : this is specific to DataType 'TF'
     {
-        const netCDF::NcVar varReal        = NetCDFFile::getVariable( "Data.Real" );
-        
-        if( sofa::NcUtils::IsValid( varReal ) == false )
+        const netCDF::NcVar varReal = NetCDFFile::getVariable("Data.Real");
+
+        if (sofa::NcUtils::IsValid(varReal) == false)
         {
-            SOFA_THROW( "invalid 'Data.Real' variable" );
+            SOFA_THROW("invalid 'Data.Real' variable");
             return false;
         }
-        
-        if( sofa::NcUtils::IsDouble( varReal ) == false )
+
+        if (sofa::NcUtils::IsDouble(varReal) == false)
         {
-            SOFA_THROW( "invalid 'Data.Real' variable" );
+            SOFA_THROW("invalid 'Data.Real' variable");
             return false;
         }
-        
-        if( sofa::NcUtils::HasDimensions(  M,  R,  N, varReal ) == false )
+
+        if (sofa::NcUtils::HasDimensions(M, R, N, varReal) == false)
         {
-            SOFA_THROW( "invalid dimensions for 'Data.Real'" );
-            return false;
-        }
-    }
-    {
-        const netCDF::NcVar varImag        = NetCDFFile::getVariable( "Data.Imag" );
-        
-        if( sofa::NcUtils::IsValid( varImag ) == false )
-        {
-            SOFA_THROW( "invalid 'Data.Imag' variable" );
-            return false;
-        }
-        
-        if( sofa::NcUtils::IsDouble( varImag ) == false )
-        {
-            SOFA_THROW( "invalid 'Data.Imag' variable" );
-            return false;
-        }
-        
-        if( sofa::NcUtils::HasDimensions(  M,  R,  N, varImag ) == false )
-        {
-            SOFA_THROW( "invalid dimensions for 'Data.Imag'" );
+            SOFA_THROW("invalid dimensions for 'Data.Real'");
             return false;
         }
     }
-    
-    
-    
-    const netCDF::NcVar varN        = NetCDFFile::getVariable( "N" );
-    
-    if( sofa::NcUtils::IsValid( varN ) == false )
     {
-        SOFA_THROW( "missing 'N' variable" );
+        const netCDF::NcVar varImag = NetCDFFile::getVariable("Data.Imag");
+
+        if (sofa::NcUtils::IsValid(varImag) == false)
+        {
+            SOFA_THROW("invalid 'Data.Imag' variable");
+            return false;
+        }
+
+        if (sofa::NcUtils::IsDouble(varImag) == false)
+        {
+            SOFA_THROW("invalid 'Data.Imag' variable");
+            return false;
+        }
+
+        if (sofa::NcUtils::HasDimensions(M, R, N, varImag) == false)
+        {
+            SOFA_THROW("invalid dimensions for 'Data.Imag'");
+            return false;
+        }
+    }
+
+    const netCDF::NcVar varN = NetCDFFile::getVariable("N");
+
+    if (sofa::NcUtils::IsValid(varN) == false)
+    {
+        SOFA_THROW("missing 'N' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varN ) == false )
+
+    if (sofa::NcUtils::IsDouble(varN) == false)
     {
-        SOFA_THROW( "invalid 'N' variable" );
+        SOFA_THROW("invalid 'N' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimension( N, varN ) == false )
+
+    if (sofa::NcUtils::HasDimension(N, varN) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'N'" );
+        SOFA_THROW("invalid dimensions for 'N'");
         return false;
     }
-    
-    const netCDF::NcVarAtt attNUnits = sofa::NcUtils::GetAttribute( varN, "Units" );
-    
-    if( sofa::Units::IsValid( attNUnits ) == false )
+
+    const netCDF::NcVarAtt attNUnits = sofa::NcUtils::GetAttribute(varN, "Units");
+
+    if (sofa::Units::IsValid(attNUnits) == false)
     {
-        SOFA_THROW( "invalid 'N:Units'" );
+        SOFA_THROW("invalid 'N:Units'");
         return false;
     }
-    
-    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString( attNUnits );
-    
-    if( sofa::Units::IsFrequencyUnit( unitsName ) == false )
+
+    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString(attNUnits);
+
+    if (sofa::Units::IsFrequencyUnit(unitsName) == false)
     {
-        SOFA_THROW( "invalid 'N:Units'" );
+        SOFA_THROW("invalid 'N:Units'");
         return false;
     }
-    
-    const netCDF::NcVarAtt attNLongName = sofa::NcUtils::GetAttribute( varN, "LongName" );
-    
-    if( sofa::Units::IsValid( attNLongName ) == false )
+
+    const netCDF::NcVarAtt attNLongName = sofa::NcUtils::GetAttribute(varN, "LongName");
+
+    if (sofa::Units::IsValid(attNLongName) == false)
     {
-        SOFA_THROW( "invalid 'LongName'" );
+        SOFA_THROW("invalid 'LongName'");
         return false;
     }
-    
+
     return true;
 }
-
 
 /************************************************************************************/
 /*!
@@ -940,95 +902,90 @@ bool File::checkTFDataType() const
 /************************************************************************************/
 bool File::checkFirDataType() const
 {
-    const long I = GetDimension( "I" );
+    const long I = GetDimension("I");
     const long M = GetNumMeasurements();
     const long R = GetNumReceivers();
     const long N = GetNumDataSamples();
-    
+
     /// NB : this is specific to DataType 'FIR'
-    const netCDF::NcVar varIR        = NetCDFFile::getVariable( "Data.IR" );
-    
-    if( sofa::NcUtils::IsValid( varIR ) == false )
+    const netCDF::NcVar varIR = NetCDFFile::getVariable("Data.IR");
+
+    if (sofa::NcUtils::IsValid(varIR) == false)
     {
-        SOFA_THROW( "missing 'Data.IR' variable" );
+        SOFA_THROW("missing 'Data.IR' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varIR ) == false )
+
+    if (sofa::NcUtils::IsDouble(varIR) == false)
     {
-        SOFA_THROW( "invalid 'Data.IR' variable" );
+        SOFA_THROW("invalid 'Data.IR' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( M,  R,  N, varIR ) == false )
+
+    if (sofa::NcUtils::HasDimensions(M, R, N, varIR) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.IR'" );
+        SOFA_THROW("invalid dimensions for 'Data.IR'");
         return false;
     }
-    
-    const netCDF::NcVar varSamplingRate        = NetCDFFile::getVariable( "Data.SamplingRate" );
-    
-    if( sofa::NcUtils::IsValid( varSamplingRate ) == false )
+
+    const netCDF::NcVar varSamplingRate = NetCDFFile::getVariable("Data.SamplingRate");
+
+    if (sofa::NcUtils::IsValid(varSamplingRate) == false)
     {
-        SOFA_THROW( "missing 'Data.SamplingRate' variable" );
+        SOFA_THROW("missing 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varSamplingRate ) == false )
+
+    if (sofa::NcUtils::IsDouble(varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate' variable" );
+        SOFA_THROW("invalid 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimension( I, varSamplingRate ) == false
-     && sofa::NcUtils::HasDimension( M, varSamplingRate ) == false )
+
+    if (sofa::NcUtils::HasDimension(I, varSamplingRate) == false && sofa::NcUtils::HasDimension(M, varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.SamplingRate'" );
+        SOFA_THROW("invalid dimensions for 'Data.SamplingRate'");
         return false;
     }
-    
-    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute( varSamplingRate, "Units" );
-    
-    if( sofa::Units::IsValid( attSamplingRateUnits ) == false )
+
+    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute(varSamplingRate, "Units");
+
+    if (sofa::Units::IsValid(attSamplingRateUnits) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString( attSamplingRateUnits );
-    
-    if( sofa::Units::IsFrequencyUnit( unitsName ) == false )
+
+    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString(attSamplingRateUnits);
+
+    if (sofa::Units::IsFrequencyUnit(unitsName) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    
-    const netCDF::NcVar varDelay        = NetCDFFile::getVariable( "Data.Delay" );
-    
-    if( sofa::NcUtils::IsValid( varDelay ) == false )
+
+    const netCDF::NcVar varDelay = NetCDFFile::getVariable("Data.Delay");
+
+    if (sofa::NcUtils::IsValid(varDelay) == false)
     {
-        SOFA_THROW( "missing 'Data.Delay' variable" );
+        SOFA_THROW("missing 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varDelay ) == false )
+
+    if (sofa::NcUtils::IsDouble(varDelay) == false)
     {
-        SOFA_THROW( "invalid 'Data.Delay' variable" );
+        SOFA_THROW("invalid 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( I, R, varDelay ) == false
-     && sofa::NcUtils::HasDimensions( M, R, varDelay ) == false )
+
+    if (sofa::NcUtils::HasDimensions(I, R, varDelay) == false && sofa::NcUtils::HasDimensions(M, R, varDelay) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.Delay'" );
+        SOFA_THROW("invalid dimensions for 'Data.Delay'");
         return false;
     }
-    
+
     return true;
 }
-
-
 
 /************************************************************************************/
 /*!
@@ -1039,95 +996,91 @@ bool File::checkFirDataType() const
 /************************************************************************************/
 bool File::checkFireDataType() const
 {
-    const long I = GetDimension( "I" );
+    const long I = GetDimension("I");
     const long M = GetNumMeasurements();
     const long R = GetNumReceivers();
     const long N = GetNumDataSamples();
     const long E = GetNumEmitters();
-    
+
     /// NB : this is specific to DataType 'FIRE'
-    const netCDF::NcVar varIR        = NetCDFFile::getVariable( "Data.IR" );
-    
-    if( sofa::NcUtils::IsValid( varIR ) == false )
+    const netCDF::NcVar varIR = NetCDFFile::getVariable("Data.IR");
+
+    if (sofa::NcUtils::IsValid(varIR) == false)
     {
-        SOFA_THROW( "missing 'Data.IR' variable" );
+        SOFA_THROW("missing 'Data.IR' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varIR ) == false )
+
+    if (sofa::NcUtils::IsDouble(varIR) == false)
     {
-        SOFA_THROW( "invalid 'Data.IR' variable" );
+        SOFA_THROW("invalid 'Data.IR' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( M, R, E, N, varIR ) == false )
+
+    if (sofa::NcUtils::HasDimensions(M, R, E, N, varIR) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.IR'" );
+        SOFA_THROW("invalid dimensions for 'Data.IR'");
         return false;
     }
-    
-    const netCDF::NcVar varSamplingRate        = NetCDFFile::getVariable( "Data.SamplingRate" );
-    
-    if( sofa::NcUtils::IsValid( varSamplingRate ) == false )
+
+    const netCDF::NcVar varSamplingRate = NetCDFFile::getVariable("Data.SamplingRate");
+
+    if (sofa::NcUtils::IsValid(varSamplingRate) == false)
     {
-        SOFA_THROW( "missing 'Data.SamplingRate' variable" );
+        SOFA_THROW("missing 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varSamplingRate ) == false )
+
+    if (sofa::NcUtils::IsDouble(varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate' variable" );
+        SOFA_THROW("invalid 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimension( I, varSamplingRate ) == false
-     && sofa::NcUtils::HasDimension( M, varSamplingRate ) == false )
+
+    if (sofa::NcUtils::HasDimension(I, varSamplingRate) == false && sofa::NcUtils::HasDimension(M, varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.SamplingRate'" );
+        SOFA_THROW("invalid dimensions for 'Data.SamplingRate'");
         return false;
     }
-    
-    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute( varSamplingRate, "Units" );
-    
-    if( sofa::Units::IsValid( attSamplingRateUnits ) == false )
+
+    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute(varSamplingRate, "Units");
+
+    if (sofa::Units::IsValid(attSamplingRateUnits) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString( attSamplingRateUnits );
-    
-    if( sofa::Units::IsFrequencyUnit( unitsName ) == false )
+
+    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString(attSamplingRateUnits);
+
+    if (sofa::Units::IsFrequencyUnit(unitsName) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    
-    const netCDF::NcVar varDelay        = NetCDFFile::getVariable( "Data.Delay" );
-    
-    if( sofa::NcUtils::IsValid( varDelay ) == false )
+
+    const netCDF::NcVar varDelay = NetCDFFile::getVariable("Data.Delay");
+
+    if (sofa::NcUtils::IsValid(varDelay) == false)
     {
-        SOFA_THROW( "missing 'Data.Delay' variable" );
+        SOFA_THROW("missing 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varDelay ) == false )
+
+    if (sofa::NcUtils::IsDouble(varDelay) == false)
     {
-        SOFA_THROW( "invalid 'Data.Delay' variable" );
+        SOFA_THROW("invalid 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( I, R, E, varDelay ) == false
-     && sofa::NcUtils::HasDimensions( M, R, E, varDelay ) == false )
+
+    if (sofa::NcUtils::HasDimensions(I, R, E, varDelay) == false && sofa::NcUtils::HasDimensions(M, R, E, varDelay) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.Delay'" );
+        SOFA_THROW("invalid dimensions for 'Data.Delay'");
         return false;
     }
-    
+
     return true;
 }
-
 
 /************************************************************************************/
 /*!
@@ -1138,101 +1091,98 @@ bool File::checkFireDataType() const
 /************************************************************************************/
 bool File::checkSOSDataType() const
 {
-    const long I = GetDimension( "I" );
+    const long I = GetDimension("I");
     const long M = GetNumMeasurements();
     const long R = GetNumReceivers();
     const long N = GetNumDataSamples();
-    
+
     /// NB : this is specific to DataType 'SOS'
-    const netCDF::NcVar varSOS        = NetCDFFile::getVariable( "Data.SOS" );
-    
-    if( sofa::NcUtils::IsValid( varSOS ) == false )
+    const netCDF::NcVar varSOS = NetCDFFile::getVariable("Data.SOS");
+
+    if (sofa::NcUtils::IsValid(varSOS) == false)
     {
-        SOFA_THROW( "missing 'Data.SOS' variable" );
+        SOFA_THROW("missing 'Data.SOS' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varSOS ) == false )
+
+    if (sofa::NcUtils::IsDouble(varSOS) == false)
     {
-        SOFA_THROW( "invalid 'Data.SOS' variable" );
+        SOFA_THROW("invalid 'Data.SOS' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( M,  R,  N, varSOS ) == false )
+
+    if (sofa::NcUtils::HasDimensions(M, R, N, varSOS) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.SOS'" );
+        SOFA_THROW("invalid dimensions for 'Data.SOS'");
         return false;
     }
-    
-    const netCDF::NcVar varSamplingRate        = NetCDFFile::getVariable( "Data.SamplingRate" );
-    
-    if( sofa::NcUtils::IsValid( varSamplingRate ) == false )
+
+    const netCDF::NcVar varSamplingRate = NetCDFFile::getVariable("Data.SamplingRate");
+
+    if (sofa::NcUtils::IsValid(varSamplingRate) == false)
     {
-        SOFA_THROW( "missing 'Data.SamplingRate' variable" );
+        SOFA_THROW("missing 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varSamplingRate ) == false )
+
+    if (sofa::NcUtils::IsDouble(varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate' variable" );
+        SOFA_THROW("invalid 'Data.SamplingRate' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimension( I, varSamplingRate ) == false
-     && sofa::NcUtils::HasDimension( M, varSamplingRate ) == false )
+
+    if (sofa::NcUtils::HasDimension(I, varSamplingRate) == false && sofa::NcUtils::HasDimension(M, varSamplingRate) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.SamplingRate'" );
+        SOFA_THROW("invalid dimensions for 'Data.SamplingRate'");
         return false;
     }
-    
-    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute( varSamplingRate, "Units" );
-    
-    if( sofa::Units::IsValid( attSamplingRateUnits ) == false )
+
+    const netCDF::NcVarAtt attSamplingRateUnits = sofa::NcUtils::GetAttribute(varSamplingRate, "Units");
+
+    if (sofa::Units::IsValid(attSamplingRateUnits) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString( attSamplingRateUnits );
-    
-    if( sofa::Units::IsFrequencyUnit( unitsName ) == false )
+
+    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString(attSamplingRateUnits);
+
+    if (sofa::Units::IsFrequencyUnit(unitsName) == false)
     {
-        SOFA_THROW( "invalid 'Data.SamplingRate:Units'" );
+        SOFA_THROW("invalid 'Data.SamplingRate:Units'");
         return false;
     }
-    
-    
-    const netCDF::NcVar varDelay        = NetCDFFile::getVariable( "Data.Delay" );
-    
-    if( sofa::NcUtils::IsValid( varDelay ) == false )
+
+    const netCDF::NcVar varDelay = NetCDFFile::getVariable("Data.Delay");
+
+    if (sofa::NcUtils::IsValid(varDelay) == false)
     {
-        SOFA_THROW( "missing 'Data.Delay' variable" );
+        SOFA_THROW("missing 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::IsDouble( varDelay ) == false )
+
+    if (sofa::NcUtils::IsDouble(varDelay) == false)
     {
-        SOFA_THROW( "invalid 'Data.Delay' variable" );
+        SOFA_THROW("invalid 'Data.Delay' variable");
         return false;
     }
-    
-    if( sofa::NcUtils::HasDimensions( I, R, varDelay ) == false
-     && sofa::NcUtils::HasDimensions( M, R, varDelay ) == false )
+
+    if (sofa::NcUtils::HasDimensions(I, R, varDelay) == false && sofa::NcUtils::HasDimensions(M, R, varDelay) == false)
     {
-        SOFA_THROW( "invalid dimensions for 'Data.Delay'" );
+        SOFA_THROW("invalid dimensions for 'Data.Delay'");
         return false;
     }
-    
+
     return true;
 }
 
 bool File::getCoordinates(sofa::Coordinates::Type &coordinates,
                           const std::string &variableName) const
 {
-    const netCDF::NcVar var        = NetCDFFile::getVariable( variableName );
-    const sofa::PositionVariable pos( var );
-    
-    if( pos.IsValid() == false )
+    const netCDF::NcVar var = NetCDFFile::getVariable(variableName);
+    const sofa::PositionVariable pos(var);
+
+    if (pos.IsValid() == false)
     {
         return false;
     }
@@ -1246,10 +1196,10 @@ bool File::getCoordinates(sofa::Coordinates::Type &coordinates,
 bool File::getUnits(sofa::Units::Type &units,
                     const std::string &variableName) const
 {
-    const netCDF::NcVar var        = NetCDFFile::getVariable( variableName );
-    const sofa::PositionVariable pos( var );
-    
-    if( pos.IsValid() == false )
+    const netCDF::NcVar var = NetCDFFile::getVariable(variableName);
+    const sofa::PositionVariable pos(var);
+
+    if (pos.IsValid() == false)
     {
         return false;
     }
@@ -1264,10 +1214,10 @@ bool File::get(sofa::Coordinates::Type &coordinates,
                sofa::Units::Type &units,
                const std::string &variableName) const
 {
-    const netCDF::NcVar var        = NetCDFFile::getVariable( variableName );
-    const sofa::PositionVariable pos( var );
-    
-    if( pos.IsValid() == false )
+    const netCDF::NcVar var = NetCDFFile::getVariable(variableName);
+    const sofa::PositionVariable pos(var);
+
+    if (pos.IsValid() == false)
     {
         return false;
     }
@@ -1288,7 +1238,7 @@ bool File::get(sofa::Coordinates::Type &coordinates,
 /************************************************************************************/
 bool File::HasSourceUp() const
 {
-    return sofa::NetCDFFile::HasVariable( "SourceUp" );
+    return sofa::NetCDFFile::HasVariable("SourceUp");
 }
 
 /************************************************************************************/
@@ -1300,7 +1250,7 @@ bool File::HasSourceUp() const
 /************************************************************************************/
 bool File::HasSourceView() const
 {
-    return sofa::NetCDFFile::HasVariable( "SourceView" );
+    return sofa::NetCDFFile::HasVariable("SourceView");
 }
 
 /************************************************************************************/
@@ -1312,7 +1262,7 @@ bool File::HasSourceView() const
 /************************************************************************************/
 bool File::HasReceiverUp() const
 {
-    return sofa::NetCDFFile::HasVariable( "ReceiverUp" );
+    return sofa::NetCDFFile::HasVariable("ReceiverUp");
 }
 
 /************************************************************************************/
@@ -1324,7 +1274,7 @@ bool File::HasReceiverUp() const
 /************************************************************************************/
 bool File::HasReceiverView() const
 {
-    return sofa::NetCDFFile::HasVariable( "ReceiverView" );
+    return sofa::NetCDFFile::HasVariable("ReceiverView");
 }
 
 /************************************************************************************/
@@ -1336,7 +1286,7 @@ bool File::HasReceiverView() const
 /************************************************************************************/
 bool File::HasEmitterUp() const
 {
-    return sofa::NetCDFFile::HasVariable( "EmitterUp" );
+    return sofa::NetCDFFile::HasVariable("EmitterUp");
 }
 
 /************************************************************************************/
@@ -1348,190 +1298,188 @@ bool File::HasEmitterUp() const
 /************************************************************************************/
 bool File::HasEmitterView() const
 {
-    return sofa::NetCDFFile::HasVariable( "EmitterView" );
+    return sofa::NetCDFFile::HasVariable("EmitterView");
 }
 
-
 bool File::GetListenerPosition(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
-{    
-    return File::get( coordinates, units, "ListenerPosition" ); 
+{
+    return File::get(coordinates, units, "ListenerPosition");
 }
 
 bool File::GetListenerUp(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "ListenerUp" ); 
+    return File::get(coordinates, units, "ListenerUp");
 }
 
 bool File::GetListenerView(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "ListenerView" ); 
+    return File::get(coordinates, units, "ListenerView");
 }
 
 bool File::GetSourcePosition(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "SourcePosition" ); 
+    return File::get(coordinates, units, "SourcePosition");
 }
 
 bool File::GetSourceUp(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "SourceUp" ); 
+    return File::get(coordinates, units, "SourceUp");
 }
 
 bool File::GetSourceView(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "SourceView" ); 
+    return File::get(coordinates, units, "SourceView");
 }
 
 bool File::GetReceiverPosition(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
-{    
-    return File::get( coordinates, units, "ReceiverPosition" ); 
+{
+    return File::get(coordinates, units, "ReceiverPosition");
 }
 
 bool File::GetReceiverUp(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "ReceiverUp" ); 
+    return File::get(coordinates, units, "ReceiverUp");
 }
 
 bool File::GetReceiverView(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "ReceiverView" ); 
+    return File::get(coordinates, units, "ReceiverView");
 }
 
 bool File::GetEmitterPosition(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
-{    
-    return File::get( coordinates, units, "EmitterPosition" ); 
+{
+    return File::get(coordinates, units, "EmitterPosition");
 }
 
 bool File::GetEmitterUp(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "EmitterUp" ); 
+    return File::get(coordinates, units, "EmitterUp");
 }
 
 bool File::GetEmitterView(sofa::Coordinates::Type &coordinates, sofa::Units::Type &units) const
 {
-    return File::get( coordinates, units, "EmitterView" ); 
+    return File::get(coordinates, units, "EmitterView");
 }
 
 bool File::GetReceiverPosition(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "ReceiverPosition" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "ReceiverPosition");
 }
 
 bool File::GetReceiverUp(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "ReceiverUp" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "ReceiverUp");
 }
 
 bool File::GetReceiverView(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "ReceiverView" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "ReceiverView");
 }
 
 bool File::GetEmitterPosition(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "EmitterPosition" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "EmitterPosition");
 }
 
 bool File::GetEmitterUp(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "EmitterUp" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "EmitterUp");
 }
 
 bool File::GetEmitterView(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "EmitterView" );
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "EmitterView");
 }
 
 bool File::GetListenerPosition(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "ListenerPosition" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "ListenerPosition");
 }
 
 bool File::GetListenerUp(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "ListenerUp" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "ListenerUp");
 }
 
 bool File::GetListenerView(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "ListenerView" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "ListenerView");
 }
 
 bool File::GetSourcePosition(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "SourcePosition" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "SourcePosition");
 }
 
 bool File::GetSourceUp(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "SourceUp" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "SourceUp");
 }
 
 bool File::GetSourceView(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    return NetCDFFile::GetValues( values, dim1, dim2, "SourceView" );
+    return NetCDFFile::GetValues(values, dim1, dim2, "SourceView");
 }
 
-bool File::GetListenerPosition(std::vector< double > &values) const
+bool File::GetListenerPosition(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ListenerPosition" );
+    return NetCDFFile::GetValues(values, "ListenerPosition");
 }
 
-bool File::GetListenerUp(std::vector< double > &values) const
+bool File::GetListenerUp(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ListenerUp" );
+    return NetCDFFile::GetValues(values, "ListenerUp");
 }
 
-bool File::GetListenerView(std::vector< double > &values) const
+bool File::GetListenerView(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ListenerView" );
+    return NetCDFFile::GetValues(values, "ListenerView");
 }
 
-bool File::GetSourcePosition(std::vector< double > &values) const
+bool File::GetSourcePosition(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "SourcePosition" );
+    return NetCDFFile::GetValues(values, "SourcePosition");
 }
 
-bool File::GetSourceUp(std::vector< double > &values) const
+bool File::GetSourceUp(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "SourceUp" );
+    return NetCDFFile::GetValues(values, "SourceUp");
 }
 
-bool File::GetSourceView(std::vector< double > &values) const
+bool File::GetSourceView(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "SourceView" );
+    return NetCDFFile::GetValues(values, "SourceView");
 }
 
-bool File::GetReceiverPosition(std::vector< double > &values) const
+bool File::GetReceiverPosition(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ReceiverPosition" );
+    return NetCDFFile::GetValues(values, "ReceiverPosition");
 }
 
-bool File::GetReceiverUp(std::vector< double > &values) const
+bool File::GetReceiverUp(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ReceiverUp" );
+    return NetCDFFile::GetValues(values, "ReceiverUp");
 }
 
-bool File::GetReceiverView(std::vector< double > &values) const
+bool File::GetReceiverView(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "ReceiverView" );
+    return NetCDFFile::GetValues(values, "ReceiverView");
 }
 
-bool File::GetEmitterPosition(std::vector< double > &values) const
+bool File::GetEmitterPosition(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "EmitterPosition" );
+    return NetCDFFile::GetValues(values, "EmitterPosition");
 }
 
-bool File::GetEmitterUp(std::vector< double > &values) const
+bool File::GetEmitterUp(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "EmitterUp" );
+    return NetCDFFile::GetValues(values, "EmitterUp");
 }
 
-bool File::GetEmitterView(std::vector< double > &values) const
+bool File::GetEmitterView(std::vector<double> &values) const
 {
-    return NetCDFFile::GetValues( values, "EmitterView" );
+    return NetCDFFile::GetValues(values, "EmitterView");
 }
-
 
 /************************************************************************************/
 /*!
@@ -1547,10 +1495,10 @@ bool File::GetEmitterView(std::vector< double > &values) const
 /************************************************************************************/
 bool File::getDataIR(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    SOFA_ASSERT( HasVariable( "Data.IR" ) == true );
-    SOFA_ASSERT( GetVariableDimensionality( "Data.IR" ) == 3 );
-    
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "Data.IR" );
+    SOFA_ASSERT(HasVariable("Data.IR") == true);
+    SOFA_ASSERT(GetVariableDimensionality("Data.IR") == 3);
+
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "Data.IR");
 }
 
 /************************************************************************************/
@@ -1561,11 +1509,11 @@ bool File::getDataIR(double *values, const unsigned long dim1, const unsigned lo
  *
  */
 /************************************************************************************/
-bool File::getDataIR(std::vector< double > &values) const
+bool File::getDataIR(std::vector<double> &values) const
 {
-    SOFA_ASSERT( HasVariable( "Data.IR" ) == true );
-    
-    return NetCDFFile::GetValues( values, "Data.IR" );
+    SOFA_ASSERT(HasVariable("Data.IR") == true);
+
+    return NetCDFFile::GetValues(values, "Data.IR");
 }
 
 /************************************************************************************/
@@ -1576,27 +1524,27 @@ bool File::getDataIR(std::vector< double > &values) const
  *
  */
 /************************************************************************************/
-bool File::getDataDelay(std::vector< double > &values) const
+bool File::getDataDelay(std::vector<double> &values) const
 {
-    SOFA_ASSERT( HasVariable( "Data.Delay" ) == true );
-    
-    return NetCDFFile::GetValues( values, "Data.Delay" );
+    SOFA_ASSERT(HasVariable("Data.Delay") == true);
+
+    return NetCDFFile::GetValues(values, "Data.Delay");
 }
 
 bool File::getDataDelay(double *values, const unsigned long dim1, const unsigned long dim2) const
 {
-    SOFA_ASSERT( HasVariable( "Data.Delay" ) == true );
-    SOFA_ASSERT( GetVariableDimensionality( "Data.Delay" ) == 2 );
-    
-    return NetCDFFile::GetValues( values, dim1, dim2, "Data.Delay" );
+    SOFA_ASSERT(HasVariable("Data.Delay") == true);
+    SOFA_ASSERT(GetVariableDimensionality("Data.Delay") == 2);
+
+    return NetCDFFile::GetValues(values, dim1, dim2, "Data.Delay");
 }
 
 bool File::getDataDelay(double *values, const unsigned long dim1, const unsigned long dim2, const unsigned long dim3) const
 {
-    SOFA_ASSERT( HasVariable( "Data.Delay" ) == true );
-    SOFA_ASSERT( GetVariableDimensionality( "Data.Delay" ) == 3 );
-    
-    return NetCDFFile::GetValues( values, dim1, dim2, dim3, "Data.Delay" );
+    SOFA_ASSERT(HasVariable("Data.Delay") == true);
+    SOFA_ASSERT(GetVariableDimensionality("Data.Delay") == 3);
+
+    return NetCDFFile::GetValues(values, dim1, dim2, dim3, "Data.Delay");
 }
 
 /************************************************************************************/
@@ -1609,10 +1557,9 @@ bool File::getDataDelay(double *values, const unsigned long dim1, const unsigned
 /************************************************************************************/
 bool File::isSamplingRateScalar() const
 {
-    SOFA_ASSERT( HasVariable( "Data.SamplingRate" ) == true );
-    
-    return VariableIsScalar( "Data.SamplingRate" ) == true
-        && HasVariableType( netCDF::NcType::nc_DOUBLE, "Data.SamplingRate");
+    SOFA_ASSERT(HasVariable("Data.SamplingRate") == true);
+
+    return VariableIsScalar("Data.SamplingRate") == true && HasVariableType(netCDF::NcType::nc_DOUBLE, "Data.SamplingRate");
 }
 
 /************************************************************************************/
@@ -1625,17 +1572,17 @@ bool File::isSamplingRateScalar() const
 /************************************************************************************/
 bool File::getSamplingRate(double &value) const
 {
-    SOFA_ASSERT( HasVariable( "Data.SamplingRate" ) == true );
-    
-    if( isSamplingRateScalar() == true )
+    SOFA_ASSERT(HasVariable("Data.SamplingRate") == true);
+
+    if (isSamplingRateScalar() == true)
     {
-        const netCDF::NcVar var = getVariable( "Data.SamplingRate" );
-        
-        return sofa::NcUtils::GetValue( value, var );
+        const netCDF::NcVar var = getVariable("Data.SamplingRate");
+
+        return sofa::NcUtils::GetValue(value, var);
     }
     else
     {
-        SOFA_THROW( "'Data.SamplingRate' is not a scalar" );
+        SOFA_THROW("'Data.SamplingRate' is not a scalar");
         return false;
     }
 }
@@ -1649,15 +1596,15 @@ bool File::getSamplingRate(double &value) const
 /************************************************************************************/
 bool File::getSamplingRateUnits(sofa::Units::Type &units) const
 {
-    SOFA_ASSERT( HasVariable( "Data.SamplingRate" ) == true );
-    
-    const netCDF::NcVar var = getVariable( "Data.SamplingRate" );
-    
-    const netCDF::NcVarAtt attNUnits    = sofa::NcUtils::GetAttribute( var, "Units" );
-    const std::string unitsName         = sofa::NcUtils::GetAttributeValueAsString( attNUnits );
-    
-    units = sofa::Units::GetType( unitsName );
-    
+    SOFA_ASSERT(HasVariable("Data.SamplingRate") == true);
+
+    const netCDF::NcVar var = getVariable("Data.SamplingRate");
+
+    const netCDF::NcVarAtt attNUnits = sofa::NcUtils::GetAttribute(var, "Units");
+    const std::string unitsName = sofa::NcUtils::GetAttributeValueAsString(attNUnits);
+
+    units = sofa::Units::GetType(unitsName);
+
     return true;
 }
 
@@ -1669,10 +1616,10 @@ bool File::getSamplingRateUnits(sofa::Units::Type &units) const
 /************************************************************************************/
 void File::ensureGlobalAttribute(const sofa::Attributes::Type &type_) const
 {
-    if( HasAttribute( type_ ) == false )
+    if (HasAttribute(type_) == false)
     {
-        const std::string err = "Missing SOFA attribute '" + sofa::Attributes::GetName( type_ ) + "'";
-        SOFA_THROW( err );
+        const std::string err = "Missing SOFA attribute '" + sofa::Attributes::GetName(type_) + "'";
+        SOFA_THROW(err);
     }
 }
 
@@ -1684,13 +1631,13 @@ void File::ensureGlobalAttribute(const sofa::Attributes::Type &type_) const
 /************************************************************************************/
 void File::ensureGlobalAttribute(const std::string &attributeName) const
 {
-    const netCDF::NcGroupAtt att = getAttribute( attributeName );
-    
+    const netCDF::NcGroupAtt att = getAttribute(attributeName);
+
     /// in SOFA, the global attributes must always be strings
-    if( sofa::NcUtils::IsChar( att ) != true )
+    if (sofa::NcUtils::IsChar(att) != true)
     {
         const std::string err = "Missing '" + attributeName + "' global attribute";
-        SOFA_THROW( err );
+        SOFA_THROW(err);
     }
 }
 
@@ -1702,12 +1649,12 @@ void File::ensureGlobalAttribute(const std::string &attributeName) const
 /************************************************************************************/
 void File::ensureSOFAConvention(const std::string &conventionName) const
 {
-    const std::string attrName  = sofa::Attributes::GetName( sofa::Attributes::kSOFAConventions );
-    const std::string attrValue = GetAttributeValueAsString( attrName );
-    
-    if( attrValue != conventionName )
+    const std::string attrName = sofa::Attributes::GetName(sofa::Attributes::kSOFAConventions);
+    const std::string attrValue = GetAttributeValueAsString(attrName);
+
+    if (attrValue != conventionName)
     {
-        SOFA_THROW( "Not a '" + conventionName + "' SOFAConvention" );
+        SOFA_THROW("Not a '" + conventionName + "' SOFAConvention");
     }
 }
 
@@ -1719,12 +1666,11 @@ void File::ensureSOFAConvention(const std::string &conventionName) const
 /************************************************************************************/
 void File::ensureDataType(const std::string &typeName) const
 {
-    const std::string attrName  = sofa::Attributes::GetName( sofa::Attributes::kDataType );
-    const std::string attrValue = GetAttributeValueAsString( attrName );
-    
-    if( attrValue != typeName )
+    const std::string attrName = sofa::Attributes::GetName(sofa::Attributes::kDataType);
+    const std::string attrValue = GetAttributeValueAsString(attrName);
+
+    if (attrValue != typeName)
     {
-        SOFA_THROW( "Invalid 'DataType' : " + attrValue );
+        SOFA_THROW("Invalid 'DataType' : " + attrValue);
     }
 }
-
