@@ -11,10 +11,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
 
     setSize(600, 400);
 
-    // setup ComboBox
-    addAndMakeVisible(textLabel);
-    textLabel.setText("Select the azimuth.", juce::dontSendNotification);
-    textLabel.setFont(textFont);
+    // // setup ComboBox
+    // addAndMakeVisible(textLabel);
+    // textLabel.setText("Select the azimuth.", juce::dontSendNotification);
+    // textLabel.setFont(textFont);
 
     // add items to the combo-box
     // addAndMakeVisible(styleMenu);
@@ -35,10 +35,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
 
     // setup slider label
     addAndMakeVisible(testLabel);
-    testLabel.setText("Value", juce::dontSendNotification);
+    testLabel.setText("Azimuth", juce::dontSendNotification);
     testLabel.attachToComponent(&azimuthDial, true);
 
-    // set up file loader
+    // set up file uploader
     fileComp.reset(new juce::FilenameComponent("fileComp",
                                                {},                      // current file
                                                false,                   // can edit file name,
@@ -77,11 +77,15 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
 void AudioPluginAudioProcessorEditor::resized()
 {
     auto sliderLeft = 120;
+
+    // setbounds(x, y, width, height)
+    // file uploader
+    textContent->setBounds(sliderLeft, 50, 250, 20);
+    fileComp->setBounds(sliderLeft, 100, 250, 20);
     
-    azimuthDial.setBounds(sliderLeft, 50, getWidth() - sliderLeft - 10, 50);
-    textLabel.setBounds(sliderLeft, 100, getWidth() - sliderLeft - 10, 200);
+    // azimuth dial
+    azimuthDial.setBounds(sliderLeft, 150, 150, 150);
+    textLabel.setBounds(sliderLeft, 350, 100, 50);
     // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
 
-    fileComp->setBounds    (sliderLeft, 300, getWidth() - sliderLeft - 20, 20);
-    textContent->setBounds (sliderLeft, 350, getWidth() - sliderLeft - 20,  20);
 }
