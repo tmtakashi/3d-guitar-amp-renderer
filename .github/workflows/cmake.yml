@@ -16,7 +16,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: clone submodule
+        uses: actions/checkout@v2
         with:
           repository: juce-framework/JUCE
           path: JUCE
