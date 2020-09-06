@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.15)
 project(3D_GUIAR_AMP_RENDERER VERSION 0.0.1)
-add_subdirectory(lib/JUCE)                    # If you've put JUCE in a subdirectory called JUCE
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
 juce_add_plugin(3DGuitarAmpRenderer
     # VERSION ...                               # Set this if the plugin version is different to the project version
