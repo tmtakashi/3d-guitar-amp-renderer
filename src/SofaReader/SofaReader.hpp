@@ -49,11 +49,6 @@ protected:
         setN(static_cast<unsigned int>(irFile.GetNumDataSamples()));
     }
 
-    Eigen::MatrixXd getPositionGrid()
-    {
-        return positionGrid;
-    }
-
     void setSampleRate(double sr)
     {
         sampleRate = sr;
@@ -93,6 +88,11 @@ public:
     unsigned int getN() const
     {
         return N;
+    }
+
+    Eigen::MatrixXd getPositionGrid()
+    {
+        return positionGrid;
     }
 
     static std::size_t array3DIndex(const unsigned long i,

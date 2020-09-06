@@ -43,3 +43,9 @@ TEST_F(HRIRSofaReaderTest, HasCorrectRightHRIRMatrixSize)
     EXPECT_EQ(reader->getHRIRR().rows(), 2702);
     EXPECT_EQ(reader->getHRIRR().cols(), 128);
 }
+
+TEST_F(HRIRSofaReaderTest, HasCorrectGridMatrixSize)
+{
+    EXPECT_EQ(reader->getPositionGrid().rows(), 2702);
+    EXPECT_EQ(reader->getPositionGrid().cols(), 3);
+}
