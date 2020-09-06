@@ -7,7 +7,7 @@ from pathlib import Path
 
 #----------Create it----------#
 
-filePath = "data/Marshall1960ADRIR.sofa"
+filePath = "test/testdata/Marshall1960ADRIR.sofa"
 # Need to delete it first if file already exists
 if os.path.exists(filePath):
     os.remove(filePath)
@@ -108,15 +108,14 @@ samplingRateVar[:] = 48000
 
 # load irs
 irs = np.zeros((r, n))
-for i, f in enumerate(sorted(Path('./data').glob("*.wav"))):
-    ir, _ = sf.read(f)
-    irs[i, :n] = ir
+for i, f in enumerate(sorted(Path('./data/irs').glob("*.wav"))):
+    ir, _ = sf.read(str(f))
+    irs[i, :n] = ir[:n]
 dataIRVar = rootgrp.createVariable('Data.IR', 'f8', ('M', 'R', 'N'))
-print(irs)
 dataIRVar[:] = irs[np.newaxis, :, :]
 
-delayVar = rootgrp.createVariable('Data.Delay',        'f8',   ('I', 'R'))
-delay = np.zeros((i, r))
+delayVar = rootgrp.createVariable('Data.Delay',        'f8',   ('M', 'R'))
+delay = np.zeros((m, r))
 delayVar[:, :] = delay
 
 #----------Close it----------#
