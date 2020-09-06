@@ -1,3 +1,4 @@
+#include <fstream>
 #include "gtest/gtest.h"
 #include "DRIRSofaReader.hpp"
 
@@ -44,4 +45,19 @@ TEST_F(DRIRSofaReaderTest, HasCorrectGridMatrixSize)
 {
     EXPECT_EQ(reader->getPositionGrid().rows(), 80);
     EXPECT_EQ(reader->getPositionGrid().cols(), 3);
+}
+
+TEST_F(DRIRSofaReaderTest, HasCorrectGridValue)
+{
+    auto grid = reader->getPositionGrid();
+    std::ifstream file("../../testdata/fullerene_grid.dat");
+    double want;
+    for (std::size_t i = 0; i < grid.rows(); i++)
+    {
+        for (std::size_t j = 0; j < grid.cols(); j++)
+        {
+            file >> want;
+            EXPECT_FLOAT_EQ(grid(i, j), want);
+        }
+    }
 }
