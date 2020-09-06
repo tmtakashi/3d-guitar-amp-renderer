@@ -14,7 +14,7 @@
         "--config",
         "Debug",
         "--target",
-        "AudioPluginExample_VST3",
+        "3DGuitarAmpRenderer_VST3",
         "--",
         "-j",
         "10"
