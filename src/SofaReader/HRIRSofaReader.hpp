@@ -1,20 +1,16 @@
 #include <string>
-#include <utility>
 #include <Eigen/Dense>
 #include "SOFA.h"
 #include "SofaReader.hpp"
 
-class HRIRSofaReader : public SofaReader
+class HRIRSofaReader : public SofaReader<sofa::SimpleFreeFieldHRIR>
 {
 private:
-    sofa::SimpleFreeFieldHRIR hrirFile;
-
     // HRIR L, R pair
     Eigen::MatrixXd hrirL;
     Eigen::MatrixXd hrirR;
 
-    void extractSampleRate() override;
-    void extractHRIRPair();
+    void extractIRs() override;
     void extractPositionGrid() override;
 
 public:

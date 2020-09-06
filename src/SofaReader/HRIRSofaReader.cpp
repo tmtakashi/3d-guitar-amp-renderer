@@ -5,12 +5,9 @@
 #define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
 
 HRIRSofaReader::HRIRSofaReader(std::string_view path)
-    : SofaReader(path), hrirFile(std::string(path))
+    : SofaReader<sofa::SimpleFreeFieldHRIR>(path)
 {
-    assert(hrirFile.IsValid());
-    assert(sofaFile.IsValid());
-    extractSampleRate();
-    extractHRIRPair();
+    extractIRs();
     extractPositionGrid();
 }
 
@@ -18,25 +15,15 @@ HRIRSofaReader::~HRIRSofaReader()
 {
 }
 
-void HRIRSofaReader::extractSampleRate()
+void HRIRSofaReader::extractIRs()
 {
-    double sr;
-    const bool isSampleRateValid = hrirFile.GetSamplingRate(sr);
-    assert(isSampleRateValid);
-    setSampleRate(sr);
-}
-
-void HRIRSofaReader::extractHRIRPair()
-{
-    setM(static_cast<unsigned int>(hrirFile.GetNumMeasurements()));
-    setR(static_cast<unsigned int>(hrirFile.GetNumReceivers()));
-    setN(static_cast<unsigned int>(hrirFile.GetNumDataSamples()));
+    extractDimentions();
     // check if the is for human ears
     assert(getR() == 2);
 
     // extract HRIR
     std::vector<double> tmp;
-    hrirFile.GetDataIR(tmp);
+    irFile.GetDataIR(tmp);
 
     // resize HRIR containers
     hrirL.resize(getM(), getN());

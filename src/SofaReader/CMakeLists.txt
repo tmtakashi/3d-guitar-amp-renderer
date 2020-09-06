@@ -1,4 +1,4 @@
-add_library(SofaReader SofaReader.cpp HRIRSofaReader.cpp)
+add_library(SofaReader SofaReader.hpp HRIRSofaReader.cpp DRIRSofaReader.cpp)
 
 target_include_directories(SofaReader PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
