@@ -54,7 +54,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     textContent->setMultiLine(true);
     textContent->setReadOnly(true);
     textContent->setCaretVisible(false);
-    setSize(1000, 700);
+    setSize(800, 500);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
@@ -74,15 +74,15 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    auto sliderLeft = 120;
+    auto sliderLeft = 200;
 
     // setbounds(x, y, width, height)
     // file uploader
-    textContent->setBounds(sliderLeft, 50, 250, 20);
-    fileComp->setBounds(sliderLeft, 100, 250, 20);
+    textContent->setBounds(sliderLeft, 70, 400, 30);
+    fileComp->setBounds(sliderLeft, 100, 400, 30);
 
     // azimuth dial
-    azimuthDial.setBounds(sliderLeft, 150, 200, 200);
-    textLabel.setBounds(sliderLeft, 350, 100, 50);
+    azimuthDial.setBounds(sliderLeft, 150, 400, 400);
+    textLabel.setBounds(sliderLeft, 450, 400, 50);
     // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
 }
