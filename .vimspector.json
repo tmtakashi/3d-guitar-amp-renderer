@@ -1,0 +1,16 @@
+{
+  "configurations": {
+      "Launch": {
+          "adapter": "vscode-cpptools",
+          "configuration": {
+              "request": "launch",
+              "program": "/Applications/REAPER64.app/Contents/MacOS/REAPER",
+              "args": [],
+              "cwd": "/Applications/REAPER64.app/Contents/MacOS",
+              "environment": [],
+              "externalConsole": true,
+              "MIMode": "lldb"
+          }
+      }
+  }
+}
