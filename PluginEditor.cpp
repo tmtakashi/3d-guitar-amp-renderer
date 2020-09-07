@@ -9,8 +9,6 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 
-    setSize(1000, 700);
-
     // // setup ComboBox
     // addAndMakeVisible(textLabel);
     // textLabel.setText("Select the azimuth.", juce::dontSendNotification);
@@ -47,7 +45,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
                                                {},                      // browser wildcard suffix,
                                                {},                      // enforced suffix,
                                                "Select file to open")); // text when nothing selected
-    
+
     addAndMakeVisible(fileComp.get());
     fileComp->addListener(this);
 
@@ -56,6 +54,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     textContent->setMultiLine(true);
     textContent->setReadOnly(true);
     textContent->setCaretVisible(false);
+    setSize(1000, 700);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor()
@@ -71,7 +70,6 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
     g.setColour(juce::Colours::white);
     g.setFont(15.0f);
     // g.drawFittedText("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
-
 }
 
 void AudioPluginAudioProcessorEditor::resized()
@@ -82,10 +80,9 @@ void AudioPluginAudioProcessorEditor::resized()
     // file uploader
     textContent->setBounds(sliderLeft, 50, 250, 20);
     fileComp->setBounds(sliderLeft, 100, 250, 20);
-    
+
     // azimuth dial
     azimuthDial.setBounds(sliderLeft, 150, 200, 200);
     textLabel.setBounds(sliderLeft, 350, 100, 50);
     // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
-
 }
