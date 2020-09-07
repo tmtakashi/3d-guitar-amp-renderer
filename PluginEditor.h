@@ -68,11 +68,9 @@ private:
     juce::ComboBox styleMenu;
 
     // File reading
-    // std::unique_ptr<juce::FilenameComponent> fileComp;
-    // std::unique_ptr<juce::TextEditor> textContent;
-   std::unique_ptr <juce::FilenameComponent> fileComp;
-   std::unique_ptr <juce::TextEditor> textContent;
-    // juce::File path(File("/SofaReader").getChildFile("to").getChildFile("file.txt"));
+    std::unique_ptr <juce::FilenameComponent> fileComp;
+    std::unique_ptr <juce::TextEditor> textContent;
+ 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
 };

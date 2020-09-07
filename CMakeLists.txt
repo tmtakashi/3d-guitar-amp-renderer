@@ -35,7 +35,8 @@ target_compile_definitions(3DGuitarAmpRenderer
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
-    juce::juce_audio_utils)
+    juce::juce_audio_utils
+    juce::juce_dsp)
 
 include(CTest)
 enable_testing()

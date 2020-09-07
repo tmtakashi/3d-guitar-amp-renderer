@@ -9,7 +9,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 
-    setSize(600, 400);
+    setSize(1000, 700);
 
     // // setup ComboBox
     // addAndMakeVisible(textLabel);
@@ -30,7 +30,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(AudioPluginAudi
     addAndMakeVisible(azimuthDial);
     azimuthDial.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     // azimuthDial.setRotaryParameters();
-    azimuthDial.setRange(0, 360);
+    azimuthDial.setRange(-180, 180);
     azimuthDial.addListener(this);
 
     // setup slider label
@@ -84,7 +84,7 @@ void AudioPluginAudioProcessorEditor::resized()
     fileComp->setBounds(sliderLeft, 100, 250, 20);
     
     // azimuth dial
-    azimuthDial.setBounds(sliderLeft, 150, 150, 150);
+    azimuthDial.setBounds(sliderLeft, 150, 200, 200);
     textLabel.setBounds(sliderLeft, 350, 100, 50);
     // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
 
