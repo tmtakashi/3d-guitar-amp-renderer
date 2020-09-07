@@ -50,8 +50,10 @@ add_subdirectory(src/BinauralRenderer)
 
 add_executable(hoa-binaural src/main.cpp)
 target_link_libraries(hoa-binaural PUBLIC SofaReader)
+target_link_libraries(hoa-binaural PUBLIC BinauralRenderer)
 target_include_directories(hoa-binaural PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
 )
 
 
