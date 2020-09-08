@@ -14,3 +14,18 @@ void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
     }
   }
 }
+
+void SFT(Eigen::VectorXcd &freqDomainSignals, Eigen::MatrixXd &positionGrid,
+         Eigen::VectorXcd &sphCoeffs, unsigned int order) {
+  unsigned int numSignals = freqDomainSignals.rows();
+
+  assert(sphCoeffs.size() == (order + 1) * (order + 1));
+
+  /* get sphrical harmonics matrix */
+  Eigen::MatrixXcd Y(80, (order + 1) * (order + 1));
+  getSphHarmMtx(Y, positionGrid, order);
+
+  /* calculate spherical fourier transfrom using pseudo inverse */
+  sphCoeffs = Y.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV)
+                  .solve(freqDomainSignals);
+}
