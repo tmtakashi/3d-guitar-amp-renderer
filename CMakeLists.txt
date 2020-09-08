@@ -36,18 +36,24 @@ target_compile_definitions(3DGuitarAmpRenderer
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
-    juce::juce_audio_utils)
+    juce::juce_audio_utils
+    SofaReader
+    BinauralRenderer
+    )
 
 include(CTest)
 enable_testing()
 include(CPack)
 
 add_subdirectory(src/SofaReader)
+add_subdirectory(src/BinauralRenderer)
 
 add_executable(hoa-binaural src/main.cpp)
 target_link_libraries(hoa-binaural PUBLIC SofaReader)
+target_link_libraries(hoa-binaural PUBLIC BinauralRenderer)
 target_include_directories(hoa-binaural PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
 )
 
 

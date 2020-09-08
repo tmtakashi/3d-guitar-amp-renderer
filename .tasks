@@ -5,6 +5,6 @@ cwd=<root>
 output=terminal
 
 [test]
-command=cmake --build ./Debug --config Debug && cd Debug && ctest
+command=cmake --build ./Debug --config Debug && cd Debug && ctest --verbose
 cwd=<root>
 output=terminal
