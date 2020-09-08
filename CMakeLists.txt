@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(3D_GUIAR_AMP_RENDERER VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
 juce_add_plugin(3DGuitarAmpRenderer
@@ -37,17 +38,23 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
     juce::juce_audio_utils
     juce::juce_dsp)
+    SofaReader
+    BinauralRenderer
+    )
 
 include(CTest)
 enable_testing()
 include(CPack)
 
 add_subdirectory(src/SofaReader)
+add_subdirectory(src/BinauralRenderer)
 
 add_executable(hoa-binaural src/main.cpp)
 target_link_libraries(hoa-binaural PUBLIC SofaReader)
+target_link_libraries(hoa-binaural PUBLIC BinauralRenderer)
 target_include_directories(hoa-binaural PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
 )
 
 
