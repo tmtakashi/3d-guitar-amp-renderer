@@ -87,3 +87,13 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
     }
   }
 }
+
+std::vector<unsigned> getReversedMnIds(unsigned order) {
+  std::vector<unsigned> reversedMnIds;
+  for (unsigned n = 0; n < order + 1; n++) {
+    for (unsigned m = 0; m < 2 * n + 1; m++) {
+      reversedMnIds.push_back((n + 1) * (n + 1) - m - 1);
+    }
+  }
+  return reversedMnIds;
+}

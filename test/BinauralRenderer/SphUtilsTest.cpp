@@ -25,3 +25,13 @@ TEST(getSphHarmMtxTest, calculatesCorrectSphHarms) {
     }
   }
 }
+
+TEST(getReversedMnIdsTest, reverseMIdsCorrectly) {
+  unsigned order = 3;
+  auto reversedMnIds = getReversedMnIds(order);
+  std::vector<unsigned> want{0, 3,  2,  1,  8,  7,  6,  5,
+                             4, 15, 14, 13, 12, 11, 10, 9};
+  for (int i = 0; i < (order + 1) * (order + 1); i++) {
+    EXPECT_EQ(reversedMnIds[i], want[i]);
+  }
+}

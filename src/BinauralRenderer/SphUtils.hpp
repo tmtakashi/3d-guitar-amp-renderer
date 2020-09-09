@@ -49,3 +49,8 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
 std::complex<double> bn(int n, double k, double r,
                         MicArrayConfig micArrayConfig, double alpha,
                         double radius);
+
+/**
+ * returns spherical harmonic index set of n(-m) up to given order.
+ **/
+std::vector<unsigned> getReversedMnIds(unsigned order);
