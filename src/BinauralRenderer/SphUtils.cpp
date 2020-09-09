@@ -8,7 +8,7 @@ constexpr const double kappa = 142.0e3;  // bulk modulus
 const double c = std::sqrt(kappa / rho); // speed of sound
 
 void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
-                   Eigen::MatrixXd &positionGridMtx, unsigned int order) {
+                   const Eigen::MatrixXd &positionGridMtx, unsigned int order) {
   unsigned int numPositions = positionGridMtx.rows();
   for (std::size_t pos = 0; pos < numPositions; pos++) {
     for (int n = 0; n <= order; n++) {
@@ -20,19 +20,40 @@ void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
   }
 }
 
-void SFT(Eigen::VectorXcd &freqDomainSignals, Eigen::MatrixXd &positionGrid,
-         Eigen::VectorXcd &sphCoeffs, unsigned int order) {
-  unsigned int numSignals = freqDomainSignals.rows();
+void SFT(const Eigen::Ref<const Eigen::RowVectorXcd> &freqDomainSignals,
+         const Eigen::Ref<const Eigen::MatrixXd> &positionGrid,
+         // TODO: find better implementation
+         Eigen::Ref<Eigen::RowVectorXcd, 0, Eigen::InnerStride<>> sphCoeffs,
+         unsigned int order) {
+  unsigned int numSignals = freqDomainSignals.size();
 
   assert(sphCoeffs.size() == (order + 1) * (order + 1));
 
   /* get sphrical harmonics matrix */
-  Eigen::MatrixXcd Y(80, (order + 1) * (order + 1));
+  Eigen::MatrixXcd Y(numSignals, (order + 1) * (order + 1));
   getSphHarmMtx(Y, positionGrid, order);
 
   /* calculate spherical fourier transfrom using pseudo inverse */
   sphCoeffs = Y.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV)
-                  .solve(freqDomainSignals);
+                  .solve(freqDomainSignals.transpose())
+                  .transpose();
+}
+
+void getSignalMtxInSphDomain(const Eigen::MatrixXcd &signals,
+                             const Eigen::MatrixXd &positionGridMtx,
+                             Eigen::MatrixXcd &sphSignals, unsigned order) {
+  // check if numbers of frequencies of input and output matricies are the same
+  assert(signals.rows() == sphSignals.rows());
+  // check if numbers of signals matches with postion number
+  assert(signals.cols() == positionGridMtx.rows());
+  // check if the output matrix has appropriate column number
+  assert(sphSignals.cols() == (order + 1) * (order + 1));
+
+  // perform SFT for each frequency bin
+  unsigned numFreqs = signals.rows();
+  for (int i = 0; i < numFreqs; i++) {
+    SFT(signals.row(i), positionGridMtx, sphSignals.row(i), order);
+  }
 }
 
 double bn(unsigned int n, double k, double radius,

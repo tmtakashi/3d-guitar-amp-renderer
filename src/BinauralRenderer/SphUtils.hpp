@@ -1,3 +1,4 @@
+#include <Eigen/Core>
 #include <Eigen/Dense>
 #include <complex>
 
@@ -19,15 +20,24 @@ struct MicArrayConfig {
 };
 
 void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
-                   Eigen::MatrixXd &positionGridMtx, unsigned int order);
+                   const Eigen::MatrixXd &positionGridMtx, unsigned int order);
 
-void SFT(Eigen::VectorXcd &freqDomainSignals, Eigen::MatrixXd &positionGrid,
-         Eigen::VectorXcd &sphCoeffs, unsigned int order);
+void SFT(const Eigen::Ref<const Eigen::RowVectorXcd> &freqDomainSignals,
+         const Eigen::Ref<const Eigen::MatrixXd> &positionGrid,
+         Eigen::Ref<Eigen::RowVectorXcd, 0, Eigen::InnerStride<>> sphCoeffs,
+         unsigned int order);
+/**
+ * Calculates signal matrix in frequency domain (numFreqs, numSignals) into
+ * spherical domain (nFreqs, (order + 1)^2).
+ *
+ **/
+void getSignalMtxInSphDomain(const Eigen::MatrixXcd &signals,
+                             const Eigen::MatrixXd &positionGridMtx,
+                             Eigen::MatrixXcd &sphSignals, unsigned order);
 
 /**
  * calculates radial filter in frequency domain (currently only open sphere
- *only)
- * @return radial filter vector (nFreqs, (order + 1)^2)
+ * only) shape= (nFreqs, (order + 1)^2)
  **/
 void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
                      unsigned int nfft, double fs, unsigned int order,
