@@ -61,7 +61,7 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
                      // TODO: define zero division avoidance for complex bn
         }
         radFiltMtx(i, n * n + m) =
-            1.0 / (4 * M_PI * std::pow(std::complex<double>(0, 1), 2) * b);
+            1.0 / (4 * M_PI * std::pow(std::complex<double>(0, 1), n) * b);
       }
     }
   }
