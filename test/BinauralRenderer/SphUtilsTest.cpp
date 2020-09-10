@@ -25,3 +25,29 @@ TEST(getSphHarmMtxTest, calculatesCorrectSphHarms) {
     }
   }
 }
+
+TEST(getReversedMnIdsTest, reverseMIdsCorrectly) {
+  unsigned order = 3;
+  auto reversedMnIds = getReversedMnIds(order);
+  std::vector<std::size_t> want{0, 3,  2,  1,  8,  7,  6,  5,
+                                4, 15, 14, 13, 12, 11, 10, 9};
+  for (int i = 0; i < (order + 1) * (order + 1); i++) {
+    EXPECT_EQ(reversedMnIds[i], want[i]);
+  }
+}
+
+TEST(permutateMatrixColumnTest, reversesColumnCorrectly) {
+  unsigned order = 1;
+  Eigen::Matrix4i matrix;
+  matrix << 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4;
+  std::vector<std::size_t> reverseIndices{0, 3, 2, 1};
+  Eigen::Matrix4i want;
+  want << 1, 4, 3, 2, 1, 4, 3, 2, 1, 4, 3, 2, 1, 4, 3, 2;
+
+  auto permutatedMatrix = getColumnPermutatedMatrix(matrix, reverseIndices);
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < 4; j++) {
+      EXPECT_EQ(permutatedMatrix(i, j), want(i, j));
+    }
+  }
+}

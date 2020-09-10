@@ -1,6 +1,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <complex>
+#include <vector>
 
 /* mic array configuration */
 enum class ArrayType { open, rigid, dual };
@@ -49,3 +50,24 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
 std::complex<double> bn(int n, double k, double r,
                         MicArrayConfig micArrayConfig, double alpha,
                         double radius);
+
+/**
+ * returns spherical harmonic index set of n(-m) up to given order.
+ **/
+std::vector<std::size_t> getReversedMnIds(unsigned order);
+
+template <typename Derived>
+Derived getColumnPermutatedMatrix(Eigen::MatrixBase<Derived> &matrix,
+                                  std::vector<std::size_t> permutationIndices) {
+  assert(matrix.cols() == permutationIndices.size());
+  Derived permutatedMatrix(matrix.rows(), matrix.cols());
+  std::size_t numCols = matrix.cols();
+  for (std::size_t i = 0; i < numCols; i++) {
+    if (i != permutationIndices[i]) {
+      permutatedMatrix.col(i) = matrix.col(permutationIndices[i]);
+    } else {
+      permutatedMatrix.col(i) = matrix.col(i);
+    }
+  }
+  return permutatedMatrix;
+}
