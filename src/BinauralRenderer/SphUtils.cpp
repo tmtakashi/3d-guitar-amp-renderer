@@ -97,3 +97,23 @@ std::vector<std::size_t> getReversedMnIds(unsigned order) {
   }
   return reversedMnIds;
 }
+
+Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
+                                       SphHarmType sphHarmType) {
+  std::size_t freqBinNum = std::floor(nfft / 2) + 1;
+  Eigen::MatrixXd mtx(freqBinNum, (order + 1) * (order + 1));
+  if (sphHarmType == SphHarmType::ComplexAsymmetric) {
+    for (int n = 0; n < order + 1; n++) {
+      for (int m = -n; m <= n; m++) {
+        if (m % 2 == 0) {
+          mtx.col(n * n + n + m) = Eigen::VectorXd::Ones(freqBinNum);
+        } else {
+          mtx.col(n * n + n + m) = -Eigen::VectorXd::Ones(freqBinNum);
+        }
+      }
+    }
+  } else {
+    mtx = Eigen::MatrixXd::Ones(mtx.rows(), mtx.cols());
+  }
+  return mtx;
+}

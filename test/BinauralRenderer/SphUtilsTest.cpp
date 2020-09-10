@@ -51,3 +51,47 @@ TEST(permutateMatrixColumnTest, reversesColumnCorrectly) {
     }
   }
 }
+
+TEST(getSphHarmTypeCoeffMtxTest, Asymmetric) {
+  unsigned order = 1;
+  unsigned nfft = 4;
+  std::size_t freqBinNum = std::floor(nfft / 2) + 1;
+  Eigen::MatrixXd want(freqBinNum, (order + 1) * (order + 1));
+  want << 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1;
+  auto get =
+      getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::ComplexAsymmetric);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getSphHarmTypeCoeffMtxTest, Symmetric) {
+  unsigned order = 2;
+  unsigned nfft = 8;
+  auto want = Eigen::MatrixXd::Ones(std::floor(nfft / 2) + 1,
+                                    (order + 1) * (order + 1));
+  auto get = getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::ComplexSymmetric);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getSphHarmTypeCoeffMtxTest, Real) {
+  unsigned order = 2;
+  unsigned nfft = 8;
+  auto want = Eigen::MatrixXd::Ones(std::floor(nfft / 2) + 1,
+                                    (order + 1) * (order + 1));
+  auto get = getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::Real);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}

@@ -3,6 +3,8 @@
 #include <complex>
 #include <vector>
 
+enum class SphHarmType { ComplexAsymmetric, ComplexSymmetric, Real };
+
 /* mic array configuration */
 enum class ArrayType { open, rigid, dual };
 
@@ -71,3 +73,6 @@ Derived getColumnPermutatedMatrix(Eigen::MatrixBase<Derived> &matrix,
   }
   return permutatedMatrix;
 }
+
+Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
+                                       SphHarmType);
