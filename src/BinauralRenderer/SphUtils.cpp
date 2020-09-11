@@ -117,3 +117,33 @@ Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
   }
   return mtx;
 }
+
+void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals) {
+  assert(freqSignals.rows() == static_cast<int>(timeSignals.rows() / 2) + 1);
+  std::size_t numSignals = freqSignals.cols();
+  std::size_t numFreqBins = freqSignals.rows();
+  Eigen::FFT<double> fft;
+  fft.SetFlag(
+      Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
+  Eigen::VectorXcd tmpOut(numFreqBins);
+  fft.fwd(tmpOut, timeSignals.col(0));
+  for (std::size_t i = 0; i < numSignals; i++) {
+    Eigen::VectorXcd tmpOut(numFreqBins);
+    fft.fwd(tmpOut, timeSignals.col(i));
+    freqSignals.col(i) = tmpOut;
+  }
+}
+
+void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals) {
+  assert(timeSignals.rows() == 2 * (freqSignals.rows() - 1));
+  std::size_t numSignals = timeSignals.cols();
+  std::size_t numSamples = timeSignals.rows();
+  Eigen::FFT<double> fft;
+  fft.SetFlag(
+      Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
+  for (std::size_t i = 0; i < numSignals; i++) {
+    Eigen::VectorXd tmpOut(numSamples);
+    fft.inv(tmpOut, freqSignals.col(i));
+    timeSignals.col(i) = tmpOut;
+  }
+}

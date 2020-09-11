@@ -1,6 +1,7 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <complex>
+#include <unsupported/Eigen/FFT>
 #include <vector>
 
 enum class SphHarmType { ComplexAsymmetric, ComplexSymmetric, Real };
@@ -76,3 +77,6 @@ Derived getColumnPermutatedMatrix(Eigen::MatrixBase<Derived> &matrix,
 
 Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
                                        SphHarmType);
+
+void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals);
+void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals);
