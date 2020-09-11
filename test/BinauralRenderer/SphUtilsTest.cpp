@@ -111,3 +111,17 @@ TEST(rfftEachColTest, checkIfRifftConvertsBack) {
     }
   }
 }
+
+TEST(rowDirectionZeroPaddingTest, checkIfZeroPaddedCorrectly) {
+  Eigen::MatrixXd mtx = Eigen::MatrixXd::Ones(3, 3);
+  std::size_t targetRowNum = 5;
+  rowDirectionZeroPadding(mtx, targetRowNum);
+
+  Eigen::MatrixXd want(5, 3);
+  want << 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0;
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.cols(); j++) {
+      EXPECT_EQ(mtx(i, j), want(i, j));
+    }
+  }
+}

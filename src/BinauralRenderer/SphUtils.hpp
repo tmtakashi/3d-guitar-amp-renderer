@@ -47,6 +47,8 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
                      unsigned int nfft, double fs, unsigned int order,
                      MicArrayConfig config);
 
+void rowDirectionZeroPadding(Eigen::MatrixXd &mtx, std::size_t targetRowNum);
+
 /**
  * radial component of spherical harmonic expantion
  **/
