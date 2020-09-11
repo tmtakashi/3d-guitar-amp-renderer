@@ -47,7 +47,13 @@ void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
                      unsigned int nfft, double fs, unsigned int order,
                      MicArrayConfig config);
 
-void rowDirectionZeroPadding(Eigen::MatrixXd &mtx, std::size_t targetRowNum);
+template <typename Derived>
+void rowDirectionZeroPadding(Eigen::MatrixBase<Derived> &mtx,
+                             std::size_t targetRowNum) {
+  assert(targetRowNum >= mtx.rows());
+  mtx.derived().conservativeResizeLike(
+      Eigen::MatrixXd::Zero(targetRowNum, mtx.cols()));
+}
 
 /**
  * radial component of spherical harmonic expantion

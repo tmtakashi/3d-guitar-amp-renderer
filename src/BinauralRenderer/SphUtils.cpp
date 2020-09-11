@@ -118,11 +118,6 @@ Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
   return mtx;
 }
 
-void rowDirectionZeroPadding(Eigen::MatrixXd &mtx, std::size_t targetRowNum) {
-  assert(targetRowNum >= mtx.rows());
-  mtx.conservativeResizeLike(Eigen::MatrixXd::Zero(targetRowNum, mtx.cols()));
-}
-
 void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
                  unsigned nfft) {
   assert(freqSignals.rows() == static_cast<int>(nfft / 2) + 1);
