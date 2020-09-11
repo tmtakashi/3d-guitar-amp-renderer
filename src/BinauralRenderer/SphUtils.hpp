@@ -78,5 +78,7 @@ Derived getColumnPermutatedMatrix(Eigen::MatrixBase<Derived> &matrix,
 Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
                                        SphHarmType);
 
-void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals);
-void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals);
+void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
+                 unsigned nfft);
+void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
+                  unsigned nfft);

@@ -118,8 +118,9 @@ Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
   return mtx;
 }
 
-void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals) {
-  assert(freqSignals.rows() == static_cast<int>(timeSignals.rows() / 2) + 1);
+void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
+                 unsigned nfft) {
+  assert(freqSignals.rows() == static_cast<int>(nfft / 2) + 1);
   std::size_t numSignals = freqSignals.cols();
   std::size_t numFreqBins = freqSignals.rows();
   Eigen::FFT<double> fft;
@@ -134,8 +135,9 @@ void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals) {
   }
 }
 
-void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals) {
-  assert(timeSignals.rows() == 2 * (freqSignals.rows() - 1));
+void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
+                  unsigned nfft) {
+  assert(timeSignals.rows() == nfft);
   std::size_t numSignals = timeSignals.cols();
   std::size_t numSamples = timeSignals.rows();
   Eigen::FFT<double> fft;
