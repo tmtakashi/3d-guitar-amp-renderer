@@ -12,7 +12,6 @@ protected:
 };
 
 TEST_F(DRIRSofaReaderTest, HasCorrectSampleRate) {
-  std::cout << reader->getSampleRate() << std::endl;
   EXPECT_EQ(reader->getSampleRate(), 48000.0);
 }
 
