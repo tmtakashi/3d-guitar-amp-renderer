@@ -92,11 +92,13 @@ void BinauralIRRenderer::calculateNewIRs(
                                   .sum();
 
     // rifft for each ear
-    std::vector<std::complex<double>> sLeftVec;
-    std::vector<std::complex<double>> sRightVec;
-    Eigen::Map<Eigen::VectorXcd>(&sLeftVec[0], sLeft.size()) = sLeft;
-    Eigen::Map<Eigen::VectorXcd>(&sRightVec[0], sRight.size()) = sRight;
-    fft.inv(leftIRs.at(idx), sLeftVec);
-    fft.inv(rightIRs.at(idx), sRightVec);
+    Eigen::VectorXd leftOut;
+    Eigen::VectorXd rightOut;
+    fft.inv(leftOut, sLeft);
+    fft.inv(rightOut, sRight);
+    Eigen::Map<Eigen::VectorXd>(&leftIRs[idx][0], leftOut.size()) =
+        leftOut / (leftOut.cwiseAbs().maxCoeff());
+    Eigen::Map<Eigen::VectorXd>(&rightIRs[idx][0], rightOut.size()) =
+        rightOut / (rightOut.cwiseAbs().maxCoeff());
   }
 }
