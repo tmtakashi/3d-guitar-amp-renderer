@@ -1,3 +1,6 @@
+#ifndef INCLUDE_DRIRSOFAREADER
+#define INCLUDE_DRIRSOFAREADER
+
 #include "SOFA.h"
 #include "SofaReader.hpp"
 #include <Eigen/Dense>
@@ -15,3 +18,4 @@ public:
   explicit DRIRSofaReader(std::string_view path);
   Eigen::MatrixXd getDRIRs();
 };
+#endif /* ifndef SYMBOL */

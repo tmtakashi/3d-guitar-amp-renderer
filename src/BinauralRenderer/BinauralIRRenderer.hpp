@@ -1,3 +1,5 @@
+#ifndef INCLUDE_BINAURALIRRENDERER
+#define INCLUDE_BINAURALIRRENDERER
 #include "SphUtils.hpp"
 #include <Eigen/Dense>
 #include <vector>
@@ -26,3 +28,4 @@ public:
   std::vector<double> getLeftIR(std::size_t idx) const;
   std::vector<double> getRightIR(std::size_t idx) const;
 };
+#endif /* ifndef INCLUDE_BINAURALIRRENDERER */

@@ -1,3 +1,6 @@
+#ifndef INCLUDE_SOFAREADER
+#define INCLUDE_SOFAREADER
+
 #include "SOFA.h"
 #include <Eigen/Dense>
 #include <cmath>
@@ -84,3 +87,4 @@ public:
     }
   }
 };
+#endif /* ifndef INCLUDE_SOFAREADER */

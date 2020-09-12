@@ -1,3 +1,5 @@
+#ifndef INCLUDE_SPHUTILS
+#define INCLUDE_SPHUTILS
 #include <Eigen/Core>
 #include <Eigen/Dense>
 #include <complex>
@@ -93,3 +95,4 @@ void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
 
 void getRotationMatrix(Eigen::MatrixXcd &mtx, double azimuth, unsigned order,
                        unsigned nfft);
+#endif /* ifndef INCLUDE_SPHUTILS */
