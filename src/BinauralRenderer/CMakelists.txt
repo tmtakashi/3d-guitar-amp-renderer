@@ -1,4 +1,4 @@
-add_library(BinauralRenderer SphUtils.cpp)
+add_library(BinauralRenderer SphUtils.cpp BinauralIRRenderer.cpp)
 target_include_directories(BinauralRenderer PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/include
