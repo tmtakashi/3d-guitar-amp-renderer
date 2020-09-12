@@ -2,6 +2,7 @@
 #include "boost/math/special_functions/bessel.hpp"
 #include "boost/math/special_functions/spherical_harmonic.hpp"
 #include <cmath>
+#include <complex>
 
 constexpr const double rho = 1.293;      // density of air
 constexpr const double kappa = 142.0e3;  // bulk modulus
@@ -147,5 +148,18 @@ void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
     Eigen::VectorXd tmpOut(numSamples);
     fft.inv(tmpOut, freqSignals.col(i));
     timeSignals.col(i) = tmpOut;
+  }
+}
+
+void getRotationMatrix(Eigen::MatrixXcd &mtx, double azimuth, unsigned order,
+                       unsigned nfft) {
+  assert(mtx.rows() == (nfft / 2) + 1);
+  assert(mtx.cols() == (order + 1) * (order + 1));
+  for (int n = 0; n < order + 1; n++) {
+    for (int m = -n; m <= n; m++) {
+      Eigen::VectorXcd col =
+          Eigen::VectorXcd::Constant(mtx.rows(), std::polar(1.0, -azimuth * m));
+      mtx.col(n * n + n + m) = col;
+    }
   }
 }

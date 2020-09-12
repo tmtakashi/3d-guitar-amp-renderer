@@ -3,6 +3,7 @@
 #include "gtest/internal/gtest-port.h"
 #include <Eigen/Dense>
 #include <cmath>
+#include <complex>
 #include <fstream>
 
 TEST(getSphHarmMtxTest, calculatesCorrectSphHarms) {
@@ -122,6 +123,25 @@ TEST(rowDirectionZeroPaddingTest, checkIfZeroPaddedCorrectly) {
   for (std::size_t i = 0; i < want.rows(); i++) {
     for (std::size_t j = 0; j < want.cols(); j++) {
       EXPECT_EQ(mtx(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getRotationMatrixTest, generatesValidRotationMatrix) {
+  typedef std::complex<double> cd;
+  double azimuth = M_PI / 2;
+  unsigned order = 1;
+  unsigned nfft = 4;
+  Eigen::MatrixXcd get((nfft / 2) + 1, (order + 1) * (order + 1));
+  Eigen::MatrixXcd want((nfft / 2) + 1, (order + 1) * (order + 1));
+  want << cd(1.0, 0.0), cd(0.0, 1.0), cd(1.0, 0.0), cd(0.0, -1.0), cd(1.0, 0.0),
+      cd(0.0, 1.0), cd(1.0, 0.0), cd(0.0, -1.0), cd(1.0, 0.0), cd(0.0, 1.0),
+      cd(1.0, 0.0), cd(0.0, -1.0);
+  getRotationMatrix(get, azimuth, order, nfft);
+  for (int i = 0; i < want.rows(); i++) {
+    for (int j = 0; j < want.cols(); j++) {
+      ASSERT_NEAR(get(i, j).real(), want(i, j).real(), 1e-10);
+      ASSERT_NEAR(get(i, j).imag(), want(i, j).imag(), 1e-10);
     }
   }
 }

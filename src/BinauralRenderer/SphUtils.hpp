@@ -90,3 +90,6 @@ void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
                  unsigned nfft);
 void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
                   unsigned nfft);
+
+void getRotationMatrix(Eigen::MatrixXcd &mtx, double azimuth, unsigned order,
+                       unsigned nfft);
