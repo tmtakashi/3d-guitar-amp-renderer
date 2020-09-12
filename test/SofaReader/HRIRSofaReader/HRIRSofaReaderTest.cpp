@@ -27,13 +27,13 @@ TEST_F(HRIRSofaReaderTest, HasCorrectNumSamples) {
 }
 
 TEST_F(HRIRSofaReaderTest, HasCorrectLeftHRIRMatrixSize) {
-  EXPECT_EQ(reader->getHRIRL().rows(), 2702);
-  EXPECT_EQ(reader->getHRIRL().cols(), 128);
+  EXPECT_EQ(reader->getHRIRL().rows(), 128);
+  EXPECT_EQ(reader->getHRIRL().cols(), 2702);
 }
 
 TEST_F(HRIRSofaReaderTest, HasCorrectRightHRIRMatrixSize) {
-  EXPECT_EQ(reader->getHRIRR().rows(), 2702);
-  EXPECT_EQ(reader->getHRIRR().cols(), 128);
+  EXPECT_EQ(reader->getHRIRR().rows(), 128);
+  EXPECT_EQ(reader->getHRIRR().cols(), 2702);
 }
 
 TEST_F(HRIRSofaReaderTest, HasCorrectGridMatrixSize) {
