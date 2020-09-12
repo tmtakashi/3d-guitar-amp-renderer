@@ -14,7 +14,7 @@ void DRIRSofaReader::extractIRs() {
   std::vector<double> tmp;
   irFile.GetDataIR(tmp);
   // resize DRIR container
-  drirs.resize(getR(), getN());
+  drirs.resize(getN(), getR());
   for (std::size_t measurementIdx = 0; measurementIdx < getM();
        measurementIdx++) {
     for (std::size_t receiverIdx = 0; receiverIdx < getR(); receiverIdx++) {
@@ -22,7 +22,7 @@ void DRIRSofaReader::extractIRs() {
            numSampleIdx++) {
         std::size_t index = array3DIndex(measurementIdx, receiverIdx,
                                          numSampleIdx, getM(), getR(), getN());
-        drirs(receiverIdx, numSampleIdx) = tmp[index];
+        drirs(numSampleIdx, receiverIdx) = tmp[index];
       }
     }
   }

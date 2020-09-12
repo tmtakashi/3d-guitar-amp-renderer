@@ -29,8 +29,8 @@ TEST_F(DRIRSofaReaderTest, HasCorrectNumSamples) {
 
 TEST_F(DRIRSofaReaderTest, HasCorrectDRIRMatrixSize) {
   auto drirs = reader->getDRIRs();
-  EXPECT_EQ(drirs.rows(), 80);
-  EXPECT_EQ(drirs.cols(), 100'000);
+  EXPECT_EQ(drirs.rows(), 100'000);
+  EXPECT_EQ(drirs.cols(), 80);
 }
 
 TEST_F(DRIRSofaReaderTest, HasCorrectGridMatrixSize) {
