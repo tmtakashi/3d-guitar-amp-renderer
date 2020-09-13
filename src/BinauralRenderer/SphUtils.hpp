@@ -28,18 +28,8 @@ struct MicArrayConfig {
 void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
                    const Eigen::MatrixXd &positionGridMtx, unsigned int order);
 
-void SFT(const Eigen::Ref<const Eigen::RowVectorXcd> &freqDomainSignals,
-         const Eigen::Ref<const Eigen::MatrixXd> &positionGrid,
-         Eigen::Ref<Eigen::RowVectorXcd, 0, Eigen::InnerStride<>> sphCoeffs,
-         unsigned int order);
-/**
- * Calculates signal matrix in frequency domain (numFreqs, numSignals) into
- * spherical domain (nFreqs, (order + 1)^2).
- *
- **/
-void getSignalMtxInSphDomain(const Eigen::MatrixXcd &signals,
-                             const Eigen::MatrixXd &positionGridMtx,
-                             Eigen::MatrixXcd &sphSignals, unsigned order);
+void SFT(Eigen::MatrixXcd &freqDomainSignals, Eigen::MatrixXd &positionGrid,
+         Eigen::MatrixXcd &sphDomainSignals, unsigned int order);
 
 /**
  * calculates radial filter in frequency domain (currently only open sphere
@@ -92,6 +82,11 @@ void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
                  unsigned nfft);
 void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
                   unsigned nfft);
+
+void rfftEachIRMtx(Eigen::MatrixXcd &drtfs, Eigen::MatrixXd &drirs,
+                   Eigen::MatrixXcd &hrtfsL, Eigen::MatrixXd &hrirsL,
+                   Eigen::MatrixXcd hrtfsR, Eigen::MatrixXd &hrirsR,
+                   unsigned nfft);
 
 void getRotationMatrix(Eigen::MatrixXcd &mtx, double azimuth, unsigned order,
                        unsigned nfft);

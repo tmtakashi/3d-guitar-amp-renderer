@@ -21,40 +21,21 @@ void getSphHarmMtx(Eigen::MatrixXcd &sphHarmMtx,
   }
 }
 
-void SFT(const Eigen::Ref<const Eigen::RowVectorXcd> &freqDomainSignals,
-         const Eigen::Ref<const Eigen::MatrixXd> &positionGrid,
-         // TODO: find better implementation
-         Eigen::Ref<Eigen::RowVectorXcd, 0, Eigen::InnerStride<>> sphCoeffs,
-         unsigned int order) {
-  unsigned int numSignals = freqDomainSignals.size();
+void SFT(Eigen::MatrixXcd &freqDomainSignals, Eigen::MatrixXd &positionGrid,
+         Eigen::MatrixXcd &sphDomainSignals, unsigned int order) {
+  unsigned int numSignals = freqDomainSignals.cols();
 
-  assert(sphCoeffs.size() == (order + 1) * (order + 1));
+  assert(sphDomainSignals.rows() == freqDomainSignals.rows());
+  assert(sphDomainSignals.cols() == (order + 1) * (order + 1));
 
   /* get sphrical harmonics matrix */
   Eigen::MatrixXcd Y(numSignals, (order + 1) * (order + 1));
   getSphHarmMtx(Y, positionGrid, order);
 
   /* calculate spherical fourier transfrom using pseudo inverse */
-  sphCoeffs = Y.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV)
-                  .solve(freqDomainSignals.transpose())
-                  .transpose();
-}
-
-void getSignalMtxInSphDomain(const Eigen::MatrixXcd &signals,
-                             const Eigen::MatrixXd &positionGridMtx,
-                             Eigen::MatrixXcd &sphSignals, unsigned order) {
-  // check if numbers of frequencies of input and output matricies are the same
-  assert(signals.rows() == sphSignals.rows());
-  // check if numbers of signals matches with postion number
-  assert(signals.cols() == positionGridMtx.rows());
-  // check if the output matrix has appropriate column number
-  assert(sphSignals.cols() == (order + 1) * (order + 1));
-
-  // perform SFT for each frequency bin
-  unsigned numFreqs = signals.rows();
-  for (int i = 0; i < numFreqs; i++) {
-    SFT(signals.row(i), positionGridMtx, sphSignals.row(i), order);
-  }
+  sphDomainSignals = Y.bdcSvd(Eigen::ComputeThinU | Eigen::ComputeThinV)
+                         .solve(freqDomainSignals.transpose())
+                         .transpose();
 }
 
 double bn(unsigned int n, double k, double radius,
@@ -69,10 +50,10 @@ double bn(unsigned int n, double k, double radius,
 void getRadialFilter(Eigen::MatrixXcd &radFiltMtx, double radius,
                      unsigned int nfft, double fs, unsigned int order,
                      MicArrayConfig micArrayConfig) {
-  assert(radFiltMtx.rows() == std::floor(nfft / 2) + 1);
+  assert(radFiltMtx.rows() == (nfft / 2) + 1);
   assert(radFiltMtx.cols() == (order + 1) * (order + 1));
   Eigen::VectorXd freqs =
-      Eigen::VectorXd::LinSpaced(std::floor(nfft / 2) + 1, 0, floor(fs / 2));
+      Eigen::VectorXd::LinSpaced((nfft / 2) + 1, 0, floor(fs / 2));
   for (std::size_t i = 0; i < freqs.size(); i++) {
     double k = 2 * M_PI * freqs(i) / c;
     for (int n = 0; n < order; n++) {
@@ -121,17 +102,16 @@ Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
 
 void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
                  unsigned nfft) {
-  assert(freqSignals.rows() == static_cast<int>(nfft / 2) + 1);
+  assert(freqSignals.rows() == (nfft / 2) + 1);
+  assert(nfft >= timeSignals.rows());
   std::size_t numSignals = freqSignals.cols();
   std::size_t numFreqBins = freqSignals.rows();
   Eigen::FFT<double> fft;
   fft.SetFlag(
       Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
-  Eigen::VectorXcd tmpOut(numFreqBins);
-  fft.fwd(tmpOut, timeSignals.col(0));
+  Eigen::RowVectorXcd tmpOut((nfft / 2) + 1);
   for (std::size_t i = 0; i < numSignals; i++) {
-    Eigen::VectorXcd tmpOut(numFreqBins);
-    fft.fwd(tmpOut, timeSignals.col(i));
+    fft.fwd(tmpOut, timeSignals.col(i), nfft);
     freqSignals.col(i) = tmpOut;
   }
 }
@@ -141,14 +121,24 @@ void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
   assert(timeSignals.rows() == nfft);
   std::size_t numSignals = timeSignals.cols();
   std::size_t numSamples = timeSignals.rows();
+  assert(freqSignals.cols() == numSignals);
   Eigen::FFT<double> fft;
   fft.SetFlag(
       Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
+  Eigen::VectorXd tmpOut(numSamples);
   for (std::size_t i = 0; i < numSignals; i++) {
-    Eigen::VectorXd tmpOut(numSamples);
-    fft.inv(tmpOut, freqSignals.col(i));
+    fft.inv(tmpOut, freqSignals.col(i), nfft);
     timeSignals.col(i) = tmpOut;
   }
+}
+
+void rfftEachIRMtx(Eigen::MatrixXcd &drtfs, Eigen::MatrixXd &drirs,
+                   Eigen::MatrixXcd &hrtfsL, Eigen::MatrixXd &hrirsL,
+                   Eigen::MatrixXcd hrtfsR, Eigen::MatrixXd &hrirsR,
+                   unsigned nfft) {
+  rfftEachCol(drtfs, drirs, nfft);
+  rfftEachCol(hrtfsL, hrirsL, nfft);
+  rfftEachCol(hrtfsR, hrirsR, nfft);
 }
 
 void getRotationMatrix(Eigen::MatrixXcd &mtx, double azimuth, unsigned order,

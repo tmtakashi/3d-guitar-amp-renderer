@@ -145,3 +145,29 @@ TEST(getRotationMatrixTest, generatesValidRotationMatrix) {
     }
   }
 }
+
+TEST(getRadialFilterTest, canGetRadialFilter) {
+  unsigned radialFiltNfft = 32;
+  unsigned sphOrder = 7;
+  double fs = 48000.0;
+  double radius = 0.2;
+  MicArrayConfig config{ArrayType::open, MicType::omni};
+  Eigen::MatrixXcd radFiltMtx = Eigen::MatrixXcd::Zero(
+      radialFiltNfft / 2 + 1, (sphOrder + 1) * (sphOrder + 1));
+  getRadialFilter(radFiltMtx, radius, radialFiltNfft, fs, sphOrder, config);
+}
+
+TEST(rfftEachIRMtxTest, canExecuteRfft) {
+  Eigen::MatrixXd drirs = Eigen::MatrixXd::Random(5000, 80);
+  Eigen::MatrixXd hrirsL = Eigen::MatrixXd::Random(128, 2000);
+  Eigen::MatrixXd hrirsR = Eigen::MatrixXd::Random(128, 2000);
+  unsigned nfft = drirs.rows();
+  Eigen::MatrixXcd drirsFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, drirs.cols());
+  Eigen::MatrixXcd hrirsLFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, hrirsL.cols());
+  Eigen::MatrixXcd hrirsRFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, hrirsR.cols());
+  rfftEachIRMtx(drirsFreqDomain, drirs, hrirsLFreqDomain, hrirsL,
+                hrirsRFreqDomain, hrirsR, nfft);
+}
