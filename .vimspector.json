@@ -1,6 +1,6 @@
 {
   "configurations": {
-      "Launch": {
+      "Debug VST with REAPER": {
           "adapter": "vscode-cpptools",
           "configuration": {
               "request": "launch",
@@ -9,6 +9,14 @@
               "cwd": "/Applications/REAPER64.app/Contents/MacOS",
               "environment": [],
               "externalConsole": true,
+              "MIMode": "lldb"
+          }
+      },
+      "Debug main": {
+          "adapter": "vscode-cpptools",
+          "configuration": {
+              "request": "launch",
+              "program": "./Debug/hoa-binaural",
               "MIMode": "lldb"
           }
       }

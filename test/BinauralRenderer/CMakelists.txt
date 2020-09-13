@@ -1,9 +1,18 @@
 add_executable(SphUtilsTest SphUtilsTest.cpp)
+add_executable(BinauralIRRendererTest BinauralIRRendererTest.cpp)
 target_include_directories(SphUtilsTest PUBLIC
+    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
+)
+target_include_directories(BinauralIRRendererTest PUBLIC
     ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
 )
 target_link_libraries(SphUtilsTest PUBLIC 
                     gtest_main
                     BinauralRenderer
 )
-add_test(NAME SphUtils_test COMMAND SphUtilsTest)
+target_link_libraries(BinauralIRRendererTest PUBLIC 
+                    gtest_main
+                    BinauralRenderer
+)
+add_test(NAME BinauralIRRenderer_Test COMMAND BinauralIRRendererTest)
+add_test(NAME SphUtils_Test COMMAND SphUtilsTest)

@@ -1,3 +1,5 @@
+#ifndef INCLUDE_HRIRSOFAREADER
+#define INCLUDE_HRIRSOFAREADER
 #include "SOFA.h"
 #include "SofaReader.hpp"
 #include <Eigen/Dense>
@@ -19,3 +21,4 @@ public:
   Eigen::MatrixXd getHRIRL();
   Eigen::MatrixXd getHRIRR();
 };
+#endif /* ifndef INCLUDE_HRIRSOFAREADER */

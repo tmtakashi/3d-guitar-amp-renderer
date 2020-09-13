@@ -3,6 +3,7 @@
 #include "gtest/internal/gtest-port.h"
 #include <Eigen/Dense>
 #include <cmath>
+#include <complex>
 #include <fstream>
 
 TEST(getSphHarmMtxTest, calculatesCorrectSphHarms) {
@@ -50,4 +51,124 @@ TEST(permutateMatrixColumnTest, reversesColumnCorrectly) {
       EXPECT_EQ(permutatedMatrix(i, j), want(i, j));
     }
   }
+}
+
+TEST(getSphHarmTypeCoeffMtxTest, Asymmetric) {
+  unsigned order = 1;
+  unsigned nfft = 4;
+  std::size_t freqBinNum = std::floor(nfft / 2) + 1;
+  Eigen::MatrixXd want(freqBinNum, (order + 1) * (order + 1));
+  want << 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1;
+  auto get =
+      getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::ComplexAsymmetric);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getSphHarmTypeCoeffMtxTest, Symmetric) {
+  unsigned order = 2;
+  unsigned nfft = 8;
+  auto want = Eigen::MatrixXd::Ones(std::floor(nfft / 2) + 1,
+                                    (order + 1) * (order + 1));
+  auto get = getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::ComplexSymmetric);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getSphHarmTypeCoeffMtxTest, Real) {
+  unsigned order = 2;
+  unsigned nfft = 8;
+  auto want = Eigen::MatrixXd::Ones(std::floor(nfft / 2) + 1,
+                                    (order + 1) * (order + 1));
+  auto get = getSphHarmTypeCoeffMtx(order, nfft, SphHarmType::Real);
+
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.rows(); j++) {
+      EXPECT_EQ(get(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(rfftEachColTest, checkIfRifftConvertsBack) {
+  unsigned nfft = 8;
+  unsigned numSignals = 5;
+  Eigen::MatrixXd timeSignals = Eigen::MatrixXd::Random(nfft, numSignals);
+  Eigen::MatrixXd timeSignalsCopy = timeSignals;
+  Eigen::MatrixXcd freqSignals =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, numSignals);
+  rfftEachCol(freqSignals, timeSignals, nfft);
+  Eigen::MatrixXd anotherTimeSignals = Eigen::MatrixXd::Zero(nfft, numSignals);
+  rifftEachCol(anotherTimeSignals, freqSignals, nfft);
+  for (std::size_t i = 0; i < timeSignals.rows(); i++) {
+    for (std::size_t j = 0; j < timeSignals.cols(); j++) {
+      EXPECT_FLOAT_EQ(nfft * timeSignalsCopy(i, j), anotherTimeSignals(i, j));
+    }
+  }
+}
+
+TEST(rowDirectionZeroPaddingTest, checkIfZeroPaddedCorrectly) {
+  Eigen::MatrixXd mtx = Eigen::MatrixXd::Ones(3, 3);
+  std::size_t targetRowNum = 5;
+  rowDirectionZeroPadding(mtx, targetRowNum);
+
+  Eigen::MatrixXd want(5, 3);
+  want << 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0;
+  for (std::size_t i = 0; i < want.rows(); i++) {
+    for (std::size_t j = 0; j < want.cols(); j++) {
+      EXPECT_EQ(mtx(i, j), want(i, j));
+    }
+  }
+}
+
+TEST(getRotationMatrixTest, generatesValidRotationMatrix) {
+  typedef std::complex<double> cd;
+  double azimuth = M_PI / 2;
+  unsigned order = 1;
+  unsigned nfft = 4;
+  Eigen::MatrixXcd get((nfft / 2) + 1, (order + 1) * (order + 1));
+  Eigen::MatrixXcd want((nfft / 2) + 1, (order + 1) * (order + 1));
+  want << cd(1.0, 0.0), cd(0.0, 1.0), cd(1.0, 0.0), cd(0.0, -1.0), cd(1.0, 0.0),
+      cd(0.0, 1.0), cd(1.0, 0.0), cd(0.0, -1.0), cd(1.0, 0.0), cd(0.0, 1.0),
+      cd(1.0, 0.0), cd(0.0, -1.0);
+  getRotationMatrix(get, azimuth, order, nfft);
+  for (int i = 0; i < want.rows(); i++) {
+    for (int j = 0; j < want.cols(); j++) {
+      ASSERT_NEAR(get(i, j).real(), want(i, j).real(), 1e-10);
+      ASSERT_NEAR(get(i, j).imag(), want(i, j).imag(), 1e-10);
+    }
+  }
+}
+
+TEST(getRadialFilterTest, canGetRadialFilter) {
+  unsigned radialFiltNfft = 32;
+  unsigned sphOrder = 7;
+  double fs = 48000.0;
+  double radius = 0.2;
+  MicArrayConfig config{ArrayType::open, MicType::omni};
+  Eigen::MatrixXcd radFiltMtx = Eigen::MatrixXcd::Zero(
+      radialFiltNfft / 2 + 1, (sphOrder + 1) * (sphOrder + 1));
+  getRadialFilter(radFiltMtx, radius, radialFiltNfft, fs, sphOrder, config);
+}
+
+TEST(rfftEachIRMtxTest, canExecuteRfft) {
+  Eigen::MatrixXd drirs = Eigen::MatrixXd::Random(5000, 80);
+  Eigen::MatrixXd hrirsL = Eigen::MatrixXd::Random(128, 2000);
+  Eigen::MatrixXd hrirsR = Eigen::MatrixXd::Random(128, 2000);
+  unsigned nfft = drirs.rows();
+  Eigen::MatrixXcd drirsFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, drirs.cols());
+  Eigen::MatrixXcd hrirsLFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, hrirsL.cols());
+  Eigen::MatrixXcd hrirsRFreqDomain =
+      Eigen::MatrixXcd::Zero((nfft / 2) + 1, hrirsR.cols());
+  rfftEachIRMtx(drirsFreqDomain, drirs, hrirsLFreqDomain, hrirsL,
+                hrirsRFreqDomain, hrirsR, nfft);
 }

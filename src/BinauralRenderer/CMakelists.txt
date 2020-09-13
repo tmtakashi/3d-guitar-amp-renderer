@@ -1,5 +1,7 @@
-add_library(BinauralRenderer SphUtils.cpp)
+add_library(BinauralRenderer SphUtils.cpp BinauralIRRenderer.cpp)
 target_include_directories(BinauralRenderer PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/include
 )
+
+target_link_libraries(BinauralRenderer ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3.dylib)
