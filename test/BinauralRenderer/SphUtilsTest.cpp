@@ -101,6 +101,7 @@ TEST(rfftEachColTest, checkIfRifftConvertsBack) {
   unsigned nfft = 8;
   unsigned numSignals = 5;
   Eigen::MatrixXd timeSignals = Eigen::MatrixXd::Random(nfft, numSignals);
+  Eigen::MatrixXd timeSignalsCopy = timeSignals;
   Eigen::MatrixXcd freqSignals =
       Eigen::MatrixXcd::Zero((nfft / 2) + 1, numSignals);
   rfftEachCol(freqSignals, timeSignals, nfft);
@@ -108,7 +109,7 @@ TEST(rfftEachColTest, checkIfRifftConvertsBack) {
   rifftEachCol(anotherTimeSignals, freqSignals, nfft);
   for (std::size_t i = 0; i < timeSignals.rows(); i++) {
     for (std::size_t j = 0; j < timeSignals.cols(); j++) {
-      EXPECT_FLOAT_EQ(timeSignals(i, j), anotherTimeSignals(i, j));
+      EXPECT_FLOAT_EQ(nfft * timeSignalsCopy(i, j), anotherTimeSignals(i, j));
     }
   }
 }

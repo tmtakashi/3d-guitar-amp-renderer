@@ -1,7 +1,7 @@
 #include "SphUtils.hpp"
 #include "boost/math/special_functions/bessel.hpp"
 #include "boost/math/special_functions/spherical_harmonic.hpp"
-#include "fftw3"
+#include "fftw3.h"
 #include <cmath>
 #include <complex>
 
@@ -103,36 +103,100 @@ Eigen::MatrixXd getSphHarmTypeCoeffMtx(unsigned order, unsigned nfft,
 
 void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
                  unsigned nfft) {
-  assert(freqSignals.rows() == (nfft / 2) + 1);
+  int numFreqBins = (nfft / 2) + 1;
+  int numSignals = timeSignals.cols();
+  int numSamples = timeSignals.rows();
+
+  assert(freqSignals.rows() == numFreqBins);
   assert(nfft >= timeSignals.rows());
-  std::size_t numSignals = freqSignals.cols();
-  std::size_t numFreqBins = freqSignals.rows();
-  Eigen::FFT<double> fft;
-  fft.SetFlag(
-      Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
-  Eigen::VectorXcd tmpOut(numFreqBins);
-  fft.fwd(tmpOut, timeSignals.col(0));
-  for (std::size_t i = 0; i < numSignals; i++) {
-    Eigen::VectorXcd tmpOut(numFreqBins);
-    fft.fwd(tmpOut, timeSignals.col(i));
-    freqSignals.col(i) = tmpOut;
+  assert(freqSignals.cols() == numSignals);
+
+  double *in = (double *)fftw_malloc(sizeof(double) * nfft * numSignals);
+  fftw_complex *out = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) *
+                                                  numFreqBins * numSignals);
+
+  int rank = 1;
+  int n[] = {(int)nfft};
+  int howmany = numSignals;
+  int idist = 1;
+  int odist = 1;
+  int istride = numSignals;
+  int ostride = numSignals;
+  int *inembed = n;
+  int *onembed = n;
+  fftw_plan p =
+      fftw_plan_many_dft_r2c(rank, n, howmany, in, inembed, istride, idist, out,
+                             onembed, ostride, odist, FFTW_ESTIMATE);
+
+  // apply zero-padding to input
+  rowDirectionZeroPadding(timeSignals, nfft);
+
+  // change col-major(default) matrix to row-major
+  Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>
+      timeSignalsRowMaj(timeSignals);
+  // assign to raw input array
+  Eigen::Map<Eigen::MatrixXd>(in, nfft, numSignals) = timeSignalsRowMaj;
+
+  fftw_execute(p);
+  for (std::size_t i = 0; i < numFreqBins; i++) {
+    for (std::size_t j = 0; j < numSignals; j++) {
+      int idx = i * ostride + j * odist;
+      freqSignals(i, j) = std::complex<double>(out[idx][0], out[idx][1]);
+    }
   }
+
+  fftw_destroy_plan(p);
+  fftw_free(in);
+  fftw_free(out);
 }
 
 void rifftEachCol(Eigen::MatrixXd &timeSignals, Eigen::MatrixXcd &freqSignals,
                   unsigned nfft) {
-  assert(timeSignals.rows() == nfft);
-  std::size_t numSignals = timeSignals.cols();
-  std::size_t numSamples = timeSignals.rows();
+  int numFreqBins = (nfft / 2) + 1;
+  int numSignals = timeSignals.cols();
+  int numSamples = timeSignals.rows();
+
+  int rank = 1;
+  int n[] = {(int)nfft};
+  int howmany = numSignals;
+  int idist = 1;
+  int odist = 1;
+  int istride = numSignals;
+  int ostride = numSignals;
+  int *inembed = n;
+  int *onembed = n;
+
+  assert(freqSignals.rows() == numFreqBins);
+  assert(nfft >= timeSignals.rows());
   assert(freqSignals.cols() == numSignals);
-  Eigen::FFT<double> fft;
-  fft.SetFlag(
-      Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
-  Eigen::VectorXd tmpOut(numSamples);
-  for (std::size_t i = 0; i < numSignals; i++) {
-    fft.inv(tmpOut, freqSignals.col(i), nfft);
-    timeSignals.col(i) = tmpOut;
+
+  fftw_complex *in = (fftw_complex *)fftw_malloc(sizeof(fftw_complex) *
+                                                 numFreqBins * numSignals);
+  double *out = (double *)fftw_malloc(sizeof(double) * nfft * numSignals);
+
+  // assign to raw input array
+  for (std::size_t i = 0; i < numFreqBins; i++) {
+    for (std::size_t j = 0; j < numSignals; j++) {
+      int idx = i * ostride + j * odist;
+      in[idx][0] = freqSignals(i, j).real();
+      in[idx][1] = freqSignals(i, j).imag();
+    }
   }
+
+  fftw_plan p =
+      fftw_plan_many_dft_c2r(rank, n, howmany, in, inembed, istride, idist, out,
+                             onembed, ostride, odist, FFTW_ESTIMATE);
+  fftw_execute(p);
+  for (std::size_t i = 0; i < nfft; i++) {
+    for (std::size_t j = 0; j < numSignals; j++) {
+      int idx = i * ostride + j * odist;
+      timeSignals(i, j) = out[idx];
+    }
+  }
+
+  fftw_destroy_plan(p);
+  fftw_free(in);
+  fftw_free(out);
 }
 
 void rfftEachIRMtx(Eigen::MatrixXcd &drtfs, Eigen::MatrixXd &drirs,
