@@ -1,6 +1,7 @@
 #include "SphUtils.hpp"
 #include "boost/math/special_functions/bessel.hpp"
 #include "boost/math/special_functions/spherical_harmonic.hpp"
+#include "fftw3"
 #include <cmath>
 #include <complex>
 
@@ -109,9 +110,11 @@ void rfftEachCol(Eigen::MatrixXcd &freqSignals, Eigen::MatrixXd &timeSignals,
   Eigen::FFT<double> fft;
   fft.SetFlag(
       Eigen::FFT<double, Eigen::default_fft_impl<double>>::Flag::HalfSpectrum);
-  Eigen::RowVectorXcd tmpOut((nfft / 2) + 1);
+  Eigen::VectorXcd tmpOut(numFreqBins);
+  fft.fwd(tmpOut, timeSignals.col(0));
   for (std::size_t i = 0; i < numSignals; i++) {
-    fft.fwd(tmpOut, timeSignals.col(i), nfft);
+    Eigen::VectorXcd tmpOut(numFreqBins);
+    fft.fwd(tmpOut, timeSignals.col(i));
     freqSignals.col(i) = tmpOut;
   }
 }
