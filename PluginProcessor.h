@@ -1,25 +1,27 @@
 #pragma once
 
+#include "Convolver.hpp"
+#include "juce_dsp/juce_dsp.h"
 #include <juce_audio_processors/juce_audio_processors.h>
 
 //==============================================================================
-class AudioPluginAudioProcessor  : public juce::AudioProcessor
+class AudioPluginAudioProcessor : public juce::AudioProcessor
 {
-public:
+  public:
     //==============================================================================
     AudioPluginAudioProcessor();
     ~AudioPluginAudioProcessor() override;
 
     //==============================================================================
-    void prepareToPlay (double sampleRate, int samplesPerBlock) override;
+    void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
 
-    bool isBusesLayoutSupported (const BusesLayout& layouts) const override;
+    bool isBusesLayoutSupported(const BusesLayout &layouts) const override;
 
-    void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
+    void processBlock(juce::AudioBuffer<float> &, juce::MidiBuffer &) override;
 
     //==============================================================================
-    juce::AudioProcessorEditor* createEditor() override;
+    juce::AudioProcessorEditor *createEditor() override;
     bool hasEditor() const override;
 
     //==============================================================================
@@ -33,15 +35,34 @@ public:
     //==============================================================================
     int getNumPrograms() override;
     int getCurrentProgram() override;
-    void setCurrentProgram (int index) override;
-    const juce::String getProgramName (int index) override;
-    void changeProgramName (int index, const juce::String& newName) override;
+    void setCurrentProgram(int index) override;
+    const juce::String getProgramName(int index) override;
+    void changeProgramName(int index, const juce::String &newName) override;
 
     //==============================================================================
-    void getStateInformation (juce::MemoryBlock& destData) override;
-    void setStateInformation (const void* data, int sizeInBytes) override;
+    void getStateInformation(juce::MemoryBlock &destData) override;
+    void setStateInformation(const void *data, int sizeInBytes) override;
 
-private:
+    // BufferTransfer bufferTransfer;
+    // juce::dsp::ConvolutionMessageQueue queue;
+    // juce::dsp::Convolution
+    // convolver{juce::dsp::Convolution::NonUniform{1024},
+    //                                  queue};
+
+    int fftSize;
+    Convolver convolverL{
+        Convolver::ConvolutionMethod::OverlapSave,
+    };
+    Convolver convolverR{
+        Convolver::ConvolutionMethod::OverlapAdd,
+    };
+    struct HrtfBuffers
+    {
+        std::vector<std::complex<float>> hrtfL;
+        std::vector<std::complex<float>> hrtfR;
+    } hrtfBuffers;
+
+  private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (AudioPluginAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

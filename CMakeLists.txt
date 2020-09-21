@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(3D_GUIAR_AMP_RENDERER VERSION 0.0.1)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 add_subdirectory(JUCE)                    # If you've put JUCE in a subdirectory called JUCE
 
 juce_add_plugin(3DGuitarAmpRenderer
@@ -24,7 +25,8 @@ juce_add_plugin(3DGuitarAmpRenderer
 
 target_sources(3DGuitarAmpRenderer PRIVATE
     PluginEditor.cpp
-    PluginProcessor.cpp)
+    PluginProcessor.cpp
+    Convolver.cpp)
 
 target_compile_definitions(3DGuitarAmpRenderer 
     PUBLIC
@@ -34,12 +36,14 @@ target_compile_definitions(3DGuitarAmpRenderer
     JUCE_VST3_CAN_REPLACE_VST2=0)
 
 
+
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
     juce::juce_audio_utils
     juce::juce_dsp
     SofaReader
     BinauralRenderer
+    ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
     )
 
 include(CTest)

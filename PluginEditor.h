@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BufferTransfer.h"
 #include "PluginProcessor.h"
 
 //==============================================================================
@@ -7,7 +8,7 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
                                         public juce::Slider::Listener,
                                         public juce::FilenameComponentListener
 {
-public:
+  public:
     explicit AudioPluginAudioProcessorEditor(AudioPluginAudioProcessor &);
     ~AudioPluginAudioProcessorEditor() override;
 
@@ -18,28 +19,19 @@ public:
     void sliderValueChanged(juce::Slider *slider) override
     {
         if (slider == &azimuthDial)
-            azimuth = azimuthDial.getValue();
+        {
+            // azimuth = azimuthDial.getValue();
+            // if (azimuth < 0)
+            // {
+            //     azimuth = 180 - azimuth;
+            // }
+            // auto irBuffer = irs.at(azimuth);
+            // processorRef.bufferTransfer.set(irBuffer);
+        }
     }
-    // void styleMenuChanged()
-    // {
-    //     switch(styleMenu.getSelectedId())
-    //     {
-    //         case 1:
-    //             textFont.setStyleFlags(juce::Font::plain);
-    //             break;
-    //         case 2:
-    //             textFont.setStyleFlags(juce::Font::bold);
-    //             break;
-    //         case 3:
-    //             textFont.setStyleFlags(juce::Font::italic);
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    //     textLabel.setFont(textFont);
-    // }
 
-    void filenameComponentChanged(juce::FilenameComponent *fileComponentThatHasChanged) override
+    void filenameComponentChanged(
+        juce::FilenameComponent *fileComponentThatHasChanged) override
     {
         if (fileComponentThatHasChanged == fileComp.get())
             readFile(fileComp->getCurrentFile());
@@ -50,17 +42,17 @@ public:
         if (!fileToRead.existsAsFile()) // [1]
             return;
 
-        auto fileText = fileToRead.loadFileAsString();
-
-        textContent->setText(fileText);
+        // processorRef.convolver.loadImpulseResponse(
+        //     fileToRead, juce::dsp::Convolution::Stereo::yes,
+        //     juce::dsp::Convolution::Trim::no, 0,
+        //     juce::dsp::Convolution::Normalise::no);
     }
 
-private:
-
+  private:
     juce::Slider azimuthDial;
     juce::Label testLabel;
 
-    float azimuth;
+    int azimuth;
     AudioPluginAudioProcessor &processorRef;
 
     juce::Label textLabel;
@@ -68,9 +60,10 @@ private:
     juce::ComboBox styleMenu;
 
     // File reading
-    std::unique_ptr <juce::FilenameComponent> fileComp;
-    std::unique_ptr <juce::TextEditor> textContent;
- 
+    std::unique_ptr<juce::FilenameComponent> fileComp;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessorEditor)
+    std::vector<BufferWithSampleRate> irs;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(
+        AudioPluginAudioProcessorEditor)
 };
