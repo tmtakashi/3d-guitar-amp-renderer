@@ -10,6 +10,7 @@ Convolver::~Convolver()
     fftwf_free(IN);
     fftwf_free(Y);
     fftwf_free(paddedIn);
+    fftwf_free(filteredInput);
     if (method == ConvolutionMethod::OverlapAdd)
     {
         fftwf_free(overlapAddBuffer);
@@ -18,29 +19,26 @@ Convolver::~Convolver()
     {
         fftwf_free(overlapSaveBuffer);
     }
-    fftwf_free(filteredInput);
 }
 
-void Convolver::prepare(int bufSize, int irSz,
+void Convolver::prepare(int bufSize, int irSz, int fftSz,
                         std::complex<float> *newIR) noexcept
 {
     // set parameters
     bufferSize = bufSize;
     irSize = irSz;
     ;
+    fftSize = fftSz;
     if (method == ConvolutionMethod::OverlapAdd)
     {
         overlapAddBufferSize = std::pow(
             2, std::ceil(std::log(bufferSize + irSize - 1) / std::log(2)));
 
         overlapAddBuffer = (float *)calloc(overlapAddBufferSize, sizeof(float));
-        fftSize = std::pow(2, std::ceil(std::log(irSz) / std::log(2)));
         ;
     }
     else if (method == ConvolutionMethod::OverlapSave)
     {
-        fftSize = std::pow(
-            2, std::ceil(std::log(irSz + bufferSize - 1) / std::log(2)));
         overlapSaveBuffer = (float *)calloc(fftSize, sizeof(float));
     }
 

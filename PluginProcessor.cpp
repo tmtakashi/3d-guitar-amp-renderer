@@ -106,9 +106,11 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
                      buffer.getNumChannels(), 0, buffer.getNumSamples());
         fftSize = std::pow(
             2, std::ceil(std::log(reader->lengthInSamples) / std::log(2)));
-        buffer.setSize(buffer.getNumChannels(), fftSize);
+        buffer.setSize(buffer.getNumChannels(), fftSize, true);
+
         hrtfBuffers.hrtfL.resize(fftSize / 2 + 1);
         hrtfBuffers.hrtfR.resize(fftSize / 2 + 1);
+
         fftwf_plan p_fwd_L = fftwf_plan_dft_r2c_1d(
             fftSize, buffer.getWritePointer(0),
             reinterpret_cast<fftwf_complex *>(hrtfBuffers.hrtfL.data()),
@@ -123,11 +125,10 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
 
         fftwf_destroy_plan(p_fwd_L);
         fftwf_destroy_plan(p_fwd_R);
-        // }
 
-        convolverL.prepare(samplesPerBlock, reader->lengthInSamples,
+        convolverL.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
                            hrtfBuffers.hrtfL.data());
-        convolverR.prepare(samplesPerBlock, reader->lengthInSamples,
+        convolverR.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
                            hrtfBuffers.hrtfR.data());
     }
 }
@@ -184,12 +185,13 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     //                                   juce::dsp::Convolution::Trim::yes,
     //                                   juce::dsp::Convolution::Normalise::yes);
     // });
-    auto *inBuffer = buffer.getReadPointer(0, 0);
+    auto *inBufferL = buffer.getReadPointer(0, 0);
+    auto *inBufferR = buffer.getReadPointer(1, 0);
     auto *outBufferL = buffer.getWritePointer(0, 0);
     auto *outBufferR = buffer.getWritePointer(1, 0);
 
-    convolverL.process(inBuffer, outBufferL);
-    // convolverR.process(inBuffer, outBufferR);
+    convolverL.process(inBufferL, outBufferL);
+    convolverR.process(inBufferR, outBufferR);
 }
 
 //==============================================================================

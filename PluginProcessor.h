@@ -54,7 +54,7 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
         Convolver::ConvolutionMethod::OverlapSave,
     };
     Convolver convolverR{
-        Convolver::ConvolutionMethod::OverlapAdd,
+        Convolver::ConvolutionMethod::OverlapSave,
     };
     struct HrtfBuffers
     {

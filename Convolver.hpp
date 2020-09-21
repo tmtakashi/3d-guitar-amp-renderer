@@ -15,7 +15,8 @@ class Convolver
     };
     Convolver(Convolver::ConvolutionMethod convolutionMethod);
     ~Convolver();
-    void prepare(int bufSize, int irSz, std::complex<float> *newIR) noexcept;
+    void prepare(int bufSize, int fftSz, int irSz,
+                 std::complex<float> *newIR) noexcept;
     void process(const float *in, float *out);
 
   private:
