@@ -46,6 +46,8 @@ class Convolver
     int overlapMask = 0;
 
     Convolver::ConvolutionMethod method;
+
+    void fftConvolution(float *in, float *out);
 };
 
 #endif /* EDA72C9F_9B25_4C13_9BF8_70404723EB0F */

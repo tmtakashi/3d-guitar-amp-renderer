@@ -63,22 +63,8 @@ void Convolver::process(const float *in, float *out)
     if (method == ConvolutionMethod::OverlapAdd)
     {
         memcpy(paddedIn, in, bufferSize * sizeof(float)); // zero-padding
-        fftwf_plan p_fwd =
-            fftwf_plan_dft_r2c_1d(fftSize, paddedIn, IN, FFTW_ESTIMATE);
-        fftwf_execute(p_fwd);
-        fftwf_destroy_plan(p_fwd);
-        memset(paddedIn, 0,
-               bufferSize * sizeof(float)); // reset values after in-place fft
 
-        for (int i = 0; i < rfftSize; ++i)
-        {
-            Y[i][0] = IN[i][0] * IR[i].real() - IN[i][1] * IR[i].imag(); // real
-            Y[i][1] = IN[i][0] * IR[i].imag() + IN[i][1] * IR[i].real(); // imag
-        }
-        fftwf_plan p_inv =
-            fftwf_plan_dft_c2r_1d(fftSize, Y, filteredInput, FFTW_ESTIMATE);
-        fftwf_execute(p_inv);
-        fftwf_destroy_plan(p_inv);
+        fftConvolution(paddedIn, filteredInput);
 
         // calculate output buffer
         for (int i = 0; i < bufferSize; ++i)
@@ -120,21 +106,7 @@ void Convolver::process(const float *in, float *out)
         // copy buffer since FFT is inplace
         memcpy(paddedIn, overlapSaveBuffer, fftSize * sizeof(float));
 
-        // perform FFT for input
-        fftwf_plan p_fwd =
-            fftwf_plan_dft_r2c_1d(fftSize, paddedIn, IN, FFTW_ESTIMATE);
-        fftwf_execute(p_fwd);
-        fftwf_destroy_plan(p_fwd);
-
-        for (int i = 0; i < rfftSize; ++i)
-        {
-            Y[i][0] = IN[i][0] * IR[i].real() - IN[i][1] * IR[i].imag(); // real
-            Y[i][1] = IN[i][0] * IR[i].imag() + IN[i][1] * IR[i].real(); // imag
-        }
-        fftwf_plan p_inv =
-            fftwf_plan_dft_c2r_1d(fftSize, Y, filteredInput, FFTW_ESTIMATE);
-        fftwf_execute(p_inv);
-        fftwf_destroy_plan(p_inv);
+        fftConvolution(paddedIn, filteredInput);
 
         // only use last bufferSize samples as output
         for (int i = 0; i < bufferSize; ++i)
@@ -146,4 +118,20 @@ void Convolver::process(const float *in, float *out)
         memmove(overlapSaveBuffer, &overlapSaveBuffer[bufferSize],
                 (fftSize - bufferSize) * sizeof(float));
     }
+}
+
+void Convolver::fftConvolution(float *in, float *out)
+{
+    fftwf_plan p_fwd = fftwf_plan_dft_r2c_1d(fftSize, in, IN, FFTW_ESTIMATE);
+    fftwf_execute(p_fwd);
+    fftwf_destroy_plan(p_fwd);
+
+    for (int i = 0; i < rfftSize; ++i)
+    {
+        Y[i][0] = IN[i][0] * IR[i].real() - IN[i][1] * IR[i].imag(); // real
+        Y[i][1] = IN[i][0] * IR[i].imag() + IN[i][1] * IR[i].real(); // imag
+    }
+    fftwf_plan p_inv = fftwf_plan_dft_c2r_1d(fftSize, Y, out, FFTW_ESTIMATE);
+    fftwf_execute(p_inv);
+    fftwf_destroy_plan(p_inv);
 }
