@@ -99,37 +99,67 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
 
     if (reader.get() != nullptr)
     {
-        juce::AudioBuffer<float> buffer(
-            static_cast<int>(reader->numChannels),
-            static_cast<int>(reader->lengthInSamples));
-        reader->read((float **)buffer.getArrayOfWritePointers(),
-                     buffer.getNumChannels(), 0, buffer.getNumSamples());
-        fftSize = std::pow(
-            2, std::ceil(std::log(reader->lengthInSamples) / std::log(2)));
-        buffer.setSize(buffer.getNumChannels(), fftSize, true);
+        // load irs
+        juce::Array<juce::File> files;
+        juce::File("/Users/takashiminagawa/src/github.com/tmtakashi/"
+                   "3d-guitar-amp-renderer/irs/")
+            .findChildFiles(files, juce::File::findFilesAndDirectories, false,
+                            "*.wav");
+        bool putFoldersFirst = false;
+        juce::File::NaturalFileComparator sorter(putFoldersFirst);
+        files.sort(sorter);
 
-        hrtfBuffers.hrtfL.resize(fftSize / 2 + 1);
-        hrtfBuffers.hrtfR.resize(fftSize / 2 + 1);
+        juce::AudioFormatManager formatManager;
+        formatManager.registerBasicFormats();
 
-        fftwf_plan p_fwd_L = fftwf_plan_dft_r2c_1d(
-            fftSize, buffer.getWritePointer(0),
-            reinterpret_cast<fftwf_complex *>(hrtfBuffers.hrtfL.data()),
-            FFTW_ESTIMATE);
-        fftwf_execute(p_fwd_L);
+        hrtfBuffers.hrtfsL.resize(files.size());
+        hrtfBuffers.hrtfsR.resize(files.size());
+        for (int i = 0; i < files.size(); ++i)
+        {
+            auto &file = files.getReference(i);
+            std::unique_ptr<juce::InputStream> stream(file.createInputStream());
+            std::unique_ptr<juce::AudioFormatReader> reader(
+                formatManager.createReaderFor(std::move(stream)));
 
-        fftwf_plan p_fwd_R = fftwf_plan_dft_r2c_1d(
-            fftSize, buffer.getWritePointer(1),
-            reinterpret_cast<fftwf_complex *>(hrtfBuffers.hrtfR.data()),
-            FFTW_ESTIMATE);
-        fftwf_execute(p_fwd_R);
+            if (reader.get() != nullptr)
+            {
+                juce::AudioBuffer<float> buffer(
+                    static_cast<int>(reader->numChannels),
+                    static_cast<int>(reader->lengthInSamples));
+                reader->read(buffer.getArrayOfWritePointers(),
+                             buffer.getNumChannels(), 0,
+                             buffer.getNumSamples());
+                fftSize =
+                    std::pow(2, std::ceil(std::log(reader->lengthInSamples) /
+                                          std::log(2)));
+                buffer.setSize(buffer.getNumChannels(), fftSize, true);
 
-        fftwf_destroy_plan(p_fwd_L);
-        fftwf_destroy_plan(p_fwd_R);
+                hrtfBuffers.hrtfsL[i].resize(fftSize / 2 + 1);
+                hrtfBuffers.hrtfsR[i].resize(fftSize / 2 + 1);
+
+                fftwf_plan p_fwd_L =
+                    fftwf_plan_dft_r2c_1d(fftSize, buffer.getWritePointer(0),
+                                          reinterpret_cast<fftwf_complex *>(
+                                              hrtfBuffers.hrtfsL[i].data()),
+                                          FFTW_ESTIMATE);
+                fftwf_execute(p_fwd_L);
+
+                fftwf_plan p_fwd_R =
+                    fftwf_plan_dft_r2c_1d(fftSize, buffer.getWritePointer(1),
+                                          reinterpret_cast<fftwf_complex *>(
+                                              hrtfBuffers.hrtfsR[i].data()),
+                                          FFTW_ESTIMATE);
+                fftwf_execute(p_fwd_R);
+
+                fftwf_destroy_plan(p_fwd_L);
+                fftwf_destroy_plan(p_fwd_R);
+            }
+        }
 
         convolverL.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
-                           hrtfBuffers.hrtfL.data());
+                           hrtfBuffers.hrtfsL[0].data());
         convolverR.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
-                           hrtfBuffers.hrtfR.data());
+                           hrtfBuffers.hrtfsR[0].data());
     }
 }
 void AudioPluginAudioProcessor::releaseResources()
@@ -176,15 +206,13 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
-    // auto block = juce::dsp::AudioBlock<float>(buffer);
-    // auto context = juce::dsp::ProcessContextReplacing<float>(block);
+    if (isNewIRSet)
+    {
+        convolverL.setNewIR(currentLeftIRPointer);
+        convolverR.setNewIR(currentRightIRPointer);
+        isNewIRSet = false;
+    }
 
-    // bufferTransfer.get([this](BufferWithSampleRate &buf) {
-    //     convolver.loadImpulseResponse(std::move(buf.buffer), buf.sampleRate,
-    //                                   juce::dsp::Convolution::Stereo::yes,
-    //                                   juce::dsp::Convolution::Trim::yes,
-    //                                   juce::dsp::Convolution::Normalise::yes);
-    // });
     auto *inBufferL = buffer.getReadPointer(0, 0);
     auto *inBufferR = buffer.getReadPointer(1, 0);
     auto *outBufferL = buffer.getWritePointer(0, 0);
@@ -221,6 +249,13 @@ void AudioPluginAudioProcessor::setStateInformation(const void *data,
     // block, whose contents will have been created by the getStateInformation()
     // call.
     juce::ignoreUnused(data, sizeInBytes);
+}
+
+void AudioPluginAudioProcessor::setCurrentIRPointer(int idx)
+{
+    currentLeftIRPointer = hrtfBuffers.hrtfsL[idx].data();
+    currentRightIRPointer = hrtfBuffers.hrtfsR[idx].data();
+    isNewIRSet = true;
 }
 
 //==============================================================================

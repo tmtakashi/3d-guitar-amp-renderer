@@ -10,42 +10,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 {
     juce::ignoreUnused(processorRef);
 
-    // load irs
-    // juce::Array<juce::File> files;
-    // juce::File("/Users/takashiminagawa/src/github.com/tmtakashi/"
-    //            "3d-guitar-amp-renderer/test_irs/")
-    //     .findChildFiles(files, juce::File::findFilesAndDirectories, false,
-    //                     "*.wav");
-    // bool putFoldersFirst = false;
-    // juce::File::NaturalFileComparator sorter(putFoldersFirst);
-    // files.sort(sorter);
-
-    // juce::AudioFormatManager formatManager;
-    // formatManager.registerBasicFormats();
-
-    // for (auto &file : files)
-    // {
-    //     std::cout << file.getFileName() << std::endl;
-    //     std::unique_ptr<juce::InputStream> stream(file.createInputStream());
-    //     std::unique_ptr<juce::AudioFormatReader> reader(
-    //         formatManager.createReaderFor(std::move(stream)));
-
-    //     if (reader.get() != nullptr)
-    //     {
-    //         juce::AudioBuffer<float> buffer(
-    //             static_cast<int>(reader->numChannels),
-    //             static_cast<int>(reader->lengthInSamples));
-    //         reader->read(buffer.getArrayOfWritePointers(),
-    //                      buffer.getNumChannels(), 0, buffer.getNumSamples());
-    //         irs.push_back(
-    //             BufferWithSampleRate{std::move(buffer), reader->sampleRate});
-    //     }
-    // }
-
     addAndMakeVisible(azimuthDial);
     azimuthDial.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     azimuthDial.setRotaryParameters({0, 2 * juce::float_Pi, true});
-    azimuthDial.setRange(-36, 36, 1);
+    azimuthDial.setRange(0, 359, 1);
     azimuthDial.addListener(this);
 
     // setup slider label

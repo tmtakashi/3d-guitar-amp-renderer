@@ -20,13 +20,8 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
     {
         if (slider == &azimuthDial)
         {
-            // azimuth = azimuthDial.getValue();
-            // if (azimuth < 0)
-            // {
-            //     azimuth = 180 - azimuth;
-            // }
-            // auto irBuffer = irs.at(azimuth);
-            // processorRef.bufferTransfer.set(irBuffer);
+            azimuth = azimuthDial.getValue();
+            processorRef.setCurrentIRPointer(azimuth);
         }
     }
 

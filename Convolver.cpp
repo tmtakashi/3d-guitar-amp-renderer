@@ -135,3 +135,5 @@ void Convolver::fftConvolution(float *in, float *out)
     fftwf_execute(p_inv);
     fftwf_destroy_plan(p_inv);
 }
+
+void Convolver::setNewIR(std::complex<float> *newIR) { IR = newIR; }

@@ -43,26 +43,25 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock &destData) override;
     void setStateInformation(const void *data, int sizeInBytes) override;
 
-    // BufferTransfer bufferTransfer;
-    // juce::dsp::ConvolutionMessageQueue queue;
-    // juce::dsp::Convolution
-    // convolver{juce::dsp::Convolution::NonUniform{1024},
-    //                                  queue};
-
     int fftSize;
     Convolver convolverL{
-        Convolver::ConvolutionMethod::OverlapSave,
+        Convolver::ConvolutionMethod::OverlapAdd,
     };
     Convolver convolverR{
-        Convolver::ConvolutionMethod::OverlapSave,
+        Convolver::ConvolutionMethod::OverlapAdd,
     };
     struct HrtfBuffers
     {
-        std::vector<std::complex<float>> hrtfL;
-        std::vector<std::complex<float>> hrtfR;
+        std::vector<std::vector<std::complex<float>>> hrtfsL;
+        std::vector<std::vector<std::complex<float>>> hrtfsR;
     } hrtfBuffers;
 
+    void setCurrentIRPointer(int idx);
+
   private:
+    std::complex<float> *currentLeftIRPointer;
+    std::complex<float> *currentRightIRPointer;
+    bool isNewIRSet;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };

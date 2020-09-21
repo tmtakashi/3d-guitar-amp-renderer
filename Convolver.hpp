@@ -18,6 +18,8 @@ class Convolver
     void prepare(int bufSize, int fftSz, int irSz,
                  std::complex<float> *newIR) noexcept;
     void process(const float *in, float *out);
+    // IR size need to be the same to call this function
+    void setNewIR(std::complex<float> *newIR);
 
   private:
     int bufferSize = 0;
