@@ -14,7 +14,6 @@ class Convolver
         OverlapSave,
     };
     Convolver(Convolver::ConvolutionMethod convolutionMethod);
-    ~Convolver();
     void prepare(int bufSize, int fftSz, int irSz,
                  std::complex<float> *newIR) noexcept;
     void process(const float *in, float *out);
@@ -30,20 +29,20 @@ class Convolver
     // pre-computed rfft array of the impulse response(size: fftSize / 2 + 1)
     std::complex<float> *IR;
     // rfft array container for input buffer
-    fftwf_complex *IN;
+    std::vector<std::complex<float>> IN;
     // array container for frequency domain
-    fftwf_complex *Y;
+    std::vector<std::complex<float>> Y;
     // array container for convolution result
-    float *filteredInput;
-    float *paddedIn;
+    std::vector<float> filteredInput;
+    std::vector<float> paddedIn;
 
     // array container for overlap add
-    float *overlapAddBuffer;
+    std::vector<float> overlapAddBuffer;
     int overlapAddBufferSize = 0;
     int overlapAddFrontPointer = 0;
 
     // array container for overlap save
-    float *overlapSaveBuffer;
+    std::vector<float> overlapSaveBuffer;
 
     int overlapMask = 0;
 

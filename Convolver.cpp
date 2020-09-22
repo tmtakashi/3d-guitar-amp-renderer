@@ -5,22 +5,6 @@ Convolver::Convolver(Convolver::ConvolutionMethod convolutionMethod)
 {
 }
 
-Convolver::~Convolver()
-{
-    fftwf_free(IN);
-    fftwf_free(Y);
-    fftwf_free(paddedIn);
-    fftwf_free(filteredInput);
-    if (method == ConvolutionMethod::OverlapAdd)
-    {
-        fftwf_free(overlapAddBuffer);
-    }
-    else if (method == ConvolutionMethod::OverlapSave)
-    {
-        fftwf_free(overlapSaveBuffer);
-    }
-}
-
 void Convolver::prepare(int bufSize, int irSz, int fftSz,
                         std::complex<float> *newIR) noexcept
 {
@@ -34,12 +18,11 @@ void Convolver::prepare(int bufSize, int irSz, int fftSz,
         overlapAddBufferSize = std::pow(
             2, std::ceil(std::log(bufferSize + irSize - 1) / std::log(2)));
 
-        overlapAddBuffer = (float *)calloc(overlapAddBufferSize, sizeof(float));
-        ;
+        overlapAddBuffer.resize(overlapAddBufferSize, 0);
     }
     else if (method == ConvolutionMethod::OverlapSave)
     {
-        overlapSaveBuffer = (float *)calloc(fftSize, sizeof(float));
+        overlapSaveBuffer.resize(fftSize, 0);
     }
 
     rfftSize = fftSize / 2 + 1;
@@ -47,13 +30,10 @@ void Convolver::prepare(int bufSize, int irSz, int fftSz,
     IR = newIR;
 
     // dynamic allocation
-    IN = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex) *
-                                       (fftSize / 2 + 1));
-    Y = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex) *
-                                      (fftSize / 2 + 1));
-    filteredInput = (float *)fftwf_malloc(sizeof(float) * fftSize);
-    paddedIn = (float *)calloc(
-        fftSize, sizeof(float)); // calloc initializes elements to zero
+    IN.resize(fftSize / 2 + 1);
+    Y.resize(fftSize / 2 + 1);
+    filteredInput.resize(fftSize);
+    paddedIn.resize(fftSize, 0.0f);
 
     overlapMask = overlapAddBufferSize - 1;
 }
@@ -62,9 +42,9 @@ void Convolver::process(const float *in, float *out)
 {
     if (method == ConvolutionMethod::OverlapAdd)
     {
-        memcpy(paddedIn, in, bufferSize * sizeof(float)); // zero-padding
+        memcpy(paddedIn.data(), in, bufferSize * sizeof(float)); // zero-padding
 
-        fftConvolution(paddedIn, filteredInput);
+        fftConvolution(paddedIn.data(), filteredInput.data());
 
         // calculate output buffer
         for (int i = 0; i < bufferSize; ++i)
@@ -78,19 +58,18 @@ void Convolver::process(const float *in, float *out)
         // update overlap buffer
         if (overlapAddFrontPointer - bufferSize >= 0)
         {
-            memset(&overlapAddBuffer[overlapAddFrontPointer] - bufferSize, 0,
-                   bufferSize * sizeof(float));
+            std::fill_n(overlapAddBuffer.begin() + overlapAddFrontPointer -
+                            bufferSize,
+                        bufferSize, 0);
         }
         else
         {
-            memset(overlapAddBuffer, 0,
-                   overlapAddFrontPointer *
-                       sizeof(float)); // fill front of the buffer
-            memset(&overlapAddBuffer[overlapAddBufferSize -
-                                     (bufferSize - overlapAddFrontPointer)],
-                   0,
-                   (bufferSize - overlapAddFrontPointer) *
-                       sizeof(float)); // fill tail of the buffer
+            // fill front of the buffer
+            std::fill_n(overlapAddBuffer.begin(), overlapAddFrontPointer, 0);
+            // fill tail of the buffer
+            std::fill_n(overlapAddBuffer.begin() + overlapAddBufferSize -
+                            (bufferSize - overlapAddFrontPointer),
+                        bufferSize - overlapAddFrontPointer, 0);
         }
         for (int i = 0; i < irSize - 1; ++i)
         {
@@ -104,9 +83,10 @@ void Convolver::process(const float *in, float *out)
         memcpy(&overlapSaveBuffer[fftSize - bufferSize], in,
                bufferSize * sizeof(float));
         // copy buffer since FFT is inplace
-        memcpy(paddedIn, overlapSaveBuffer, fftSize * sizeof(float));
+        std::copy(overlapSaveBuffer.begin(), overlapSaveBuffer.end(),
+                  paddedIn.begin());
 
-        fftConvolution(paddedIn, filteredInput);
+        fftConvolution(paddedIn.data(), filteredInput.data());
 
         // only use last bufferSize samples as output
         for (int i = 0; i < bufferSize; ++i)
@@ -115,23 +95,29 @@ void Convolver::process(const float *in, float *out)
         }
 
         // slide buffer
-        memmove(overlapSaveBuffer, &overlapSaveBuffer[bufferSize],
+        memmove(overlapSaveBuffer.data(), &overlapSaveBuffer[bufferSize],
                 (fftSize - bufferSize) * sizeof(float));
     }
 }
 
 void Convolver::fftConvolution(float *in, float *out)
 {
-    fftwf_plan p_fwd = fftwf_plan_dft_r2c_1d(fftSize, in, IN, FFTW_ESTIMATE);
+    fftwf_plan p_fwd = fftwf_plan_dft_r2c_1d(
+        fftSize, in, reinterpret_cast<fftwf_complex *>(IN.data()),
+        FFTW_ESTIMATE);
     fftwf_execute(p_fwd);
     fftwf_destroy_plan(p_fwd);
 
     for (int i = 0; i < rfftSize; ++i)
     {
-        Y[i][0] = IN[i][0] * IR[i].real() - IN[i][1] * IR[i].imag(); // real
-        Y[i][1] = IN[i][0] * IR[i].imag() + IN[i][1] * IR[i].real(); // imag
+        Y[i] = {
+            IN[i].real() * IR[i].real() - IN[i].imag() * IR[i].imag(), // real
+            IN[i].real() * IR[i].imag() + IN[i].imag() * IR[i].real()  // imag
+        };
     }
-    fftwf_plan p_inv = fftwf_plan_dft_c2r_1d(fftSize, Y, out, FFTW_ESTIMATE);
+    fftwf_plan p_inv = fftwf_plan_dft_c2r_1d(
+        fftSize, reinterpret_cast<fftwf_complex *>(Y.data()), out,
+        FFTW_ESTIMATE);
     fftwf_execute(p_inv);
     fftwf_destroy_plan(p_inv);
 }
