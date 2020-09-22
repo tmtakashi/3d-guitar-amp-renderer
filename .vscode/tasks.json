@@ -23,6 +23,29 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "type": "shell",
+      "label": "Build AU (debug)",
+      "command": "cmake",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      },
+      "args": [
+        "--build",
+        "./build",
+        "--config",
+        "Debug",
+        "--target",
+        "3DGuitarAmpRenderer_AU",
+        "--",
+        "-j",
+        "10"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }
