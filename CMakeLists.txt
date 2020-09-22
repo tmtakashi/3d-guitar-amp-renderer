@@ -41,6 +41,7 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
     juce::juce_audio_utils
     juce::juce_dsp
+    juce::juce_osc
     SofaReader
     BinauralRenderer
     ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib

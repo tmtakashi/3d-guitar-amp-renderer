@@ -2,11 +2,15 @@
 
 #include "BufferTransfer.h"
 #include "PluginProcessor.h"
+#include "juce_osc/juce_osc.h"
 
 //==============================================================================
-class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
-                                        public juce::Slider::Listener,
-                                        public juce::FilenameComponentListener
+class AudioPluginAudioProcessorEditor
+    : public juce::AudioProcessorEditor,
+      public juce::Slider::Listener,
+      public juce::FilenameComponentListener,
+      private juce::OSCReceiver::Listener<
+          juce::OSCReceiver::MessageLoopCallback>
 {
   public:
     explicit AudioPluginAudioProcessorEditor(AudioPluginAudioProcessor &);
@@ -21,7 +25,8 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
         if (slider == &azimuthDial)
         {
             azimuth = azimuthDial.getValue();
-            processorRef.setCurrentIRPointer(azimuth);
+            std::size_t idx = azimuth >= 0 ? azimuth : 180 - azimuth;
+            processorRef.setCurrentIRPointer(idx);
         }
     }
 
@@ -42,6 +47,34 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
         //     juce::dsp::Convolution::Trim::no, 0,
         //     juce::dsp::Convolution::Normalise::no);
     }
+    void showConnectionErrorMessage(const juce::String &messageText)
+    {
+        juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::WarningIcon,
+                                               "Connection error", messageText,
+                                               "OK");
+    }
+
+    void oscMessageReceived(const juce::OSCMessage &message) override
+    {
+        if (message.getAddressPattern().toString() == "/gyrosc/gyro" &&
+            message.size() == 3 && message[2].isFloat32())
+        {
+            azimuthDial.setValue(
+                juce::radiansToDegrees(message[2].getFloat32()));
+        }
+    }
+
+    void oscBundleReceived(const juce::OSCBundle &bundle) override
+    {
+        for (int i = 0; i < bundle.size(); ++i)
+        {
+            auto elem = bundle[i];
+            if (elem.isMessage())
+                oscMessageReceived(elem.getMessage());
+            else if (elem.isBundle())
+                oscBundleReceived(elem.getBundle());
+        }
+    }
 
   private:
     juce::Slider azimuthDial;
@@ -53,6 +86,8 @@ class AudioPluginAudioProcessorEditor : public juce::AudioProcessorEditor,
     juce::Label textLabel;
     juce::Font textFont{14.0f};
     juce::ComboBox styleMenu;
+
+    juce::OSCReceiver oscReceiver;
 
     // File reading
     std::unique_ptr<juce::FilenameComponent> fileComp;

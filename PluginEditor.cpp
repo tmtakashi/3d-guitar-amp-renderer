@@ -13,7 +13,8 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     addAndMakeVisible(azimuthDial);
     azimuthDial.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     azimuthDial.setRotaryParameters({0, 2 * juce::float_Pi, true});
-    azimuthDial.setRange(0, 359, 1);
+    azimuthDial.setRange(-179, 180, 1);
+    azimuthDial.setValue(0);
     azimuthDial.addListener(this);
 
     // setup slider label
@@ -32,6 +33,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
 
     addAndMakeVisible(fileComp.get());
     fileComp->addListener(this);
+
+    oscReceiver.addListener(this);
+    oscReceiver.connect(9001);
 
     setSize(800, 500);
 }

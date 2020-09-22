@@ -61,7 +61,7 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
   private:
     std::complex<float> *currentLeftIRPointer;
     std::complex<float> *currentRightIRPointer;
-    bool isNewIRSet;
+    bool isNewIRSet = false;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
