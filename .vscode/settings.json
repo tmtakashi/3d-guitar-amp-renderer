@@ -90,6 +90,12 @@
     "compare": "cpp",
     "concepts": "cpp",
     "ranges": "cpp",
-    "stop_token": "cpp"
+    "stop_token": "cpp",
+    "*.ipp": "cpp",
+    "any": "cpp",
+    "forward_list": "cpp",
+    "regex": "cpp",
+    "valarray": "cpp",
+    "alignedvector3": "cpp"
   }
 }
