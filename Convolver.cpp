@@ -58,18 +58,19 @@ void Convolver::process(const float *in, float *out)
         // update overlap buffer
         if (overlapAddFrontPointer - bufferSize >= 0)
         {
-            std::fill_n(overlapAddBuffer.begin() + overlapAddFrontPointer -
-                            bufferSize,
-                        bufferSize, 0);
+            memset(&overlapAddBuffer[overlapAddFrontPointer] - bufferSize, 0,
+                   bufferSize * sizeof(float));
         }
         else
         {
-            // fill front of the buffer
-            std::fill_n(overlapAddBuffer.begin(), overlapAddFrontPointer, 0);
-            // fill tail of the buffer
-            std::fill_n(overlapAddBuffer.begin() + overlapAddBufferSize -
-                            (bufferSize - overlapAddFrontPointer),
-                        bufferSize - overlapAddFrontPointer, 0);
+            memset(overlapAddBuffer.data(), 0,
+                   overlapAddFrontPointer *
+                       sizeof(float)); // fill front of the buffer
+            memset(&overlapAddBuffer[overlapAddBufferSize -
+                                     (bufferSize - overlapAddFrontPointer)],
+                   0,
+                   (bufferSize - overlapAddFrontPointer) *
+                       sizeof(float)); // fill tail of the buffer
         }
         for (int i = 0; i < irSize - 1; ++i)
         {
