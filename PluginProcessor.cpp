@@ -89,20 +89,20 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
     // if (hrtfBuffers.hrtfL.empty() && hrtfBuffers.hrtfR.empty())
     // {
 
-    juce::File file("/Users/takashiminagawa/src/github.com/tmtakashi/"
-                    "3d-guitar-amp-renderer/irs/ir_090.wav");
-    juce::AudioFormatManager formatManager;
-    formatManager.registerBasicFormats();
-    std::unique_ptr<juce::InputStream> stream(file.createInputStream());
-    std::unique_ptr<juce::AudioFormatReader> reader(
-        formatManager.createReaderFor(std::move(stream)));
+    // juce::File file("/Users/takashiminagawa/src/github.com/tmtakashi/"
+    //                 "3d-guitar-amp-renderer/irs/ir_090.wav");
+    // juce::AudioFormatManager formatManager;
+    // formatManager.registerBasicFormats();
+    // std::unique_ptr<juce::InputStream> stream(file.createInputStream());
+    // std::unique_ptr<juce::AudioFormatReader> reader(
+    //     formatManager.createReaderFor(std::move(stream)));
 
-    if (reader.get() != nullptr)
-    {
+    // if (reader.get() != nullptr)
+    // {
+        int irLength;
         // load irs
         juce::Array<juce::File> files;
-        juce::File("/Users/takashiminagawa/src/github.com/tmtakashi/"
-                   "3d-guitar-amp-renderer/irs/")
+        juce::File("/Users/kazumawatanabe/3d-guitar-amp-renderer/irs")
             .findChildFiles(files, juce::File::findFilesAndDirectories, false,
                             "*.wav");
         bool putFoldersFirst = false;
@@ -123,9 +123,10 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
 
             if (reader.get() != nullptr)
             {
+                irLength = reader->lengthInSamples;
                 juce::AudioBuffer<float> buffer(
                     static_cast<int>(reader->numChannels),
-                    static_cast<int>(reader->lengthInSamples));
+                    irLength);
                 reader->read(buffer.getArrayOfWritePointers(),
                              buffer.getNumChannels(), 0,
                              buffer.getNumSamples());
@@ -156,12 +157,12 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
             }
         }
 
-        convolverL.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
+        convolverL.prepare(samplesPerBlock, irLength, fftSize,
                            hrtfBuffers.hrtfsL[0].data());
-        convolverR.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
+        convolverR.prepare(samplesPerBlock, irLength, fftSize,
                            hrtfBuffers.hrtfsR[0].data());
-    }
-}
+    // }
+} 
 void AudioPluginAudioProcessor::releaseResources()
 {
     // When playback stops, you can use this as an opportunity to free up any
