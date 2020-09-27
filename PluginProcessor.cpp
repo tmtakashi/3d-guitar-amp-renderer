@@ -102,7 +102,7 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
         // load irs
         juce::Array<juce::File> files;
         juce::File("/Users/takashiminagawa/src/github.com/tmtakashi/"
-                   "3d-guitar-amp-renderer/irs/")
+                   "3d-guitar-amp-renderer/tajigen_brirs/")
             .findChildFiles(files, juce::File::findFilesAndDirectories, false,
                             "*.wav");
         bool putFoldersFirst = false;
@@ -114,6 +114,7 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
 
         hrtfBuffers.hrtfsL.resize(files.size());
         hrtfBuffers.hrtfsR.resize(files.size());
+        int numPartitions;
         for (int i = 0; i < files.size(); ++i)
         {
             auto &file = files.getReference(i);
@@ -129,36 +130,49 @@ void AudioPluginAudioProcessor::prepareToPlay(double sampleRate,
                 reader->read(buffer.getArrayOfWritePointers(),
                              buffer.getNumChannels(), 0,
                              buffer.getNumSamples());
-                fftSize =
-                    std::pow(2, std::ceil(std::log(reader->lengthInSamples) /
-                                          std::log(2)));
-                buffer.setSize(buffer.getNumChannels(), fftSize, true);
 
-                hrtfBuffers.hrtfsL[i].resize(fftSize / 2 + 1);
-                hrtfBuffers.hrtfsR[i].resize(fftSize / 2 + 1);
+                numPartitions = ceil(reader->lengthInSamples / samplesPerBlock);
+                buffer.setSize(buffer.getNumChannels(),
+                               samplesPerBlock * numPartitions, true);
 
-                fftwf_plan p_fwd_L =
-                    fftwf_plan_dft_r2c_1d(fftSize, buffer.getWritePointer(0),
-                                          reinterpret_cast<fftwf_complex *>(
-                                              hrtfBuffers.hrtfsL[i].data()),
-                                          FFTW_ESTIMATE);
-                fftwf_execute(p_fwd_L);
+                hrtfBuffers.hrtfsL[i].resize(numPartitions *
+                                             (samplesPerBlock + 1));
+                hrtfBuffers.hrtfsR[i].resize(numPartitions *
+                                             (samplesPerBlock + 1));
+                juce::AudioBuffer<float> tmpBuffer(1, 2 * samplesPerBlock);
+                tmpBuffer.clear(); // set to zero
+                for (int j = 0; j < numPartitions; ++j)
+                {
+                    tmpBuffer.copyFrom(
+                        0, 0, buffer.getReadPointer(0, j * samplesPerBlock),
+                        samplesPerBlock + 1);
+                    fftwf_plan p_fwd_L = fftwf_plan_dft_r2c_1d(
+                        2 * samplesPerBlock, tmpBuffer.getWritePointer(0),
+                        reinterpret_cast<fftwf_complex *>(
+                            &hrtfBuffers.hrtfsL[i][j * (samplesPerBlock + 1)]),
+                        FFTW_ESTIMATE);
+                    fftwf_execute(p_fwd_L);
 
-                fftwf_plan p_fwd_R =
-                    fftwf_plan_dft_r2c_1d(fftSize, buffer.getWritePointer(1),
-                                          reinterpret_cast<fftwf_complex *>(
-                                              hrtfBuffers.hrtfsR[i].data()),
-                                          FFTW_ESTIMATE);
-                fftwf_execute(p_fwd_R);
+                    tmpBuffer.clear(); // set to zero
+                    tmpBuffer.copyFrom(
+                        0, 0, buffer.getReadPointer(1, j * samplesPerBlock),
+                        samplesPerBlock + 1);
+                    fftwf_plan p_fwd_R = fftwf_plan_dft_r2c_1d(
+                        2 * samplesPerBlock, tmpBuffer.getWritePointer(0),
+                        reinterpret_cast<fftwf_complex *>(
+                            &hrtfBuffers.hrtfsR[i][j * (samplesPerBlock + 1)]),
+                        FFTW_ESTIMATE);
+                    fftwf_execute(p_fwd_R);
 
-                fftwf_destroy_plan(p_fwd_L);
-                fftwf_destroy_plan(p_fwd_R);
+                    fftwf_destroy_plan(p_fwd_L);
+                    fftwf_destroy_plan(p_fwd_R);
+                }
             }
         }
 
-        convolverL.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
+        convolverL.prepare(samplesPerBlock, numPartitions,
                            hrtfBuffers.hrtfsL[0].data());
-        convolverR.prepare(samplesPerBlock, reader->lengthInSamples, fftSize,
+        convolverR.prepare(samplesPerBlock, numPartitions,
                            hrtfBuffers.hrtfsR[0].data());
     }
 }
@@ -208,8 +222,17 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
 
     if (isNewIRSet)
     {
-        convolverL.setNewIR(currentLeftIRPointer);
-        convolverR.setNewIR(currentRightIRPointer);
+        if (convolutionMethod == Convolver::ConvolutionMethod::UniformOLS)
+        {
+
+            convolverL.setNewPartitionedIR(currentLeftIRPointer);
+            convolverR.setNewPartitionedIR(currentRightIRPointer);
+        }
+        else
+        {
+            convolverL.setNewIR(currentLeftIRPointer);
+            convolverR.setNewIR(currentRightIRPointer);
+        }
         isNewIRSet = false;
     }
 

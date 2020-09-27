@@ -44,12 +44,10 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     void setStateInformation(const void *data, int sizeInBytes) override;
 
     int fftSize;
-    Convolver convolverL{
-        Convolver::ConvolutionMethod::OverlapAdd,
-    };
-    Convolver convolverR{
-        Convolver::ConvolutionMethod::OverlapAdd,
-    };
+    Convolver::ConvolutionMethod convolutionMethod =
+        Convolver::ConvolutionMethod::UniformOLS;
+    Convolver convolverL{convolutionMethod};
+    Convolver convolverR{convolutionMethod};
     struct HrtfBuffers
     {
         std::vector<std::vector<std::complex<float>>> hrtfsL;

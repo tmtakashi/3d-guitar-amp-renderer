@@ -5,6 +5,8 @@
 #include <complex>
 #include <vector>
 
+constexpr int floorMod(int a, int b) { return (b + (a % b)) % b; }
+
 class Convolver
 {
   public:
@@ -12,22 +14,33 @@ class Convolver
     {
         OverlapAdd,
         OverlapSave,
+        UniformOLS,
     };
     Convolver(Convolver::ConvolutionMethod convolutionMethod);
     void prepare(int bufSize, int fftSz, int irSz,
                  std::complex<float> *newIR) noexcept;
+    void prepare(int bufSize, int numParts,
+                 std::complex<float> *partIRs) noexcept;
     void process(const float *in, float *out);
     // IR size need to be the same to call this function
     void setNewIR(std::complex<float> *newIR);
+    void setNewPartitionedIR(std::complex<float> *newIR);
 
   private:
     int bufferSize = 0;
     int fftSize = 0;
-    int rfftSize = 0;
     int irSize = 0;
 
     // pre-computed rfft array of the impulse response(size: fftSize / 2 + 1)
     std::complex<float> *IR;
+    // pre-computed rfft array of the uniformly partitioned impulse response
+    std::complex<float> *partitionedIR;
+    std::size_t numPartitions;
+
+    std::vector<std::complex<float>> fdlRegister;
+    int fdlRegisterSize = 0;
+    int fdlRegisterPointer = 0;
+
     // rfft array container for input buffer
     std::vector<std::complex<float>> IN;
     // array container for frequency domain
@@ -46,9 +59,10 @@ class Convolver
 
     int overlapMask = 0;
 
+    void uniformOLSProcess(const float *in, float *out);
     Convolver::ConvolutionMethod method;
 
-    void fftConvolution(float *in, float *out);
+    void fftConvolution(float *in, float *out, std::size_t fftSize);
 };
 
 #endif /* EDA72C9F_9B25_4C13_9BF8_70404723EB0F */
