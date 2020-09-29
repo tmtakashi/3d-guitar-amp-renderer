@@ -13,6 +13,19 @@
       "externalConsole": true,
       "MIMode": "lldb",
       "preLaunchTask": "Build VST3 (debug)"
+    },
+    {
+      "name": "Debug with Logic",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "'/Applications/Logic Pro X.app/Contents/MacOS/Logic\\ Pro\\ X'",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "'/Applications/Logic Pro X.app/Contents/MacOS'",
+      "environment": [],
+      "externalConsole": true,
+      "MIMode": "lldb",
+      "preLaunchTask": "Build AU (debug)"
     }
   ]
 }
