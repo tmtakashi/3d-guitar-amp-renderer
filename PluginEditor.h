@@ -24,9 +24,8 @@ class AudioPluginAudioProcessorEditor
     {
         if (slider == &azimuthDial)
         {
-            azimuth = azimuthDial.getValue();
-            std::size_t idx = azimuth >= 0 ? azimuth : 180 - azimuth;
-            processorRef.setCurrentIRPointer(idx);
+            int azimuth = azimuthDial.getValue();
+            processorRef.setCurrentIRPointer(azimuth);
         }
     }
 
@@ -59,8 +58,10 @@ class AudioPluginAudioProcessorEditor
         if (message.getAddressPattern().toString() == "/gyrosc/gyro" &&
             message.size() == 3 && message[2].isFloat32())
         {
-            azimuthDial.setValue(
-                juce::radiansToDegrees(message[2].getFloat32()));
+            int degrees = juce::radiansToDegrees(message[2].getFloat32());
+            std::cout << degrees << std::endl;
+            degrees = degrees >= 0 ? degrees : 360 + degrees;
+            azimuthDial.setValue(degrees);
         }
     }
 
@@ -77,10 +78,13 @@ class AudioPluginAudioProcessorEditor
     }
 
   private:
+    juce::AudioProcessorValueTreeState &valueTreeState;
     juce::Slider azimuthDial;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
+        azimuthSliderAttachment;
+
     juce::Label testLabel;
 
-    int azimuth;
     AudioPluginAudioProcessor &processorRef;
 
     juce::Label textLabel;
@@ -91,8 +95,6 @@ class AudioPluginAudioProcessorEditor
 
     // File reading
     std::unique_ptr<juce::FilenameComponent> fileComp;
-
-    std::vector<BufferWithSampleRate> irs;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(
         AudioPluginAudioProcessorEditor)
