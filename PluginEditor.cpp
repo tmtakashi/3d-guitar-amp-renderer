@@ -6,16 +6,19 @@
 //==============================================================================
 AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     AudioPluginAudioProcessor &p)
-    : AudioProcessorEditor(&p), processorRef(p)
+    : AudioProcessorEditor(&p), processorRef(p), valueTreeState(p.parameters)
 {
     juce::ignoreUnused(processorRef);
 
     addAndMakeVisible(azimuthDial);
     azimuthDial.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     azimuthDial.setRotaryParameters({0, 2 * juce::float_Pi, true});
-    azimuthDial.setRange(-179, 180, 1);
+    azimuthDial.setRange(0, 360, 1);
     azimuthDial.setValue(0);
     azimuthDial.addListener(this);
+    azimuthSliderAttachment.reset(
+        new juce::AudioProcessorValueTreeState::SliderAttachment(
+            valueTreeState, "azimuthIdx", azimuthDial));
 
     // setup slider label
     addAndMakeVisible(testLabel);

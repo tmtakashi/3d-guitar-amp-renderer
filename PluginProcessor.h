@@ -43,12 +43,14 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock &destData) override;
     void setStateInformation(const void *data, int sizeInBytes) override;
 
+    juce::AudioProcessorValueTreeState parameters;
     int fftSize;
     Convolver::ConvolutionMethod convolutionMethod =
         Convolver::ConvolutionMethod::UniformOLS;
     Convolver convolverL{convolutionMethod};
     Convolver convolverR{convolutionMethod};
     struct HrtfBuffers
+
     {
         std::vector<std::vector<std::complex<float>>> hrtfsL;
         std::vector<std::vector<std::complex<float>>> hrtfsR;
@@ -60,6 +62,8 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     std::complex<float> *currentLeftIRPointer;
     std::complex<float> *currentRightIRPointer;
     bool isNewIRSet = false;
+    std::atomic<int> *azimuthIdx = nullptr;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(AudioPluginAudioProcessor)
 };
