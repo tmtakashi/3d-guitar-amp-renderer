@@ -22,22 +22,22 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     testLabel.setText("Azimuth", juce::dontSendNotification);
     testLabel.attachToComponent(&azimuthDial, true);
     // set up file uploader
-    fileComp.reset(new juce::FilenameComponent(
-        "fileComp", {},          // current file
-        false,                   // can edit file name,
-        false,                   // is directory,
-        false,                   // is for saving,
-        {},                      // browser wildcard suffix,
-        {},                      // enforced suffix,
-        "Select file to open")); // text when nothing selected
+    // fileComp.reset(new juce::FilenameComponent(
+    //     "fileComp", {},          // current file
+    //     false,                   // can edit file name,
+    //     false,                   // is directory,
+    //     false,                   // is for saving,
+    //     {},                      // browser wildcard suffix,
+    //     {},                      // enforced suffix,
+    //     "Select file to open")); // text when nothing selected
 
-    addAndMakeVisible(fileComp.get());
-    fileComp->addListener(this);
+    // addAndMakeVisible(fileComp.get());
+    // fileComp->addListener(this);
 
     oscReceiver.addListener(this);
     oscReceiver.connect(9001);
 
-    setSize(800, 500);
+    setSize(600, 300);
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
@@ -58,14 +58,14 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
 
 void AudioPluginAudioProcessorEditor::resized()
 {
-    auto sliderLeft = 200;
+    auto sliderLeft = 150;
 
     // setbounds(x, y, width, height)
     // file uploader
-    fileComp->setBounds(sliderLeft, 100, 400, 30);
+    // fileComp->setBounds(sliderLeft, 50, 400, 30);
 
     // azimuth dial
-    azimuthDial.setBounds(sliderLeft, 150, 400, 400);
-    textLabel.setBounds(sliderLeft, 450, 400, 50);
+    azimuthDial.setBounds(sliderLeft, 25, 300, 300);
+    textLabel.setBounds(sliderLeft, 125, 200, 50);
     // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
 }
