@@ -59,7 +59,6 @@ class AudioPluginAudioProcessorEditor
             message.size() == 3 && message[2].isFloat32())
         {
             int degrees = juce::radiansToDegrees(message[2].getFloat32());
-            std::cout << degrees << std::endl;
             degrees = degrees >= 0 ? degrees : 360 + degrees;
             azimuthDial.setValue(degrees);
         }
