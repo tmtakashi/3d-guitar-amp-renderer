@@ -22,10 +22,16 @@ juce_add_plugin(3DGuitarAmpRenderer
     FORMATS AU VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
     PRODUCT_NAME "3D Guitar Amp Renderer")        # The name of the final executable, which can differ from the target name
 
+    add_subdirectory(assets)
+    juce_add_binary_data(3DGuitarAmpRendererBinaryData
+    SOURCES
+    assets/amp.png
+    assets/head.png)
 
 target_sources(3DGuitarAmpRenderer PRIVATE
     PluginEditor.cpp
     PluginProcessor.cpp
+    AzimuthDialLookAndFeel.cpp
     Convolver.cpp)
 
 target_compile_definitions(3DGuitarAmpRenderer 
@@ -39,6 +45,7 @@ target_compile_definitions(3DGuitarAmpRenderer
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
+    3DGuitarAmpRendererBinaryData
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc

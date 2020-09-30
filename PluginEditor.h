@@ -1,9 +1,9 @@
 #pragma once
 
-#include "BufferTransfer.h"
 #include "PluginProcessor.h"
 #include "juce_osc/juce_osc.h"
 
+#include "AzimuthDialLookAndFeel.h"
 //==============================================================================
 class AudioPluginAudioProcessorEditor
     : public juce::AudioProcessorEditor,
@@ -82,6 +82,7 @@ class AudioPluginAudioProcessorEditor
     juce::Slider azimuthDial;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
         azimuthSliderAttachment;
+    AzimuthDialLookAndFeel azimuthDialLookAndFeel;
 
     juce::Label testLabel;
 
