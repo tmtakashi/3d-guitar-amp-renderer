@@ -14,7 +14,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     addAndMakeVisible(azimuthDial);
     azimuthDial.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     azimuthDial.setRotaryParameters({0, 2 * juce::float_Pi, true});
-    azimuthDial.setRange(0, 360, 1);
+    azimuthDial.setRange(0, 359, 1);
     azimuthDial.setValue(0);
     azimuthDial.setLookAndFeel(&azimuthDialLookAndFeel);
     azimuthDial.addListener(this);
