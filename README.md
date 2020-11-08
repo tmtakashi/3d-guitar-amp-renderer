@@ -1,17 +1,16 @@
 # 3D Guitar Amp Renderer (for AES Design Competition)
 
-## 目的
+**This plugin won the AES Show 2020 Student Design Competion!!!!**
 
-音場再現技術を用いて没入感のあるギター演奏体験を作る
+The proposal sheet of the project can be found in this repository (since it is left as we submitted to the competition organizer, some implementation details are updated).
 
-## 方法
+https://github.com/tmtakashi/AES149StudentDesignCompetionProposal
 
-[このサーベイ](https://github.com/tmtakashi/spherical-array-binaural-survey)に書かれている理論をベースにレンダリングエンジンを作る
+Click [here](https://drive.google.com/file/d/1wqahCdYpgdyeTjjDfpuPT6Urn117gXyU/view?usp=sharing) to watch the demo video presented at the AES Show.
 
-1. まずはオフラインで方向別ステレオIRを生成できるようにする．
-    - [ ] [これ](https://nbviewer.jupyter.org/github/AppliedAcousticsChalmers/sound_field_analysis-py/blob/master/examples/Exp4_BinauralRendering.ipynb)を使ってIR生成Pythonスクリプトを書く．
 
-    - [ ] 方向別ステレオIRが生成できることを確認したらC++でレンダリングエンジンを書く．
+The following libraries helped to build this application.
 
-2. JUCEを導入し，畳み込み&GUIで回転できるプラグインを作る．
-3. （野望）センサーと[OSC](https://docs.juce.com/master/tutorial_osc_sender_receiver.html)を使ってヘッドトラッキング機能をつける．
+- https://github.com/juce-framework/JUCE
+- https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py
+- [FFTW](http://www.fftw.org/)
