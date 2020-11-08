@@ -16,3 +16,8 @@ The following libraries helped to build this application.
 - https://github.com/juce-framework/JUCE
 - https://github.com/AppliedAcousticsChalmers/sound_field_analysis-py
 - [FFTW](http://www.fftw.org/)
+
+For people who can read Japanese, the following repository might help you to understand the 
+science behind the binaural rendering techonology used in this project.
+
+https://github.com/tmtakashi/spherical-array-binaural-survey
