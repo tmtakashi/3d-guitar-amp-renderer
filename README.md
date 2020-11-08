@@ -1,6 +1,6 @@
 # 3D Guitar Amp Renderer (for AES Design Competition)
 
-**This plugin won the AES Show 2020 Student Design Competion!!!!**
+**This plugin received the AES Show 2020 Student Design Competion Silver Award!!!!**
 
 The proposal sheet of the project can be found in this repository (since it is left as we submitted to the competition organizer, some implementation details are updated).
 
