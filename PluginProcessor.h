@@ -43,6 +43,7 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     void getStateInformation(juce::MemoryBlock &destData) override;
     void setStateInformation(const void *data, int sizeInBytes) override;
 
+    int currentSamplesPerBlock = 0;
     juce::AudioProcessorValueTreeState parameters;
     int fftSize;
     Convolver::ConvolutionMethod convolutionMethod =
@@ -57,6 +58,8 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     } hrtfBuffers;
 
     void setCurrentIRPointer(int idx);
+    void loadIRFiles(const juce::String directoryPath);
+    bool isIRLoaded = false;
 
   private:
     std::complex<float> *currentLeftIRPointer;

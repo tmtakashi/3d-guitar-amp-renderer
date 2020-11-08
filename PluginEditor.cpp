@@ -27,17 +27,17 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     testLabel.setText("Azimuth", juce::dontSendNotification);
     testLabel.attachToComponent(&azimuthDial, true);
     // set up file uploader
-    // fileComp.reset(new juce::FilenameComponent(
-    //     "fileComp", {},          // current file
-    //     false,                   // can edit file name,
-    //     false,                   // is directory,
-    //     false,                   // is for saving,
-    //     {},                      // browser wildcard suffix,
-    //     {},                      // enforced suffix,
-    //     "Select file to open")); // text when nothing selected
+    fileComp.reset(new juce::FilenameComponent(
+        "fileComp", {},          // current file
+        false,                   // can edit file name,
+        true,                   // is directory,
+        false,                   // is for saving,
+        {},                      // browser wildcard suffix,
+        {},                      // enforced suffix,
+        "Select folder of BRIR wav files to open")); // text when nothing selected
 
-    // addAndMakeVisible(fileComp.get());
-    // fileComp->addListener(this);
+    addAndMakeVisible(fileComp.get());
+    fileComp->addListener(this);
 
     oscReceiver.addListener(this);
     oscReceiver.connect(9001);
@@ -71,7 +71,7 @@ void AudioPluginAudioProcessorEditor::resized()
 
     // setbounds(x, y, width, height)
     // file uploader
-    // fileComp->setBounds(sliderLeft, 50, 400, 30);
+    fileComp->setBounds(sliderLeft, 10, 400, 30);
 
     // azimuth dial
     azimuthDial.setBounds(sliderLeft, 250, 400, 400);

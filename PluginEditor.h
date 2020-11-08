@@ -22,7 +22,7 @@ class AudioPluginAudioProcessorEditor
 
     void sliderValueChanged(juce::Slider *slider) override
     {
-        if (slider == &azimuthDial)
+        if (slider == &azimuthDial && processorRef.isIRLoaded)
         {
             int azimuth = azimuthDial.getValue();
             processorRef.setCurrentIRPointer(azimuth);
@@ -33,18 +33,20 @@ class AudioPluginAudioProcessorEditor
         juce::FilenameComponent *fileComponentThatHasChanged) override
     {
         if (fileComponentThatHasChanged == fileComp.get())
+        {
             readFile(fileComp->getCurrentFile());
+        }
     }
 
     void readFile(const juce::File &fileToRead)
     {
-        if (!fileToRead.existsAsFile()) // [1]
+        if (!fileToRead.exists())
+        {
             return;
-
-        // processorRef.convolver.loadImpulseResponse(
-        //     fileToRead, juce::dsp::Convolution::Stereo::yes,
-        //     juce::dsp::Convolution::Trim::no, 0,
-        //     juce::dsp::Convolution::Normalise::no);
+        }
+        auto directoryPath = fileToRead.getFullPathName();
+        std::cout << directoryPath << std::endl;
+        processorRef.loadIRFiles(directoryPath);
     }
     void showConnectionErrorMessage(const juce::String &messageText)
     {
