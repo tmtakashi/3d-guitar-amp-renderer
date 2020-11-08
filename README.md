@@ -2,6 +2,8 @@
 
 **This plugin received the AES Show 2020 Student Design Competion Silver Award!!!!**
 
+https://www.aes.org/students/blog/2020/10/winners-of-student-competitions
+
 The proposal sheet of the project can be found in this repository (since it is left as we submitted to the competition organizer, some implementation details are updated).
 
 https://github.com/tmtakashi/AES149StudentDesignCompetionProposal
