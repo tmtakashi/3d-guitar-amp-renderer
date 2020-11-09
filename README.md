@@ -1,5 +1,7 @@
 # 3D Guitar Amp Renderer (for AES Design Competition)
 
+<img width="598" alt="Screen Shot 2020-11-09 at 20 31 55" src="https://user-images.githubusercontent.com/38929720/98536325-f723f880-22ca-11eb-829b-17d77575326c.png">
+
 **This plugin received the AES Show 2020 Student Design Competion Silver Award!!!!**
 
 https://www.aes.org/students/blog/2020/10/winners-of-student-competitions
