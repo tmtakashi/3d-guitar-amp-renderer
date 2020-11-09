@@ -86,3 +86,139 @@ void AudioPluginAudioProcessorEditor::resized()
     portNumberField.setBounds (getWidth() - 180, getHeight() - 50, 50, 25);
     connectButton.setBounds (getWidth() - 120,getHeight() - 50, 100, 25);
 }
+
+void AudioPluginAudioProcessorEditor::sliderValueChanged(juce::Slider *slider)
+{
+    if (slider == &azimuthDial && processorRef.isIRLoaded)
+    {
+        int azimuth = azimuthDial.getValue();
+        processorRef.setCurrentIRPointer(azimuth);
+    }
+}
+
+void AudioPluginAudioProcessorEditor::filenameComponentChanged(
+    juce::FilenameComponent *fileComponentThatHasChanged) 
+{
+    if (fileComponentThatHasChanged == fileComp.get())
+    {
+        readFile(fileComp->getCurrentFile());
+    }
+}
+
+void AudioPluginAudioProcessorEditor::readFile(const juce::File &fileToRead)
+{
+    if (!fileToRead.exists())
+    {
+        return;
+    }
+    auto directoryPath = fileToRead.getFullPathName();
+    std::cout << directoryPath << std::endl;
+    processorRef.loadIRFiles(directoryPath);
+}
+
+void AudioPluginAudioProcessorEditor::oscMessageReceived(const juce::OSCMessage &message) 
+{
+    if (message.getAddressPattern().toString() == "/gyrosc/gyro" &&
+        message.size() == 3 && message[2].isFloat32())
+    {
+        int degrees = juce::radiansToDegrees(message[2].getFloat32());
+        degrees = degrees >= 0 ? degrees : 360 + degrees;
+        azimuthDial.setValue(degrees);
+    }
+}
+
+void AudioPluginAudioProcessorEditor::oscBundleReceived(const juce::OSCBundle &bundle) 
+{
+    for (int i = 0; i < bundle.size(); ++i)
+    {
+        auto elem = bundle[i];
+        if (elem.isMessage())
+            oscMessageReceived(elem.getMessage());
+        else if (elem.isBundle())
+            oscBundleReceived(elem.getBundle());
+    }
+}
+
+void AudioPluginAudioProcessorEditor::connectButtonClicked()
+{
+    if (! isConnected())     
+        connect();
+    else
+        disconnect();
+}
+
+
+void AudioPluginAudioProcessorEditor::connect()
+{
+    auto portToConnect = portNumberField.getText().getIntValue();   
+
+    if (!isValidOscPort (portToConnect))                           
+    {
+        handleInvalidPortNumberEntered();
+        return;
+    }
+
+    if (oscReceiver.connect (portToConnect))                        
+    {
+        currentPortNumber = portToConnect;
+        connectButton.setButtonText ("Disconnect");
+    }
+    else                                                            
+    {
+        handleConnectError (portToConnect);
+    }
+}
+
+void AudioPluginAudioProcessorEditor::disconnect()
+{
+    if (oscReceiver.disconnect())   
+    {
+        currentPortNumber = -1;
+        connectButton.setButtonText ("Connect");
+    }
+    else
+    {
+        handleDisconnectError();
+    }
+}
+
+bool AudioPluginAudioProcessorEditor::isConnected() const
+{
+    return currentPortNumber != -1;
+}
+
+bool AudioPluginAudioProcessorEditor::isValidOscPort (int port) const
+{
+    return port > 0 && port < 65536;
+}
+
+void AudioPluginAudioProcessorEditor::handleConnectError (int failedPort)
+{
+    juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                            "OSC Connection error",
+                                            "Error: could not connect to port " + juce::String (failedPort),
+                                            "OK");
+}
+
+void AudioPluginAudioProcessorEditor::showConnectionErrorMessage(const juce::String &messageText)
+{
+    juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::WarningIcon,
+                                            "Connection error", messageText,
+                                            "OK");
+}
+
+void AudioPluginAudioProcessorEditor::handleDisconnectError()
+{
+    juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                            "Unknown error",
+                                            "An unknown error occured while trying to disconnect from UDP port.",
+                                            "OK");
+}
+
+void AudioPluginAudioProcessorEditor::handleInvalidPortNumberEntered()
+{
+    juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                            "Invalid port number",
+                                            "Error: you have entered an invalid UDP port number.",
+                                            "OK");
+}
