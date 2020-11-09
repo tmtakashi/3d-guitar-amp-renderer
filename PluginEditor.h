@@ -48,12 +48,6 @@ class AudioPluginAudioProcessorEditor
         std::cout << directoryPath << std::endl;
         processorRef.loadIRFiles(directoryPath);
     }
-    void showConnectionErrorMessage(const juce::String &messageText)
-    {
-        juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::WarningIcon,
-                                               "Connection error", messageText,
-                                               "OK");
-    }
 
     void oscMessageReceived(const juce::OSCMessage &message) override
     {
@@ -78,6 +72,90 @@ class AudioPluginAudioProcessorEditor
         }
     }
 
+    void connectButtonClicked()
+    {
+        if (! isConnected())     
+            connect();
+        else
+            disconnect();
+    }
+
+
+    void connect()
+    {
+        auto portToConnect = portNumberField.getText().getIntValue();   
+
+        if (!isValidOscPort (portToConnect))                           
+        {
+            handleInvalidPortNumberEntered();
+            return;
+        }
+
+        if (oscReceiver.connect (portToConnect))                        
+        {
+            currentPortNumber = portToConnect;
+            connectButton.setButtonText ("Disconnect");
+        }
+        else                                                            
+        {
+            handleConnectError (portToConnect);
+        }
+    }
+
+    void disconnect()
+    {
+        if (oscReceiver.disconnect())   
+        {
+            currentPortNumber = -1;
+            connectButton.setButtonText ("Connect");
+        }
+        else
+        {
+            handleDisconnectError();
+        }
+    }
+
+    bool isConnected() const
+    {
+        return currentPortNumber != -1;
+    }
+
+    bool isValidOscPort (int port) const
+    {
+        return port > 0 && port < 65536;
+    }
+
+    void handleConnectError (int failedPort)
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                                "OSC Connection error",
+                                                "Error: could not connect to port " + juce::String (failedPort),
+                                                "OK");
+    }
+
+    void showConnectionErrorMessage(const juce::String &messageText)
+    {
+        juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::WarningIcon,
+                                               "Connection error", messageText,
+                                               "OK");
+    }
+
+     void handleDisconnectError()
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                                "Unknown error",
+                                                "An unknown error occured while trying to disconnect from UDP port.",
+                                                "OK");
+    }
+
+    void handleInvalidPortNumberEntered()
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                                "Invalid port number",
+                                                "Error: you have entered an invalid UDP port number.",
+                                                "OK");
+    }
+
   private:
     juce::AudioProcessorValueTreeState &valueTreeState;
     juce::Slider azimuthDial;
@@ -85,18 +163,18 @@ class AudioPluginAudioProcessorEditor
         azimuthSliderAttachment;
     AzimuthDialLookAndFeel azimuthDialLookAndFeel;
 
-    juce::Label testLabel;
-
-    AudioPluginAudioProcessor &processorRef;
-
-    juce::Label textLabel;
-    juce::Font textFont{14.0f};
-    juce::ComboBox styleMenu;
-
+    juce::Label azimuthLabel;
     juce::OSCReceiver oscReceiver;
+
+    int currentPortNumber = -1;
+    juce::Label portNumberLabel    { {}, "UDP Port Number: " };
+    juce::Label portNumberField    { {}, "9001" };
+    juce::TextButton connectButton { "Connect" };
 
     // File reading
     std::unique_ptr<juce::FilenameComponent> fileComp;
+
+    AudioPluginAudioProcessor &processorRef;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(
         AudioPluginAudioProcessorEditor)

@@ -23,9 +23,9 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
             valueTreeState, "azimuthIdx", azimuthDial));
 
     // setup slider label
-    addAndMakeVisible(testLabel);
-    testLabel.setText("Azimuth", juce::dontSendNotification);
-    testLabel.attachToComponent(&azimuthDial, true);
+    addAndMakeVisible(azimuthLabel);
+    azimuthLabel.setText("Azimuth", juce::dontSendNotification);
+    azimuthLabel.attachToComponent(&azimuthDial, true);
     // set up file uploader
     fileComp.reset(new juce::FilenameComponent(
         "fileComp", {},          // current file
@@ -40,7 +40,14 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     fileComp->addListener(this);
 
     oscReceiver.addListener(this);
-    oscReceiver.connect(9001);
+
+    addAndMakeVisible (portNumberLabel);
+
+    portNumberField.onTextChange = [this] {};
+    addAndMakeVisible (portNumberField);
+
+    addAndMakeVisible (connectButton);
+    connectButton.onClick = [this] { connectButtonClicked(); };
 
     setSize(600, 500);
 }
@@ -68,13 +75,14 @@ void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
 void AudioPluginAudioProcessorEditor::resized()
 {
     auto sliderLeft = 75;
-
-    // setbounds(x, y, width, height)
     // file uploader
     fileComp->setBounds(sliderLeft, 10, 400, 30);
 
     // azimuth dial
     azimuthDial.setBounds(sliderLeft, 250, 400, 400);
-    textLabel.setBounds(sliderLeft + 50, 25, 200, 50);
-    // styleMenu.setBounds(sliderLeft, 250, getWidth() - sliderLeft, 20);
+    
+    // UDP Port connection
+    portNumberLabel.setBounds (getWidth() - 300, getHeight() - 50, 130, 25);
+    portNumberField.setBounds (getWidth() - 180, getHeight() - 50, 50, 25);
+    connectButton.setBounds (getWidth() - 120,getHeight() - 50, 100, 25);
 }
