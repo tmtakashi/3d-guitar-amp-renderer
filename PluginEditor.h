@@ -20,63 +20,21 @@ class AudioPluginAudioProcessorEditor
     void paint(juce::Graphics &) override;
     void resized() override;
 
-    void sliderValueChanged(juce::Slider *slider) override
-    {
-        if (slider == &azimuthDial && processorRef.isIRLoaded)
-        {
-            int azimuth = azimuthDial.getValue();
-            processorRef.setCurrentIRPointer(azimuth);
-        }
-    }
-
+    void sliderValueChanged(juce::Slider *slider) override;
     void filenameComponentChanged(
-        juce::FilenameComponent *fileComponentThatHasChanged) override
-    {
-        if (fileComponentThatHasChanged == fileComp.get())
-        {
-            readFile(fileComp->getCurrentFile());
-        }
-    }
-
-    void readFile(const juce::File &fileToRead)
-    {
-        if (!fileToRead.exists())
-        {
-            return;
-        }
-        auto directoryPath = fileToRead.getFullPathName();
-        std::cout << directoryPath << std::endl;
-        processorRef.loadIRFiles(directoryPath);
-    }
-    void showConnectionErrorMessage(const juce::String &messageText)
-    {
-        juce::AlertWindow::showMessageBoxAsync(juce::AlertWindow::WarningIcon,
-                                               "Connection error", messageText,
-                                               "OK");
-    }
-
-    void oscMessageReceived(const juce::OSCMessage &message) override
-    {
-        if (message.getAddressPattern().toString() == "/gyrosc/gyro" &&
-            message.size() == 3 && message[2].isFloat32())
-        {
-            int degrees = juce::radiansToDegrees(message[2].getFloat32());
-            degrees = degrees >= 0 ? degrees : 360 + degrees;
-            azimuthDial.setValue(degrees);
-        }
-    }
-
-    void oscBundleReceived(const juce::OSCBundle &bundle) override
-    {
-        for (int i = 0; i < bundle.size(); ++i)
-        {
-            auto elem = bundle[i];
-            if (elem.isMessage())
-                oscMessageReceived(elem.getMessage());
-            else if (elem.isBundle())
-                oscBundleReceived(elem.getBundle());
-        }
-    }
+        juce::FilenameComponent *fileComponentThatHasChanged) override;
+    void readFile(const juce::File &fileToRead);
+    void oscMessageReceived(const juce::OSCMessage &message) override;
+    void oscBundleReceived(const juce::OSCBundle &bundle) override;
+    void connectButtonClicked();
+    void connect();
+    void disconnect();
+    bool isConnected() const;
+    bool isValidOscPort(int port) const;
+    void handleConnectError(int failedPort);
+    void showConnectionErrorMessage(const juce::String &messageText);
+    void handleDisconnectError();
+    void handleInvalidPortNumberEntered();
 
   private:
     juce::AudioProcessorValueTreeState &valueTreeState;
@@ -85,18 +43,18 @@ class AudioPluginAudioProcessorEditor
         azimuthSliderAttachment;
     AzimuthDialLookAndFeel azimuthDialLookAndFeel;
 
-    juce::Label testLabel;
-
-    AudioPluginAudioProcessor &processorRef;
-
-    juce::Label textLabel;
-    juce::Font textFont{14.0f};
-    juce::ComboBox styleMenu;
-
+    juce::Label azimuthLabel;
     juce::OSCReceiver oscReceiver;
+
+    int currentPortNumber = -1;
+    juce::Label portNumberLabel    { {}, "UDP Port Number: " };
+    juce::Label portNumberField    { {}, "9001" };
+    juce::TextButton connectButton { "Connect" };
 
     // File reading
     std::unique_ptr<juce::FilenameComponent> fileComp;
+
+    AudioPluginAudioProcessor &processorRef;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(
         AudioPluginAudioProcessorEditor)
