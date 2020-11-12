@@ -46,6 +46,52 @@
         "kind": "build",
         "isDefault": true
       }
-    }
+    },
+    {
+      "type": "shell",
+      "label": "Build VST3 (release)",
+      "command": "cmake",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      },
+      "args": [
+        "--build",
+        "./build",
+        "--config",
+        "Release",
+        "--target",
+        "3DGuitarAmpRenderer_VST3",
+        "--",
+        "-j",
+        "10"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "shell",
+      "label": "Build AU (release)",
+      "command": "cmake",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      },
+      "args": [
+        "--build",
+        "./build",
+        "--config",
+        "Release",
+        "--target",
+        "3DGuitarAmpRenderer_AU",
+        "--",
+        "-j",
+        "10"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
   ]
 }
