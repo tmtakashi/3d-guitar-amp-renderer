@@ -20,7 +20,7 @@ juce_add_plugin(3DGuitarAmpRenderer
     PLUGIN_MANUFACTURER_CODE Juce               # A four-character manufacturer id with at least one upper-case character
     PLUGIN_CODE Dem0                            # A unique four-character plugin id with at least one upper-case character
     FORMATS AU VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
-    PRODUCT_NAME "3D Guitar Amp Renderer")        # The name of the final executable, which can differ from the target name
+    PRODUCT_NAME "3DGuitarAmpRenderer")        # The name of the final executable, which can differ from the target name
 
     add_subdirectory(assets)
     juce_add_binary_data(3DGuitarAmpRendererBinaryData
