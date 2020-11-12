@@ -1,5 +1,6 @@
 # 3D Guitar Amp Renderer (for AES Design Competition)
 
+## Overview
 <img width="598" alt="Screen Shot 2020-11-09 at 20 31 55" src="https://user-images.githubusercontent.com/38929720/98536325-f723f880-22ca-11eb-829b-17d77575326c.png">
 
 **This plugin received the AES Show 2020 Student Design Competion Silver Award!!!!**
@@ -23,3 +24,13 @@ For people who can read Japanese, the following repository might help you to und
 science behind the binaural rendering techonology used in this project.
 
 https://github.com/tmtakashi/spherical-array-binaural-survey
+
+## Building
+
+CMake can be used to build this plug-in.
+
+```
+git clone --recursive https://github.com/tmtakashi/3d-guitar-amp-renderer
+cmake -Bbuild .
+cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
+```
