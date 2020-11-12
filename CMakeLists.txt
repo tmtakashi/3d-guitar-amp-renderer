@@ -41,6 +41,7 @@ target_compile_definitions(3DGuitarAmpRenderer
     JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_plugin` call
     JUCE_VST3_CAN_REPLACE_VST2=0)
 
+target_include_directories(3DGuitarAmpRenderer PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
@@ -49,8 +50,6 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc
-    SofaReader
-    BinauralRenderer
     ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
     )
 
@@ -58,51 +57,6 @@ include(CTest)
 enable_testing()
 include(CPack)
 
-add_subdirectory(src/SofaReader)
-add_subdirectory(src/BinauralRenderer)
-
-add_executable(hoa-binaural src/main.cpp)
-target_link_libraries(hoa-binaural PUBLIC SofaReader)
-target_link_libraries(hoa-binaural PUBLIC BinauralRenderer)
-target_include_directories(hoa-binaural PUBLIC
-    ${PROJECT_SOURCE_DIR}/src
-    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
-)
-
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-
-# Download and unpack googletest at configure time
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
-
-# Prevent overriding the parent project's compiler/linker
-# settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
-                 EXCLUDE_FROM_ALL)
-
-# The gtest/gtest_main targets carry header search path
-# dependencies automatically when using CMake 2.8.11 or
-# later. Otherwise we have to add them here ourselves.
-if (CMAKE_VERSION VERSION_LESS 2.8.11)
-  include_directories("${gtest_SOURCE_DIR}/include")
-endif()
-
-add_subdirectory(test)

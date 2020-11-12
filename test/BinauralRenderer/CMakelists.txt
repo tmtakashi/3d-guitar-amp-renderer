@@ -1,9 +1,0 @@
-add_executable(SphUtilsTest SphUtilsTest.cpp)
-target_include_directories(SphUtilsTest PUBLIC
-    ${PROJECT_SOURCE_DIR}/src/BinauralRenderer
-)
-target_link_libraries(SphUtilsTest PUBLIC 
-                    gtest_main
-                    BinauralRenderer
-)
-add_test(NAME SphUtils_test COMMAND SphUtilsTest)
