@@ -29,10 +29,10 @@ juce_add_plugin(3DGuitarAmpRenderer
     assets/head.png)
 
 target_sources(3DGuitarAmpRenderer PRIVATE
-    PluginEditor.cpp
-    PluginProcessor.cpp
-    AzimuthDialLookAndFeel.cpp
-    Convolver.cpp)
+    Source/PluginEditor.cpp
+    Source/PluginProcessor.cpp
+    Source/AzimuthDialLookAndFeel.cpp
+    Source/Convolver.cpp)
 
 target_compile_definitions(3DGuitarAmpRenderer 
     PUBLIC
