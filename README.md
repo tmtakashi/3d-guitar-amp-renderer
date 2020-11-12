@@ -28,6 +28,7 @@ https://github.com/tmtakashi/spherical-array-binaural-survey
 ## Building
 
 CMake can be used to build this plug-in.
+You need [FFTW](http://www.fftw.org/) to be installed on your machine to make it run.
 
 ```
 git clone --recursive https://github.com/tmtakashi/3d-guitar-amp-renderer
