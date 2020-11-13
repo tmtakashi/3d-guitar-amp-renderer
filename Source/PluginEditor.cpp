@@ -112,7 +112,6 @@ void AudioPluginAudioProcessorEditor::readFile(const juce::File &fileToRead)
         return;
     }
     auto directoryPath = fileToRead.getFullPathName();
-    std::cout << directoryPath << std::endl;
     processorRef.loadIRFiles(directoryPath);
 }
 
