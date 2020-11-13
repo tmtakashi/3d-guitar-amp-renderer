@@ -59,7 +59,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 endif()
 if (WIN32)
     target_link_libraries(3DGuitarAmpRenderer PRIVATE
-        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f-3.dll
+        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f-3.lib
     )
 endif()
 
