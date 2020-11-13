@@ -34,13 +34,6 @@ Follow the instructions in the following link if you don't have one on your mach
 
 https://cmake.org/install/
 
-You need [FFTW](http://www.fftw.org/) to be installed on your machine to make it run.
-On macOS, you can easily install it using homebrew.
-
-```
-brew install fftw
-```
-
 Here are the build commands for the plugin.
 
 ```
@@ -49,3 +42,11 @@ cd 3d-guitar-amp-renderer
 cmake -Bbuild .
 cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 ```
+
+## Usage
+
+1. Launch your VST3 compatible DAW (we've only tested with REAPER), and insert `3DGuitarAmpRenderer` to your track.
+2. Select `brirs/listening_room_brirs` or `brirs/tajigen_hall_brirs` from the file selector.
+3. Get [GyrOSC](https://apps.apple.com/us/app/gyrosc/id418751595) on your iPhone, and set the `Target IP Address`.
+You can check the adress from Preferences > Network on your Mac. Set the port to 9001. Make sure your Mac and iPhone are connected to the same WiFi.
+4. Mount the phone on your headphones, and connect your guitar to your audio interface. You can have better guitar playing experience by plugging in a pre-amp simulator before the plugin. 
