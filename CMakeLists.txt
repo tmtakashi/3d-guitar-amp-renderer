@@ -48,9 +48,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 ExternalProject_Add(fftw
   URL ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8.tar.gz
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/fftw
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure --enable-float
-  BUILD_COMMAND  make 
-  INSTALL_COMMAND make install
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_LIBS=ON -DENABLE_FLOAT=ON
 )
 add_dependencies(3DGuitarAmpRenderer fftw)
 
@@ -60,7 +58,7 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc
-    /usr/local/lib/libfftw3f.a
+    ${PROJECT_BINARY_DIR}/fftw/lib/libfftw3f.a
 )
 
 
