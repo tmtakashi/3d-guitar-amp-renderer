@@ -29,7 +29,11 @@ https://github.com/tmtakashi/spherical-array-binaural-survey
 
 Currently, it only works on macOS Catalina. 
 I'll check how to make it work on other platforms
-CMake can be used to build this plug-in.
+CMake can be used to build this plugin.
+Follow the instructions in the following link if you don't have one on your machine.
+
+https://cmake.org/install/
+
 You need [FFTW](http://www.fftw.org/) to be installed on your machine to make it run.
 On macOS, you can easily install it using homebrew.
 
@@ -37,7 +41,7 @@ On macOS, you can easily install it using homebrew.
 brew install fftw
 ```
 
-Here are the build commands.
+Here are the build commands for the plugin.
 
 ```
 git clone --recursive https://github.com/tmtakashi/3d-guitar-amp-renderer
