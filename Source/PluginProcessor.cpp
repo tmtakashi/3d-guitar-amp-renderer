@@ -8,7 +8,7 @@ private:
     juce::String directoryPath;
 
   public:
-    LoadIRTask(AudioPluginAudioProcessor &processorRef, const juce::String directoryPath) : juce::ThreadWithProgressWindow ("Loading binarural impulse responses...", true, true),
+    LoadIRTask(AudioPluginAudioProcessor &processorRef, const juce::String directoryPath) : juce::ThreadWithProgressWindow ("Loading binarural impulse responses...", true, false),
                 processorRef(processorRef),
                 directoryPath(directoryPath)
     {
