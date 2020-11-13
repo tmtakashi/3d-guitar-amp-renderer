@@ -58,7 +58,7 @@ class AudioPluginAudioProcessor : public juce::AudioProcessor
     } hrtfBuffers;
 
     void setCurrentIRPointer(int idx);
-    void loadIRFiles(const juce::String directoryPath);
+    void loadIRFiles(const juce::Array<juce::File> files);
     bool isIRLoaded = false;
 
   private:

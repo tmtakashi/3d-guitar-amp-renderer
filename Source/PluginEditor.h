@@ -53,6 +53,7 @@ class AudioPluginAudioProcessorEditor
 
     // File reading
     std::unique_ptr<juce::FilenameComponent> fileComp;
+    juce::Array<juce::File> files;
 
     AudioPluginAudioProcessor &processorRef;
 

@@ -6,11 +6,12 @@ class LoadIRTask  : public juce::ThreadWithProgressWindow
 private:
     AudioPluginAudioProcessor &processorRef;
     juce::String directoryPath;
+    juce::Array<juce::File> files;
 
   public:
-    LoadIRTask(AudioPluginAudioProcessor &processorRef, const juce::String directoryPath) : juce::ThreadWithProgressWindow ("Loading binarural impulse responses...", true, false),
+    LoadIRTask(AudioPluginAudioProcessor &processorRef, const juce::Array<juce::File> files) : juce::ThreadWithProgressWindow ("Loading binarural impulse responses...", true, false),
                 processorRef(processorRef),
-                directoryPath(directoryPath)
+                files(files)
     {
     }
  
@@ -18,17 +19,6 @@ private:
     {
         int irLength;
         // load irs
-        juce::Array<juce::File> files;
-        juce::File(directoryPath)
-            .findChildFiles(files, juce::File::findFilesAndDirectories, false,
-                            "*.wav");
-        if (files.size() != 360) 
-        {
-            auto icon = juce::AlertWindow::WarningIcon;
-            juce::AlertWindow::showMessageBoxAsync(
-                icon, "Error", "IR folder must contain 360 wav files", "OK");
-            return;
-        }
 
         // sort IR file objects 
         bool putFoldersFirst = false;
@@ -302,10 +292,10 @@ void AudioPluginAudioProcessor::setCurrentIRPointer(int idx)
     isNewIRSet = true;
 }
 
-void AudioPluginAudioProcessor::loadIRFiles(const juce::String directoryPath)
+void AudioPluginAudioProcessor::loadIRFiles(const juce::Array<juce::File> files)
 {
     isIRLoaded = false;
-    LoadIRTask m(*this, directoryPath);
+    LoadIRTask m(*this, files);
     if (m.runThread())
     {
         isIRLoaded = true;

@@ -112,7 +112,18 @@ void AudioPluginAudioProcessorEditor::readFile(const juce::File &fileToRead)
         return;
     }
     auto directoryPath = fileToRead.getFullPathName();
-    processorRef.loadIRFiles(directoryPath);
+    files.clear();
+    juce::File(directoryPath)
+        .findChildFiles(files, juce::File::findFilesAndDirectories, false,
+                        "*.wav");
+    if (files.size() != 360) 
+    {
+        auto icon = juce::AlertWindow::WarningIcon;
+        juce::AlertWindow::showMessageBoxAsync(
+            icon, "Error", "IR folder must contain 360 wav files", "OK");
+        return;
+    }
+    processorRef.loadIRFiles(files);
 }
 
 void AudioPluginAudioProcessorEditor::oscMessageReceived(const juce::OSCMessage &message) 
