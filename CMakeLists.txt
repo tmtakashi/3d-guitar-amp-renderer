@@ -50,8 +50,19 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc
-    ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
     )
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    target_link_libraries(3DGuitarAmpRenderer PRIVATE
+        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
+    )
+endif()
+if (WIN32)
+    target_link_libraries(3DGuitarAmpRenderer PRIVATE
+        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f-3.dll
+    )
+endif()
+
 
 include(CTest)
 enable_testing()
