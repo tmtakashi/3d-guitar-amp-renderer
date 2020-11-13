@@ -54,7 +54,7 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     target_link_libraries(3DGuitarAmpRenderer PRIVATE
-        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
+        /usr/local/opt/fftw/lib/libfftw3f.dylib
     )
 endif()
 if (WIN32)
