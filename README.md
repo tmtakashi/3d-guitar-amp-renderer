@@ -32,6 +32,7 @@ You need [FFTW](http://www.fftw.org/) to be installed on your machine to make it
 
 ```
 git clone --recursive https://github.com/tmtakashi/3d-guitar-amp-renderer
+cd 3d-guitar-amp-renderer
 cmake -Bbuild .
 cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 ```
