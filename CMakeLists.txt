@@ -43,6 +43,16 @@ target_compile_definitions(3DGuitarAmpRenderer
 
 target_include_directories(3DGuitarAmpRenderer PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
+include(ExternalProject)
+include_directories(${PROJECT_SOURCE_DIR}/include)
+ExternalProject_Add(fftw
+  URL ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8.tar.gz
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/fftw
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --enable-float
+  BUILD_COMMAND  make 
+  INSTALL_COMMAND make install
+)
+add_dependencies(3DGuitarAmpRenderer fftw)
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
     # AudioPluginData           # If we'd created a binary data target, we'd link to it here
@@ -50,18 +60,8 @@ target_link_libraries(3DGuitarAmpRenderer PRIVATE
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc
-    )
-
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    target_link_libraries(3DGuitarAmpRenderer PRIVATE
-        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f.dylib
-    )
-endif()
-if (WIN32)
-    target_link_libraries(3DGuitarAmpRenderer PRIVATE
-        ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8/libfftw3f-3.dll
-    )
-endif()
+    /usr/local/lib/libfftw3f.a
+)
 
 
 include(CTest)
