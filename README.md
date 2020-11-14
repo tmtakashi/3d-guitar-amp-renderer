@@ -51,3 +51,9 @@ cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 You can check the adress from Preferences > Network on your Mac. Set the port to 9001. Make sure your Mac and iPhone are connected to the same WiFi.
 4. Mount the phone on your headphones, and connect your guitar to your audio interface. You can have better guitar playing experience by plugging in a pre-amp simulator before the plugin. 
 5. Have fun!
+
+## Todos
+
+- Remove zipper noise by crossfading between impulse responses.
+- Dynamic BRIR rendering from SOFA files.
+- Compatibility on Windows.
