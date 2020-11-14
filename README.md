@@ -50,3 +50,4 @@ cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 3. Get [GyrOSC](https://apps.apple.com/us/app/gyrosc/id418751595) on your iPhone, and set the `Target IP Address`.
 You can check the adress from Preferences > Network on your Mac. Set the port to 9001. Make sure your Mac and iPhone are connected to the same WiFi.
 4. Mount the phone on your headphones, and connect your guitar to your audio interface. You can have better guitar playing experience by plugging in a pre-amp simulator before the plugin. 
+5. Have fun!
