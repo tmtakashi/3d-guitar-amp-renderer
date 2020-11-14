@@ -44,11 +44,20 @@ target_compile_definitions(3DGuitarAmpRenderer
 target_include_directories(3DGuitarAmpRenderer PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 include(ExternalProject)
+
+if (UNIX)
+    set(FFTW_STATIC_LIBRARY ${PROJECT_BINARY_DIR}/fftw/lib/libfftw3f.a)
+endif (UNIX)
+
+if (WIN32)
+    set(FFTW_STATIC_LIBRARY ${PROJECT_BINARY_DIR}/fftw/lib/libfftw3f.lib)
+endif (WIN32)
+
 ExternalProject_Add(fftw
   URL ${PROJECT_SOURCE_DIR}/lib/fftw-3.3.8.tar.gz
   PREFIX ${CMAKE_CURRENT_BINARY_DIR}/fftw
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DBUILD_SHARED_LIBS=OFF -DENABLE_FLOAT=ON
-  BUILD_BYPRODUCTS <INSTALL_DIR>/lib/libfftw3f.a
+  BUILD_BYPRODUCTS ${FFTW_STATIC_LIBRARY}
 )
 ExternalProject_Get_Property(fftw install_dir)
 include_directories(${install_dir}/include)
@@ -56,14 +65,12 @@ include_directories(${install_dir}/include)
 add_dependencies(3DGuitarAmpRenderer fftw)
 
 target_link_libraries(3DGuitarAmpRenderer PRIVATE
-    # AudioPluginData           # If we'd created a binary data target, we'd link to it here
     3DGuitarAmpRendererBinaryData
     juce::juce_audio_utils
     juce::juce_dsp
     juce::juce_osc
-    ${install_dir}/lib/libfftw3f.a
+    ${FFTW_STATIC_LIBRARY}
 )
-
 
 include(CTest)
 enable_testing()
