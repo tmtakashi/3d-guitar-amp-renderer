@@ -45,7 +45,7 @@ cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 
 ## Usage
 
-1. Launch your VST3 compatible DAW (we've only tested with REAPER), and insert `3DGuitarAmpRenderer` to your track.
+1. Launch your VST3 compatible DAW (we've only tested with REAPER), and insert `3DGuitarAmpRenderer` to your track. Set the project sample rate to 48,000Hz to match the BRIR wav files.
 2. Select `brirs/listening_room_brirs` or `brirs/tajigen_hall_brirs` from the file selector.
 3. Get [GyrOSC](https://apps.apple.com/us/app/gyrosc/id418751595) on your iPhone, and set the `Target IP Address`.
 You can check the adress from Preferences > Network on your Mac. Set the port to 9001. Make sure your Mac and iPhone are connected to the same WiFi.
