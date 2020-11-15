@@ -106,7 +106,7 @@ AudioPluginAudioProcessor::AudioPluginAudioProcessor()
               .withOutput("Output", juce::AudioChannelSet::stereo(), true)
 #endif
               ),
-      parameters(*this, nullptr, juce::Identifier("3DGuitarAmp"),
+      parameters(*this, nullptr, juce::Identifier("ThreeDGuitarAmpRenderer"),
                  {std::make_unique<juce::AudioParameterInt>(
                      "azimuthIdx", "AzimuthIdx", 0, 359, 0)})
 {
