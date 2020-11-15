@@ -12,6 +12,7 @@ The proposal sheet of the project can be found in this repository (since it is l
 https://github.com/tmtakashi/AES149StudentDesignCompetionProposal
 
 Click [here](https://drive.google.com/file/d/1wqahCdYpgdyeTjjDfpuPT6Urn117gXyU/view?usp=sharing) to watch the demo video presented at the AES Show.
+Japanese version of the video can be found [here](https://github.com/tmtakashi/3d-guitar-amp-renderer).
 
 
 The following libraries helped to build this application.
