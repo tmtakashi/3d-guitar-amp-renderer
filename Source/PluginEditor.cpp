@@ -50,6 +50,13 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     connectButton.onClick = [this] { connectButtonClicked(); };
 
     setSize(600, 500);
+    if (processorRef.getTotalNumOutputChannels() != 2)
+    {
+        juce::AlertWindow::showMessageBoxAsync (juce::AlertWindow::WarningIcon,
+                                                "Invalid number of output channel",
+                                                "Error: the number of output channels is invalid. Please set the output of the track to stereo.",
+                                                "OK");
+    }
 }
 
 AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() 
