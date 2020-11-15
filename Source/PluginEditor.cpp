@@ -52,7 +52,10 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
     setSize(600, 500);
 }
 
-AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() {}
+AudioPluginAudioProcessorEditor::~AudioPluginAudioProcessorEditor() 
+{
+    azimuthDial.setLookAndFeel(nullptr);
+}
 
 //==============================================================================
 void AudioPluginAudioProcessorEditor::paint(juce::Graphics &g)
