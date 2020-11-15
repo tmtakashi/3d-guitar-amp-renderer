@@ -34,7 +34,7 @@ AudioPluginAudioProcessorEditor::AudioPluginAudioProcessorEditor(
         false,                   // is for saving,
         {},                      // browser wildcard suffix,
         {},                      // enforced suffix,
-        "Select folder of BRIR wav files to open")); // text when nothing selected
+        "Select folder of BRIR wav files")); // text when nothing selected
 
     addAndMakeVisible(fileComp.get());
     fileComp->addListener(this);
