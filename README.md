@@ -28,8 +28,8 @@ https://github.com/tmtakashi/spherical-array-binaural-survey
 ## Building
 
 Currently, it only works on macOS Catalina and Mojave. 
-I'll check how to make it work on other platforms
-CMake can be used to build this plugin.
+I'll check how to make it work on other platforms.
+CMake is required to build this plugin.
 Follow the instructions in the following link if you don't have one on your machine.
 
 https://cmake.org/install/
