@@ -245,10 +245,10 @@ void AudioPluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
 
     if (isIRLoaded && totalNumOutputChannels == 2)
     {
-        auto *inBufferL = buffer.getReadPointer(0);
-        auto *inBufferR = buffer.getReadPointer(1);
-        auto *outBufferL = buffer.getWritePointer(0);
-        auto *outBufferR = buffer.getWritePointer(1);
+        auto *inBufferL = buffer.getReadPointer(0, 0);
+        auto *inBufferR = buffer.getReadPointer(1, 0);
+        auto *outBufferL = buffer.getWritePointer(0, 0);
+        auto *outBufferR = buffer.getWritePointer(1, 0);
         convolverL.process(inBufferL, outBufferL);
         convolverR.process(inBufferR, outBufferR);
     }
