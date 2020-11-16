@@ -54,6 +54,8 @@ You can check the adress from Preferences > Network on your Mac. Set the port to
 4. Mount the phone on your headphones, and connect your guitar to your audio interface. You can have better guitar playing experience by plugging in a pre-amp simulator before the plugin. 
 5. Have fun!
 
+Feel free to open an issue if you have any problem using the plugin!
+
 ## Todos
 
 - Remove zipper noise by crossfading between impulse responses.
