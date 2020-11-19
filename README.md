@@ -44,6 +44,12 @@ cmake -Bbuild .
 cmake --build ./build --config Release --target 3DGuitarAmpRenderer_VST3
 ```
 
+If you have trouble running the plugin, try
+
+```
+cmake --build ./build --config Debug --target 3DGuitarAmpRenderer_VST3
+```
+
 ## Usage
 
 1. Launch your VST3 compatible DAW (we've only tested with REAPER and Cubase AI), and insert `3DGuitarAmpRenderer` to your track. Set the project sample rate to 48,000Hz to match the BRIR wav files.
